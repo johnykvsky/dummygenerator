@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DummyGenerator\Test\Provider;
+namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\Randomizer\Randomizer;
@@ -13,8 +13,8 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 use DummyGenerator\DummyGenerator;
+use DummyGenerator\Test\Fixtures\TextProvider;
 use PHPUnit\Framework\TestCase;
-use Provider\pl_PL\Text;
 
 class TextTest extends TestCase
 {
@@ -28,7 +28,7 @@ class TextTest extends TestCase
         $container->add(RandomizerInterface::class, Randomizer::class);
         $container->add(TransliteratorInterface::class, Transliterator::class);
         $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(TextExtensionInterface::class, Text::class);
+        $container->add(TextExtensionInterface::class, TextProvider::class);
         $this->generator = new DummyGenerator($container);
     }
     public function testRealText(): void

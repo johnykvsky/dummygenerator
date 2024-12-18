@@ -14,12 +14,12 @@ class Blood implements BloodExtensionInterface, RandomizerAwareExtensionInterfac
     /**
      * @var string[]
      */
-    private array $bloodTypes = ['A', 'AB', 'B', 'O'];
+    protected array $bloodTypes = ['A', 'AB', 'B', 'O'];
 
     /**
      * @var string[]
      */
-    private array $bloodRhFactors = ['+', '-'];
+    protected array $bloodRhFactors = ['+', '-'];
 
     public function bloodType(): string
     {

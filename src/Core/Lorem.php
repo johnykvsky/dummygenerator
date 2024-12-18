@@ -26,7 +26,7 @@ class Lorem implements
     /**
      * @var string[]
      */
-    private array $workList = [
+    protected array $workList = [
         'alias', 'consequatur', 'aut', 'perferendis', 'sit', 'voluptatem',
         'accusantium', 'doloremque', 'aperiam', 'eaque', 'ipsa', 'quae', 'ab',
         'illo', 'inventore', 'veritatis', 'et', 'quasi', 'architecto',

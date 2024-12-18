@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Provider\pl_PL;
+namespace DummyGenerator\Test\Fixtures;
 
 use DummyGenerator\Core\Text as BaseText;
 
-class Text extends BaseText
+class TextProvider extends BaseText
 {
     /*
         Ta lektura, podobnie jak tysiące innych, dostępna jest na stronie wolnelektury.pl.

@@ -11,7 +11,7 @@ class SimpleTransliterator implements TransliteratorInterface
     /**
      * @var array<string, string>
      */
-    public static array $transliterationTable = [
+    protected array $transliterationTable = [
         'Ĳ' => 'I', 'Ö' => 'O', 'Œ' => 'O', 'Ü' => 'U', 'ä' => 'a', 'æ' => 'a',
         'ĳ' => 'i', 'ö' => 'o', 'œ' => 'o', 'ü' => 'u', 'ß' => 's', 'ſ' => 's',
         'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
@@ -133,8 +133,8 @@ class SimpleTransliterator implements TransliteratorInterface
 
     protected function toAscii(string $string): string
     {
-        $arrayFrom = array_keys(self::$transliterationTable);
-        $arrayTo = array_values(self::$transliterationTable);
+        $arrayFrom = array_keys($this->transliterationTable);
+        $arrayTo = array_values($this->transliterationTable);
 
         return str_replace($arrayFrom, $arrayTo, $string);
     }

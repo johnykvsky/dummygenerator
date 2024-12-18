@@ -19,9 +19,9 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
      * @var string[]
      * TODO move to interface const
      */
-    private array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
+    protected array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
 
-    private ?string $defaultTimezone = null;
+    protected ?string $defaultTimezone = null;
 
     public function dateTime(DateTimeInterface|string $until = 'now', ?string $timezone = null): \DateTimeInterface
     {

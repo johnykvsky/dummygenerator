@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Core\Randomizer;
 
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use Random\IntervalBoundary;
 use Random\Randomizer as BaseRandomizer;
@@ -65,5 +66,26 @@ class Randomizer implements RandomizerInterface
     public function shuffleElements(array $array): array
     {
         return $this->randomizer->shuffleArray($array);
+    }
+
+    public function randomElements(array $array, int $count = 1, bool $allowDuplicates = false): array
+    {
+        if (!$allowDuplicates && $count > count($array)) {
+            throw new ExtensionArgumentException('Number of elements do not match size of input array.');
+        }
+
+        $result = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $array = $this->shuffleElements($array);
+            $element = $this->randomElement($array);
+
+            $result[] = $element;
+            if (!$allowDuplicates && ($key = array_search($element, $array, true)) !== false) {
+                unset($array[$key]);
+            }
+        }
+
+        return $result;
     }
 }

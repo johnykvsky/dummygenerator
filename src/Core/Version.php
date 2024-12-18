@@ -15,7 +15,7 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
     /**
      * @var string[]
      */
-    private array $semverCommonPreReleaseIdentifiers = ['alpha', 'beta', 'rc'];
+    protected array $semverCommonPreReleaseIdentifiers = ['alpha', 'beta', 'rc'];
 
     public function semver(bool $preRelease = false, bool $build = false): string
     {

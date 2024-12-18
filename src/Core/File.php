@@ -19,7 +19,7 @@ class File implements FileExtensionInterface, RandomizerAwareExtensionInterface
      *
      * @see http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      */
-    private array $mimeTypes = [
+    protected array $mimeTypes = [
         'application/atom+xml' => 'atom',
         'application/ecmascript' => 'ecma',
         'application/emma+xml' => 'emma',

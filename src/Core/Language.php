@@ -14,7 +14,7 @@ class Language implements LanguageExtensionInterface, RandomizerAwareExtensionIn
     /**
      * @var string[]
      */
-    private array $locales = [
+    protected array $locales = [
         'aa_DJ', 'aa_ER', 'aa_ET',
         'af_NA', 'af_ZA', 'ak_GH',
         'am_ET', 'ar_AE', 'ar_BH', 'ar_DZ',
@@ -102,7 +102,7 @@ class Language implements LanguageExtensionInterface, RandomizerAwareExtensionIn
      *
      * @see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    private array $languageCodes = [
+    protected array $languageCodes = [
         'aa', 'ab', 'ae', 'af', 'ak', 'am', 'an', 'ar', 'as', 'av',
         'ay', 'az', 'ba', 'be', 'bg', 'bh', 'bi', 'bm', 'bn', 'bo',
         'br', 'bs', 'ca', 'ce', 'ch', 'co', 'cr', 'cs', 'cu', 'cv',

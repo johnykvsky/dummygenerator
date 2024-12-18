@@ -15,7 +15,7 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
     /**
      * @var string[]
      */
-    private array $safeColorNames = [
+    protected array $safeColorNames = [
         'black', 'maroon', 'green', 'navy', 'olive',
         'purple', 'teal', 'lime', 'blue', 'silver',
         'gray', 'yellow', 'fuchsia', 'aqua', 'white',
@@ -24,7 +24,7 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
     /**
      * @var string[]
      */
-    private array $allColorNames = [
+    protected array $allColorNames = [
         'AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine',
         'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond',
         'Blue', 'BlueViolet', 'Brown', 'BurlyWood', 'CadetBlue',

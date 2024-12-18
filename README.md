@@ -24,9 +24,9 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * removed `HmlLorem`, `Uuid` (you can use any uuid generator, Symfony, Ramsey...)
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 
-Two more things: 
-* there are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (check `BiasedTest`).
-* there is sample provider `pl_PL` to show how to make one and also example usage of `Text` (and only it has been tested/verified to work from this provider)
+There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (check `BiasedTest`).
+
+Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
 
 # Installation
 
@@ -55,6 +55,4 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 
 # TODO (ideas, not promises)
 
-* add `en_US` and `en_GB` providers for sake of having them?
-* move providers to separate repository with own package?
-* fully test all `pl_PL` provider?
+* refactor randomizer (DRY) and add test to randomElements
