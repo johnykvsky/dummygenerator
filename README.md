@@ -1,4 +1,4 @@
-__# DummyGenerator
+# DummyGenerator
 
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-build]][link-build]
