@@ -72,17 +72,17 @@ class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareR
 
     public function toLower(string $string): string
     {
-        return extension_loaded('mbstring') ? mb_strtolower($string, self::ENCODING) : strtolower($string);
+        return extension_loaded('mbstring') ? mb_strtolower($string, static::ENCODING) : strtolower($string);
     }
 
     public function toUpper(string $string = ''): string
     {
-        return extension_loaded('mbstring') ? mb_strtoupper($string, self::ENCODING) : strtoupper($string);
+        return extension_loaded('mbstring') ? mb_strtoupper($string, static::ENCODING) : strtoupper($string);
     }
 
     public function strlen(string $text): int
     {
-        return extension_loaded('mbstring') ? mb_strlen($text, self::ENCODING) : strlen($text);
+        return extension_loaded('mbstring') ? mb_strlen($text, static::ENCODING) : strlen($text);
     }
 
     public function transliterate(string $string): string
@@ -95,10 +95,10 @@ class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareR
         if (extension_loaded('mbstring')) {
             // UTF8-safe str_split()
             $array = [];
-            $strlen = mb_strlen($string, self::ENCODING);
+            $strlen = mb_strlen($string, static::ENCODING);
 
             for ($i = 0; $i < $strlen; ++$i) {
-                $array[] = mb_substr($string, $i, 1, self::ENCODING);
+                $array[] = mb_substr($string, $i, 1, static::ENCODING);
             }
         } else {
             $array = str_split($string);

@@ -76,9 +76,9 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
 
     public function name(?string $gender = null): string
     {
-        if ($gender === self::GENDER_MALE) {
+        if ($gender === static::GENDER_MALE) {
             $format = $this->randomizer->randomElement($this->maleNameFormats);
-        } elseif ($gender === self::GENDER_FEMALE) {
+        } elseif ($gender === static::GENDER_FEMALE) {
             $format = $this->randomizer->randomElement($this->femaleNameFormats);
         } else {
             $format = $this->randomizer->randomElement(array_merge($this->maleNameFormats, $this->femaleNameFormats));
@@ -89,11 +89,11 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
 
     public function firstName(?string $gender = null): string
     {
-        if ($gender === self::GENDER_MALE) {
+        if ($gender === static::GENDER_MALE) {
             return $this->firstNameMale();
         }
 
-        if ($gender === self::GENDER_FEMALE) {
+        if ($gender === static::GENDER_FEMALE) {
             return $this->firstNameFemale();
         }
 
@@ -117,11 +117,11 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
 
     public function title(?string $gender = null): string
     {
-        if ($gender === self::GENDER_MALE) {
+        if ($gender === static::GENDER_MALE) {
             return $this->titleMale();
         }
 
-        if ($gender === self::GENDER_FEMALE) {
+        if ($gender === static::GENDER_FEMALE) {
             return $this->titleFemale();
         }
 

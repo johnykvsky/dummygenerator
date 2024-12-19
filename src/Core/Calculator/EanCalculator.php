@@ -30,7 +30,7 @@ class EanCalculator implements EanCalculatorInterface
 
     public function isValid(string $ean): bool
     {
-        if (!preg_match(self::PATTERN, $ean)) {
+        if (!preg_match(static::PATTERN, $ean)) {
             return false;
         }
 

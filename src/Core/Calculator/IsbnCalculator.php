@@ -42,7 +42,7 @@ class IsbnCalculator implements IsbnCalculatorInterface
 
     public function isValid(string $isbn): bool
     {
-        if (!preg_match(self::PATTERN, $isbn)) {
+        if (!preg_match(static::PATTERN, $isbn)) {
             return false;
         }
 

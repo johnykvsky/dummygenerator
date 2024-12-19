@@ -54,7 +54,7 @@ interface NumberExtensionInterface extends ExtensionInterface
      *
      * @example 79907610
      */
-    public function randomNumber(?int $nbDigits, bool $strict): int;
+    public function randomNumber(?int $nbDigits, bool $strict = false): int;
 
     /**
      * Return a boolean, true or false.
