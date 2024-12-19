@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DummyGenerator\Test\Randomizer;
 
 use DummyGenerator\Core\Randomizer\Randomizer;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class RandomizerTest extends TestCase
@@ -58,5 +59,36 @@ class RandomizerTest extends TestCase
         $shuffled = $randomizer->shuffleElements($array);
 
         self::assertCount(count($array), $shuffled);
+    }
+
+    public function testRandomElements(): void
+    {
+        $array = ['23', 'e', 32, '#'];
+        $randomizer = new Randomizer();
+        $shuffled = $randomizer->randomElements($array, 2);
+
+        self::assertCount(2, $shuffled);
+        self::assertContains($shuffled[0], $array);
+        self::assertContains($shuffled[1], $array);
+    }
+
+    public function testRandomElementsUnique(): void
+    {
+        $array = ['23', '#', '23', '#'];
+        $randomizer = new Randomizer();
+        $shuffled = $randomizer->randomElements($array, 2, true);
+
+        self::assertCount(2, $shuffled);
+        self::assertNotEquals($shuffled[0], $shuffled[1]);
+        self::assertContains($shuffled[0], $array);
+        self::assertContains($shuffled[1], $array);
+    }
+
+    public function testRandomElementsUniqueException(): void
+    {
+        $array = ['23', '#', '23', '#'];
+        $randomizer = new Randomizer();
+        $this->expectException(ExtensionArgumentException::class);
+        $randomizer->randomElements($array, 5, true);
     }
 }
