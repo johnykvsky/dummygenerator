@@ -1,5 +1,9 @@
 # DummyGenerator
 
+[![Software License][ico-license]](LICENSE.md)
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+
 DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
@@ -56,3 +60,11 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 # TODO (ideas, not promises)
 
 * refactor randomizer (DRY) and add test to randomElements
+
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/johnykvsky/dummygenerator.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/johnykvsky/dummygenerator.svg?style=flat-square
+
+[link-scrutinizer]: https://scrutinizer-ci.com/g/johnykvsky/dummygenerator/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/johnykvsky/dummygenerator
+[link-author]: https://github.com/johnykvsky
