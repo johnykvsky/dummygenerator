@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DummyGenerator\Definitions\Randomizer;
 
 use DummyGenerator\Definitions\DefinitionInterface;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 
 interface RandomizerInterface extends DefinitionInterface
 {
@@ -36,8 +37,7 @@ interface RandomizerInterface extends DefinitionInterface
      * @param int $count Number of elements to take
      * @param bool $unique Allow elements to be picked several times. Defaults to false
      *
-     * @throws \InvalidArgumentException
-     * @throws \LengthException          When requesting more elements than provided
+     * @throws ExtensionArgumentException When requesting more elements than provided
      *
      * @return array<int, mixed> New array with $count elements from $array
      */
