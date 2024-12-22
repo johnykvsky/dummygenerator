@@ -6,6 +6,7 @@ namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionLogicException;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Core\Coordinates;
@@ -33,11 +34,35 @@ class CoordinatesTest extends TestCase
         self::assertTrue($latitude >= $min && $latitude <= $max);
     }
 
+    public function testLatitudeMinimumException(): void
+    {
+        $this->expectException(ExtensionLogicException::class);
+        $this->generator->latitude(min: -100.0, max: -100.0);
+    }
+
+    public function testLatitudeMaximumException(): void
+    {
+        $this->expectException(ExtensionLogicException::class);
+        $this->generator->latitude(min: 100.0, max: 100.0);
+    }
+
     public function testLongitude(): void
     {
         $longitude = $this->generator->longitude(min: $min = -10.0, max: $max = 10.0);
 
         self::assertTrue($longitude >= $min && $longitude <= $max);
+    }
+
+    public function testLongitudeMinimumException(): void
+    {
+        $this->expectException(ExtensionLogicException::class);
+        $this->generator->longitude(min: -200.0, max: -200.0);
+    }
+
+    public function testLongitudeMaximumException(): void
+    {
+        $this->expectException(ExtensionLogicException::class);
+        $this->generator->longitude(min: 200.0, max: 200.0);
     }
 
     public function testCoordinates(): void

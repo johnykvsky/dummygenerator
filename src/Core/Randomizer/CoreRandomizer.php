@@ -40,10 +40,6 @@ abstract class CoreRandomizer implements RandomizerInterface
 
     public function randomElement(array $array): mixed
     {
-        if ($array === []) {
-            return null;
-        }
-
         $array = $this->shuffleElements($array);
 
         return reset($array);
@@ -51,10 +47,6 @@ abstract class CoreRandomizer implements RandomizerInterface
 
     public function randomKey(array $array = []): int|string|null
     {
-        if (!$array) {
-            return null;
-        }
-
         return $this->randomElement(array_keys($array));
     }
 

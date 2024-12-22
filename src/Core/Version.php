@@ -24,19 +24,19 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
             $this->randomizer->getInt(0, 9),
             $this->randomizer->getInt(0, 99),
             $this->randomizer->getInt(0, 99),
-            $preRelease && $this->randomizer->getBool() ? '-' . $this->semverPreReleaseIdentifier() : '',
-            $build && $this->randomizer->getBool() ? '+' . $this->semverBuildIdentifier() : ''
+            $preRelease  ? '-' . $this->semverPreReleaseIdentifier($this->randomizer->getBool()) : '',
+            $build ? '+' . $this->semverBuildIdentifier($this->randomizer->getBool()) : ''
         );
     }
 
     /**
      * Common pre-release identifier
      */
-    private function semverPreReleaseIdentifier(): string
+    private function semverPreReleaseIdentifier(bool $short = true): string
     {
         $ident = $this->randomizer->randomElement($this->semverCommonPreReleaseIdentifiers);
 
-        if ($this->randomizer->getBool()) {
+        if ($short) {
             return $ident;
         }
 
@@ -46,9 +46,9 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
     /**
      * Common random build identifier
      */
-    private function semverBuildIdentifier(): string
+    private function semverBuildIdentifier(bool $shortSyntax = true): string
     {
-        if ($this->randomizer->getBool()) {
+        if ($shortSyntax) {
             // short git revision syntax: https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection
             return substr(sha1(uniqid('', true)), 0, 7);
         }

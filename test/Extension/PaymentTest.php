@@ -10,6 +10,7 @@ use DummyGenerator\Core\Calculator\LuhnCalculator;
 use DummyGenerator\Core\DateTime;
 use DummyGenerator\Core\Payment;
 use DummyGenerator\Core\Person;
+use DummyGenerator\Core\Randomizer\XoshiroRandomizer;
 use DummyGenerator\Definitions\Calculator\IbanCalculatorInterface;
 use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
@@ -32,16 +33,7 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(TransliteratorInterface::class, Transliterator::class);
-        $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(IbanCalculatorInterface::class, IbanCalculator::class);
-        $container->add(LuhnCalculatorInterface::class, LuhnCalculator::class);
-        $container->add(DateTimeExtensionInterface::class, DateTime::class);
-        $container->add(PersonExtensionInterface::class, Person::class);
-        $container->add(PaymentExtensionInterface::class, Payment::class);
-        $this->generator = new DummyGenerator($container);
+        $this->generator = $this->generator();
     }
 
     public function testCreditCardNumber(): void
@@ -68,7 +60,7 @@ class PaymentTest extends TestCase
         self::assertCount(4, $this->generator->creditCardDetails(valid: false));
     }
 
-    public function testIban(): void
+    public function testIbanN(): void
     {
         $iban = $this->generator->iban(alpha2: 'PL', prefix: 'RR');
 
@@ -79,5 +71,50 @@ class PaymentTest extends TestCase
     public function testSwiftBicNumber(): void
     {
         self::assertEquals(11, strlen($this->generator->swiftBicNumber()));
+    }
+
+    public function testIbanC(): void
+    {
+        $iban = $this->generator->iban(alpha2: 'MD', prefix: 'RR');
+
+        self::assertTrue(str_contains($iban, 'RR'));
+        self::assertTrue(strlen($iban) > 10);
+    }
+
+    public function testIbanA(): void
+    {
+        $generator = $this->generator(8);
+        $iban = $generator->iban(alpha2: 'AZ', prefix: 'RR');
+
+        self::assertTrue(str_contains($iban, 'RR'));
+        self::assertTrue(strlen($iban) > 10);
+    }
+
+    public function testDefaultFormat(): void
+    {
+        $iban = $this->generator->iban(alpha2: 'XX', prefix: 'RR');
+
+        self::assertTrue(str_contains($iban, 'RR'));
+        self::assertTrue(strlen($iban) > 24);
+    }
+
+    private function generator(?int $seed = null): DummyGenerator
+    {
+        $container = new DefinitionContainer([]);
+
+        if ($seed !== null) {
+            $container->add(RandomizerInterface::class, new XoshiroRandomizer(seed: $seed));
+        } else {
+            $container->add(RandomizerInterface::class, Randomizer::class);
+        }
+
+        $container->add(TransliteratorInterface::class, Transliterator::class);
+        $container->add(ReplacerInterface::class, Replacer::class);
+        $container->add(IbanCalculatorInterface::class, IbanCalculator::class);
+        $container->add(LuhnCalculatorInterface::class, LuhnCalculator::class);
+        $container->add(DateTimeExtensionInterface::class, DateTime::class);
+        $container->add(PersonExtensionInterface::class, Person::class);
+        $container->add(PaymentExtensionInterface::class, Payment::class);
+        return new DummyGenerator($container);
     }
 }

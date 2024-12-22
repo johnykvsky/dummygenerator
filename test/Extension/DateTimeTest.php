@@ -79,7 +79,7 @@ class DateTimeTest extends TestCase
         $date1 = new \DateTimeImmutable($this->now->format('Y-m') . '-01', new \DateTimeZone('UTC'));
         $date2 = new \DateTimeImmutable($this->now->format('Y-m-t'), new \DateTimeZone('UTC'));
 
-        $date = $this->generator->dateTimeThisWeek(until: $date2, timezone: 'UTC');
+        $date = $this->generator->dateTimeThisMonth(until: $date2, timezone: 'UTC');
 
         self::assertTrue($date >= $date1 && $date <= $date2);
     }

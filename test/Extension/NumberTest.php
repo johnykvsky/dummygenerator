@@ -61,11 +61,26 @@ class NumberTest extends TestCase
         self::assertTrue($number >= 12.83 && $number <= 26.45);
     }
 
+    public function testRandomFloatRandomDecimals(): void
+    {
+        $number = $this->generator->randomFloat(nbMaxDecimals: null, min: 12.83, max: 26.45);
+
+        // TODO check for decimals number
+        self::assertTrue($number >= 12.83 && $number <= 26.45);
+    }
+
     public function testRandomNumber(): void
     {
         $number = $this->generator->randomNumber(nbDigits: 3, strict: true);
 
         self::assertTrue($number >= 100 && $number <= 999);
+    }
+
+    public function testRandomNumberRandomDigits(): void
+    {
+        $number = $this->generator->randomNumber(nbDigits: null, strict: false);
+
+        self::assertTrue($number >= 0);
     }
 
     public function testBoolean(): void

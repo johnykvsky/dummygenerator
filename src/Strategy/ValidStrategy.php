@@ -22,21 +22,17 @@ class ValidStrategy implements StrategyInterface
      *   return $digit % 2 === 0;
      * };
      * for ($i=0; $i < 10; $i++) {
-     *   $values []= $generator->valid($evenValidator)->randomDigit;
+     *   $values []= $generator->withStrategy(new ValidStrategy($evenValidator))->randomDigit();
      * }
      * print_r($values); // [0, 4, 8, 4, 2, 6, 0, 8, 8, 6]
      * </code>a
      *
-     * @param null|callable(?mixed $value):bool $validator  A function returning true for valid values
+     * @param callable(?mixed $value):bool $validator  A function returning true for valid values
      * @param int $retries Maximum number of retries to find a valid value,
      *                              After which an OverflowException is thrown.
      */
-    public function __construct(?callable $validator, private readonly int $retries = 10000)
+    public function __construct(callable $validator, private readonly int $retries = 10000)
     {
-        if ($validator === null) {
-            $validator = (static fn() => true)(...);
-        }
-
         $this->validator = $validator(...);
     }
 

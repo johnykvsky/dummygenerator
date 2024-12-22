@@ -145,12 +145,6 @@ final class DefinitionContainer implements DefinitionContainerInterface
                 $id
             ));
         }
-
-        // @phpstan-ignore-next-line
-        throw new ContainerException(sprintf(
-            'Invalid type for definition for "%s"',
-            $id
-        ));
     }
 
     private function handleAwareness(DefinitionInterface $extension): DefinitionInterface

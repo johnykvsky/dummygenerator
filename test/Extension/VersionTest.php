@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Core\Randomizer\XoshiroRandomizer;
 use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
@@ -20,10 +21,7 @@ class VersionTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(VersionExtensionInterface::class, Version::class);
-        $this->generator = new DummyGenerator($container);
+        $this->generator = $this->generator();
     }
 
     public function testSemver(): void
@@ -31,9 +29,31 @@ class VersionTest extends TestCase
         self::assertCount(3, explode('.', $this->generator->semver()));
     }
 
-    public function testSemverPreReleaseAndBuild(): void
+    public function testSemverPreReleaseAndBuildShortSyntax(): void
     {
-        // since preRelease and build are randomly added, not much to verify
-        self::assertNotEmpty($this->generator->semver(preRelease: true, build: true));
+        $generator = $this->generator(8);
+
+        self::assertNotEmpty($generator->semver(preRelease: true, build: true));
+    }
+
+    public function testSemverPreReleaseAndBuildLongSyntax(): void
+    {
+        $generator = $this->generator(9);
+
+        self::assertNotEmpty($generator->semver(preRelease: true, build: true));
+    }
+
+    private function generator(?int $seed = null): DummyGenerator
+    {
+        $container = new DefinitionContainer([]);
+
+        if ($seed !== null) {
+            $container->add(RandomizerInterface::class, new XoshiroRandomizer(seed: $seed));
+        } else {
+            $container->add(RandomizerInterface::class, Randomizer::class);
+        }
+
+        $container->add(VersionExtensionInterface::class, Version::class);
+        return new DummyGenerator($container);
     }
 }

@@ -44,6 +44,18 @@ class DefinitionContainerTest extends TestCase
         $container->get('some_name');
     }
 
+    public function testContainerOnlyHoldsDefinitions(): void
+    {
+        $testClass = new \stdClass();
+        $definitions = ['some_name' => $testClass::class];
+
+        // @phpstan-ignore-next-line
+        $container = new DefinitionContainer($definitions);
+
+        $this->expectException(ContainerException::class);
+        $container->get('some_name');
+    }
+
     public function testCanAddDefinitionToContainer(): void
     {
         $container = new DefinitionContainer([]);
