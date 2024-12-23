@@ -1,6 +1,46 @@
 # Extensions
 
-If you are wondering what extensions do I have in the core, what methods can I use - here is the list of all extensions, their methods and example of their output:
+Here is list of extensions available in the `DummyGenerator`, all those are interfaces are available to be overwritten with your own implementation:
+
+
+* `AddressExtensionInterface`
+* `BarcodeExtensionInterface`
+* `BiasedExtensionInterface`
+* `BloodExtensionInterface`
+* `ColorExtensionInterface`
+* `CompanyExtensionInterface`
+* `CoordinatesExtensionInterface`
+* `CountryExtensionInterface`
+* `DateTimeExtensionInterface`
+* `FileExtensionInterface`
+* `HashExtensionInterface`
+* `InternetExtensionInterface`
+* `LanguageExtensionInterface`
+* `LoremExtensionInterface`
+* `NumberExtensionInterface`
+* `PaymentExtensionInterface`
+* `PersonExtensionInterface`
+* `PhoneNumberExtensionInterface`
+* `TextExtensionInterface`
+* `UserAgentExtensionInterface`
+* `VersionExtensionInterface`
+
+Apart from this you can overwrite calculators:
+
+* `EanCalculatorInterfaceInterface`
+* `IbanCalculatorInterfaceInterface`
+* `IsbnCalculatorInterfaceInterface`
+* `LuhnCalculatorInterfaceInterface`
+
+And 3 internal "helpers":
+
+* `RandomizerInterface`
+* `ReplacerInterface`
+* `TransliteratorInterface`
+
+
+## Available methods
+If you are wondering what methods have extensions from the core - here is the list of all extensions, their methods and example of their output:
 
 ```text
 Array

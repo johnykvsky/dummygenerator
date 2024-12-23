@@ -5,12 +5,14 @@
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker heavily rewritten at core, but overall is same easy to use. In example:
+DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
         $generator = new DummyGenerator(DefinitionContainerBuilder::all());
         echo $generator->firstName();
 ```
+
+Full list of stuff you can generate is available [here](docs/extensions.md).
 
 Faker died ~~for our~~ because of being hard to maintain - more on that [here](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html) and Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
 
@@ -44,18 +46,9 @@ composer require johnykvsky/dummygenerator --dev
 
 Everybody like quick start - it's [here](docs/quick_start.md), you're welcome.
 
-### Container and Strategy
+### HowTo
 
-How to use them, Quick Start is not enough - just check [this](docs/container.md)
-
-### Interfaces
-
-Once you're done with previous readings you can read more about available [interfaces](docs/overwriting_stuff).
-It's important read, because you will get to know how to overwrite stuff with your custom implementation (not just by "extend class").
-
-### Extensions
-
-If you wonder what extensions are in the core and what methods do they have - [here](docs/extensions.md) is the list
+For quick info about how to do various stuff visit [howto](docs/howto.md)
 
 # Other stuff
 
