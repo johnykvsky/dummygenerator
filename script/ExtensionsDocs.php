@@ -14,6 +14,7 @@ use DummyGenerator\DummyGenerator;
 class ExtensionsDocs
 {
     private bool $withDetails = false;
+    private bool $basicInfo = false;
     private DefinitionContainerInterface $definitionContainer;
 
     public function __construct(?DefinitionContainer $definitionContainer = null)
@@ -69,7 +70,7 @@ class ExtensionsDocs
                     $parameter['type'] = $this->getTypes($reflparameter->getType());
 
 
-                    if ($reflparameter->isDefaultValueAvailable()) {
+                    if (!$this->basicInfo && $reflparameter->isDefaultValueAvailable()) {
                         $parameter['default'] = $reflparameter->getDefaultValue();
                     }
 
@@ -77,22 +78,25 @@ class ExtensionsDocs
                 }
 
                 $parametersJoined = [];
+                $parametersString = '';
 
-                foreach ($parameters as $parameter) {
-                    if ($this->withDetails && !empty($parameter['type'])) {
-                        $parametersString = $parameter['type'] . ' ' . $parameter['name'];
-                    } else {
-                        $parametersString = $parameter['name'];
+                if ($this->basicInfo !== false) {
+                    foreach ($parameters as $parameter) {
+                        if ($this->withDetails && !empty($parameter['type'])) {
+                            $parametersString = $parameter['type'] . ' ' . $parameter['name'];
+                        } else {
+                            $parametersString = $parameter['name'];
+                        }
+
+                        if (!empty($parameter['default'])) {
+                            $parametersString .= ' = ' . $parameter['default'];
+                        }
+
+                        $parametersJoined[] = $parametersString;
                     }
 
-                    if (!empty($parameter['default'])) {
-                        $parametersString .= ' = ' . $parameter['default'];
-                    }
-
-                    $parametersJoined[] = $parametersString;
+                    $parametersString = implode(', ', $parametersJoined);
                 }
-
-                $parametersString = implode(', ', $parametersJoined);
 
                 try {
                     $example = $generator->$methodName();
@@ -106,8 +110,10 @@ class ExtensionsDocs
 
                 if ($this->withDetails) {
                     $extensions[$id][$methodName . ' (' . $parametersString . ')'] = '(' . $returnTypes . ') ' . $example;
-                } else {
+                } elseif ($this->basicInfo === false) {
                     $extensions[$id][$methodName . '(' . $parametersString . ')'] = $example;
+                } else {
+                    $extensions[$id][$methodName] = $example;
                 }
             }
         }

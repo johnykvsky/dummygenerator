@@ -52,6 +52,10 @@ How to use them, Quick Start is not enough - just check [this](docs/container.md
 Once you're done with previous readings you can read more about available [interfaces](docs/overwriting_stuff).
 It's important read, because you will get to know how to overwrite stuff with your custom implementation (not just by "extend class").
 
+### Extensions
+
+If you wonder what extensions are in the core and what methods do they have - [here](docs/extensions.md) is the list
+
 # Other stuff
 
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
