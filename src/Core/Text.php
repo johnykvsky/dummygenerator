@@ -12,13 +12,15 @@ use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionOverflowException;
 use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 
-abstract class Text implements
+class Text implements
     TextExtensionInterface,
     RandomizerAwareExtensionInterface,
     ReplacerAwareExtensionInterface
 {
     use RandomizerAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
+
+    protected string $defaultText = __DIR__.'/../../resources/en_US.txt';
 
     protected string $baseText = '';
     /**
@@ -35,6 +37,17 @@ abstract class Text implements
      */
     protected array $consecutiveWords = [];
     protected bool $textStartsWithUppercase = true;
+
+    public function __construct(string $baseText = null)
+    {
+        if (null !== $baseText && $file = file_get_contents($baseText)) {
+            $this->baseText = $file;
+        } else {
+            $file = file_get_contents($this->defaultText);
+            $this->baseText = $file !== false ? $file : '';
+        }
+    }
+
 
     /**
      * Generate a text string by the Markov chain algorithm.

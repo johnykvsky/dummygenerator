@@ -28,6 +28,7 @@ use DummyGenerator\Core\Person;
 use DummyGenerator\Core\PhoneNumber;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
+use DummyGenerator\Core\Text;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Core\UserAgent;
 use DummyGenerator\Core\Version;
@@ -56,6 +57,7 @@ use DummyGenerator\Definitions\Extension\NumberExtensionInterface;
 use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
 use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
 use DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface;
+use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
 use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
@@ -125,7 +127,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
             FileExtensionInterface::class => File::class,
             PaymentExtensionInterface::class => Payment::class,
             PhoneNumberExtensionInterface::class => PhoneNumber::class,
-            //      TextExtension::class => new Implementation\Text,
+            TextExtensionInterface::class => Text::class,
             UserAgentExtensionInterface::class => UserAgent::class,
             VersionExtensionInterface::class => Version::class,
         ];

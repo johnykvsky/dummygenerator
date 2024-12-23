@@ -71,3 +71,10 @@ No problem, just try this:
         echo $generator->foo('Anna'); // gives 'Anna is awesome!'
         echo $generator->boo('School'); // gives 'School is a crap!' 
 ```
+
+## Text
+
+Text extension is a bit different for one reason - it uses external `txt` file as source to large test. By default it's in `resources/en_US.txt` but you can either:
+
+* pass file location to `Text` constructor
+* extend `Text` class and use different location in `$defaultText` property

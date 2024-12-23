@@ -7,6 +7,7 @@ namespace DummyGenerator\Test\Extension;
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
+use DummyGenerator\Core\Text;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
@@ -28,7 +29,7 @@ class TextTest extends TestCase
         $container->add(RandomizerInterface::class, Randomizer::class);
         $container->add(TransliteratorInterface::class, Transliterator::class);
         $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(TextExtensionInterface::class, TextProvider::class);
+        $container->add(TextExtensionInterface::class, Text::class);
         $this->generator = new DummyGenerator($container);
     }
     public function testRealText(): void
