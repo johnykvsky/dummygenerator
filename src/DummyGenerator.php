@@ -104,6 +104,17 @@ class DummyGenerator
     }
 
     /**
+     * Add new definition
+     *
+     * @param DefinitionInterface|class-string<DefinitionInterface>|callable():DefinitionInterface $value
+     * @param string $name
+     */
+    public function addDefinition(string $name, callable|DefinitionInterface|string $value): void
+    {
+        $this->container->add($name, $value);
+    }
+
+    /**
      * Replaces tokens ('{{ tokenName }}') in given string with the result from the token method call
      */
     public function parse(string $string): string

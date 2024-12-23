@@ -33,7 +33,18 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        $this->generator = $this->generator();
+        $container = new DefinitionContainer([]);
+
+        $container->add(RandomizerInterface::class, Randomizer::class);
+        $container->add(TransliteratorInterface::class, Transliterator::class);
+        $container->add(ReplacerInterface::class, Replacer::class);
+        $container->add(IbanCalculatorInterface::class, IbanCalculator::class);
+        $container->add(LuhnCalculatorInterface::class, LuhnCalculator::class);
+        $container->add(DateTimeExtensionInterface::class, DateTime::class);
+        $container->add(PersonExtensionInterface::class, Person::class);
+        $container->add(PaymentExtensionInterface::class, Payment::class);
+
+        $this->generator = new DummyGenerator($container);
     }
 
     public function testCreditCardNumber(): void
@@ -83,8 +94,8 @@ class PaymentTest extends TestCase
 
     public function testIbanA(): void
     {
-        $generator = $this->generator(8);
-        $iban = $generator->iban(alpha2: 'AZ', prefix: 'RR');
+        $this->generator->addDefinition(RandomizerInterface::class, new XoshiroRandomizer(seed: 8));
+        $iban = $this->generator->iban(alpha2: 'AZ', prefix: 'RR');
 
         self::assertTrue(str_contains($iban, 'RR'));
         self::assertTrue(strlen($iban) > 10);
@@ -96,25 +107,5 @@ class PaymentTest extends TestCase
 
         self::assertTrue(str_contains($iban, 'RR'));
         self::assertTrue(strlen($iban) > 24);
-    }
-
-    private function generator(?int $seed = null): DummyGenerator
-    {
-        $container = new DefinitionContainer([]);
-
-        if ($seed !== null) {
-            $container->add(RandomizerInterface::class, new XoshiroRandomizer(seed: $seed));
-        } else {
-            $container->add(RandomizerInterface::class, Randomizer::class);
-        }
-
-        $container->add(TransliteratorInterface::class, Transliterator::class);
-        $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(IbanCalculatorInterface::class, IbanCalculator::class);
-        $container->add(LuhnCalculatorInterface::class, LuhnCalculator::class);
-        $container->add(DateTimeExtensionInterface::class, DateTime::class);
-        $container->add(PersonExtensionInterface::class, Person::class);
-        $container->add(PaymentExtensionInterface::class, Payment::class);
-        return new DummyGenerator($container);
     }
 }

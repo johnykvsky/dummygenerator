@@ -21,7 +21,11 @@ class VersionTest extends TestCase
     {
         parent::setUp();
 
-        $this->generator = $this->generator();
+        $container = new DefinitionContainer([]);
+        $container->add(RandomizerInterface::class, Randomizer::class);
+
+        $container->add(VersionExtensionInterface::class, Version::class);
+        $this->generator = new DummyGenerator($container);
     }
 
     public function testSemver(): void
@@ -31,29 +35,15 @@ class VersionTest extends TestCase
 
     public function testSemverPreReleaseAndBuildShortSyntax(): void
     {
-        $generator = $this->generator(8);
+        $this->generator->addDefinition(RandomizerInterface::class, new XoshiroRandomizer(seed: 8));
 
-        self::assertNotEmpty($generator->semver(preRelease: true, build: true));
+        self::assertNotEmpty($this->generator->semver(preRelease: true, build: true));
     }
 
     public function testSemverPreReleaseAndBuildLongSyntax(): void
     {
-        $generator = $this->generator(9);
+        $this->generator->addDefinition(RandomizerInterface::class, new XoshiroRandomizer(seed: 9));
 
-        self::assertNotEmpty($generator->semver(preRelease: true, build: true));
-    }
-
-    private function generator(?int $seed = null): DummyGenerator
-    {
-        $container = new DefinitionContainer([]);
-
-        if ($seed !== null) {
-            $container->add(RandomizerInterface::class, new XoshiroRandomizer(seed: $seed));
-        } else {
-            $container->add(RandomizerInterface::class, Randomizer::class);
-        }
-
-        $container->add(VersionExtensionInterface::class, Version::class);
-        return new DummyGenerator($container);
+        self::assertNotEmpty($this->generator->semver(preRelease: true, build: true));
     }
 }

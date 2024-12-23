@@ -81,7 +81,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
     /**
      * Add new definition
      *
-     * @param callable(): DefinitionInterface|DefinitionInterface|class-string<DefinitionInterface> $value
+     * @param DefinitionInterface|class-string<DefinitionInterface>|callable(): DefinitionInterface $value
      * @param string $name
      */
     public function add(string $name, callable|DefinitionInterface|string $value): void

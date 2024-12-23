@@ -24,6 +24,7 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * all `mt_rand` / `array_rand` replaced with `\Random\Randomizer`
 * no static methods, only one magic method (`__call()` in generator)
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
+* implementations can be changed on the fly with `addDefinition()`
 * language providers removed from core (that makes it ~9.8Mb smaller)
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`, `Uuid` (you can use any uuid generator, Symfony, Ramsey...)

@@ -127,4 +127,15 @@ class DummyGeneratorTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         self::assertEquals('foobar', $generator->foo());
     }
+
+    public function testAddDefinition(): void
+    {
+        $container = new DefinitionContainer([]);
+        $container->add(FooProvider::class, new FooProvider());
+
+        $generator = new DummyGenerator($container);
+        $generator->addDefinition(FooProvider::class, new BazProvider());
+
+        self::assertEquals('baz', $generator->baz());
+    }
 }

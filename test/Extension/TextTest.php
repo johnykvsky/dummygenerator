@@ -53,12 +53,7 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 EOT;
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(TransliteratorInterface::class, Transliterator::class);
-        $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(TextExtensionInterface::class, new Text($text));
-        $this->generator = new DummyGenerator($container);
+        $this->generator->addDefinition(TextExtensionInterface::class, new Text($text));
 
         $realText = $this->generator->realText(min: 5, max: 50, indexSize: 3);
 

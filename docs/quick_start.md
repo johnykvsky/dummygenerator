@@ -72,6 +72,14 @@ No problem, just try this:
         echo $generator->boo('School'); // gives 'School is a crap!' 
 ```
 
+But what if I want to add/replace some definition "on the fly"? It can be done like this:
+
+```php
+    $generator->firstName(); // will generate i.e. "Harry"
+    $generator->addDefinition(PersonExtensionInterface::class, ElvesPerson::class);
+    $generator->firstName(); // will generate i.e. "Fingolfin"
+```
+
 ## Text
 
 Text extension is a bit different for one reason - it uses external `txt` file as source to large test. By default it's in `resources/en_US.txt` but you can either:
