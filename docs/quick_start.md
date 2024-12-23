@@ -76,5 +76,5 @@ No problem, just try this:
 
 Text extension is a bit different for one reason - it uses external `txt` file as source to large test. By default it's in `resources/en_US.txt` but you can either:
 
-* pass file location to `Text` constructor
+* pass text to `Text` constructor (i.e. `$text = new Text(file_get_contents('my_file.txt'));`)
 * extend `Text` class and use different location in `$defaultText` property

@@ -40,11 +40,10 @@ class Text implements
 
     public function __construct(string $baseText = null)
     {
-        if (null !== $baseText && $file = file_get_contents($baseText)) {
+        if (null !== $baseText) {
+            $this->baseText = $baseText;
+        } elseif ($file = file_get_contents($this->defaultText)) {
             $this->baseText = $file;
-        } else {
-            $file = file_get_contents($this->defaultText);
-            $this->baseText = $file !== false ? $file : '';
         }
     }
 
