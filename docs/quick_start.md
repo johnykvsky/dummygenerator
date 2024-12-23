@@ -35,9 +35,18 @@ Now that we know what definitions are, let's move to second parameter - Strategy
 * Simple - default one, just generates data
 * Unique - gives only unique values, same result will not be generated twice
 * Chance - gives values based on percentage chance of getting them
-* Valid - gives values if used conditional check is true, i.e. you can make it generate names without 'a' letter.
+* Valid - gives values if used conditional check is true, i.e. you can make it generate data without 'a' letter.
 
 For `Unique` and `Valid` strategy there is fixed amount of retries after which exception will be throws - to make sure it will not try to generate unique value forever.
+
+Examples of different strategies:
+
+```php
+        $simple = new SimpleStrategy();
+        $unique = new UniqueStrategy(retries: 500); // we have 500 retries to get unique values
+        $chance = new ChanceStrategy(weight: 50); // 50% chance to get value
+        $valid = new ValidStrategy(fn($x) => $x <= 50); // generated value has to be lower or equal than 50 
+```
 
 ## Container builder
 
@@ -49,14 +58,7 @@ Container builder allows to load predefined sets of extensions. You can choose b
     $all = DefinitionContainerBuilder::all();
 ```
 
-Just pass any of them to `DummyGenerator`. Same for strategies, create your own if you need and pass it to `DummyGenerator`:
-
-```php
-        $simple = new SimpleStrategy();
-        $unique = new UniqueStrategy(retries: 500); // we have 500 retries to get unique values
-        $chance = new ChanceStrategy(weight: 50); // 50% chance to get value
-        $valid = new ValidStrategy(fn($x) => $x <= 50); // generated value has to be lower or equal than 50 
-```
+Just pass any of them to `DummyGenerator`. 
 
 Available packs are:
 

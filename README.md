@@ -18,7 +18,7 @@ Faker died ~~for our~~ because of being hard to maintain - more on that [here](h
 
 I needed simple dummy data generator for PHP 8.3 and with modern architecture in mind, so DummyGenerator came to life.
 
-# Changes
+# Changes in compare to Faker
 
 * required PHP >= 8.3
 * PHPStan level 8 friendly
@@ -29,12 +29,28 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * implementations can be changed on the fly with `addDefinition()`
 * language providers removed from core (that makes it ~9.8Mb smaller)
 * removed database providers (core is only for dummy data generation)
-* removed `HmlLorem`, `Uuid` (you can use any uuid generator, Symfony, Ramsey...)
+* removed `HmlLorem`, `Uuid` (you can use any uuid generator like Symfony, Ramsey...)
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 
 There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (check `BiasedTest`).
 
 Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
+
+# What is this fake / dummy data
+
+When writing tests or populating test database you need to came up with various data, like first name, last name, some dates, maybe description, location coordinates and so on. When you deal with multi-language site and want to have it also multilanguage - you need to came up with every language names or address format.
+
+All of that can be done by hand, but it's much easier to do `$generator->firstName()` and just don't care about what name it will be. Load provider and don't care about given locale names or phone formats.
+
+Another use case - imagine you have description with 100 chars limit and want to test if it properly gives error when more is passed - instead of copying some text you can just use `$generator->text(150)` to get ~150 characters long text.
+
+Last but not least - it make sure your tests will get random data on each run, not every single time same value. If your code is good and tests correct - then it should be no problem. If tests start failing from time to time - then what you think, where is the problem:
+
+* with code
+* with tests
+* with random data, it should not be random
+
+I leave answer to you.
 
 # Installation
 
@@ -58,7 +74,7 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 
 # TODO (ideas, not promises)
 
-* ...
+* ... nothing at the moment
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/johnykvsky/dummygenerator.svg?style=flat-square
