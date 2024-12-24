@@ -12,4 +12,9 @@ final class BarProvider implements ExtensionInterface
     {
         return 'bar';
     }
+
+    public function bars(): string
+    {
+        return 'bar';
+    }
 }

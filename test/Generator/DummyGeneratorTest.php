@@ -132,10 +132,12 @@ class DummyGeneratorTest extends TestCase
     {
         $container = new DefinitionContainer([]);
         $container->add(FooProvider::class, new FooProvider());
+        $container->add(BarProvider::class, new BarProvider());
 
         $generator = new DummyGenerator($container);
 
         self::assertEquals('foo', $generator->bax());
+        self::assertEquals('bar', $generator->bars());
 
         $generator->addDefinition(FooProvider::class, new BazProvider());
 

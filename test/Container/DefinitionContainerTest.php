@@ -7,6 +7,7 @@ namespace DummyGenerator\Test\Container;
 use DummyGenerator\Container\ContainerException;
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Container\NotInContainerException;
+use DummyGenerator\Container\ResolvedDefinition;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
 use DummyGenerator\Test\Fixtures\InvalidExtensionInterfaceClass;
 use PHPUnit\Framework\TestCase;
@@ -81,8 +82,8 @@ class DefinitionContainerTest extends TestCase
 
         $processor = $container->findProcessor('hello');
 
-        self::assertInstanceOf(ExtensionInterface::class, $processor);
-        self::assertEquals('hello Johny', $processor->hello('Johny'));
+        self::assertInstanceOf(ResolvedDefinition::class, $processor);
+        self::assertEquals('hello Johny', $processor->service->hello('Johny'));
     }
 
     public function testThrowsExceptionIfCallbackDefinitionDoesNotReturnClass(): void

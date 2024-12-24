@@ -92,13 +92,14 @@ final class DefinitionContainer implements DefinitionContainerInterface
     /**
      * Find proper Extension for given method
      */
-    public function findProcessor(string $name): null|DefinitionInterface
+    public function findProcessor(string $name): null|ResolvedDefinition
     {
         foreach ($this->definitions as $id => $definition) {
             $service = $this->getService($id, $definition);
 
             if (method_exists($service, $name)) {
-                return $service;
+                //return $service;
+                return new ResolvedDefinition($name, $id, $service);
             }
         }
 

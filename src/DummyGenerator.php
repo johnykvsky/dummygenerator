@@ -6,6 +6,7 @@ namespace DummyGenerator;
 
 use DummyGenerator\Container\DefinitionContainerBuilder;
 use DummyGenerator\Container\DefinitionContainerInterface;
+use DummyGenerator\Container\ResolvedDefinition;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
 use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
@@ -18,6 +19,7 @@ use DummyGenerator\Definitions\Extension\CompanyExtensionInterface;
 use DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface;
 use DummyGenerator\Definitions\Extension\CountryExtensionInterface;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
+use DummyGenerator\Definitions\Extension\ExtensionInterface;
 use DummyGenerator\Definitions\Extension\FileExtensionInterface;
 use DummyGenerator\Definitions\Extension\HashExtensionInterface;
 use DummyGenerator\Definitions\Extension\InternetExtensionInterface;
@@ -59,7 +61,7 @@ use DummyGenerator\Strategy\StrategyInterface;
 class DummyGenerator
 {
     /**
-     * @var array<string, DefinitionInterface>
+     * @var array<string, ResolvedDefinition>
      */
     protected array $extensions = [];
     private DefinitionContainerInterface $container;
@@ -112,7 +114,11 @@ class DummyGenerator
     public function addDefinition(string $name, callable|DefinitionInterface|string $value): void
     {
         $this->container->add($name, $value);
-        $this->extensions = [];
+
+        $this->extensions = array_filter(
+            $this->extensions,
+            static fn(ResolvedDefinition $definition) => $definition->definitionId !== $name
+        );
     }
 
     /**
@@ -155,15 +161,15 @@ class DummyGenerator
     protected function findProcessor(string $method): DefinitionInterface
     {
         if (isset($this->extensions[$method])) {
-            return $this->extensions[$method];
+            return $this->extensions[$method]->service;
         }
 
-        $extension = $this->container->findProcessor($method);
+        $resolvedDefinition = $this->container->findProcessor($method);
 
-        if ($extension !== null) {
-            $extension = $this->handleAwareness($extension);
+        if ($resolvedDefinition !== null) {
+            $extension = $this->handleAwareness($resolvedDefinition->service);
 
-            $this->extensions[$method] = $extension;
+            $this->extensions[$method] = $resolvedDefinition->withService($extension);
 
             return $extension;
         }
