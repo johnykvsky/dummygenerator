@@ -74,7 +74,7 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 
 # TODO (ideas, not promises)
 
-* ... nothing at the moment
+* clear only given provider on `addDefinition`?
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/johnykvsky/dummygenerator.svg?style=flat-square

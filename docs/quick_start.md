@@ -30,6 +30,8 @@ If you like, you can skip all definitions included with `DummyGenerator` and jus
     $generator = new DummyGenerator(new DefinitionContainer(['my_own_item' => new MyOwnItem()]));
 ```
 
+## Strategy
+
 Now that we know what definitions are, let's move to second parameter - Strategy. Strategy is used on generated data to validate it according to our needs. `DummyGenerator` has build in 4 strategies:
 
 * Simple - default one, just generates data
@@ -60,7 +62,7 @@ Container builder allows to load predefined sets of extensions. You can choose b
 
 Just pass any of them to `DummyGenerator`. 
 
-Available packs are:
+Extensions available in each pack:
 
 * Base: Coordinates, Country, DateTime, Hash, Language, Lorem, Number
 * Default, all from Base plus: Internet, Person
@@ -97,17 +99,7 @@ No problem, just try this:
         echo $generator->boo('School'); // gives 'School is a crap!' 
 ```
 
-But what if I want to add/replace some definition "on the fly"? It can be done like this:
-
-```php
-    $generator->firstName(); // will generate i.e. "Harry"
-    $generator->addDefinition(PersonExtensionInterface::class, ElvesPerson::class);
-    $generator->firstName(); // will generate i.e. "Fingolfin"
-```
-
-**beware** - this will clear internal cache for all extensions, so each call will resolve extensions classes. Not a big deal, but worth keeping in mind.
-
-## Text
+## Text Extension
 
 Text extension is a bit different for one reason - it uses external `.txt` file as source to large text. By default, it's in `resources/en_US.txt` but you can either:
 

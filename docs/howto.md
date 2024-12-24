@@ -13,7 +13,7 @@ In this example two things happened:
 
 ### How can I use language-based definitions
 
-Other way to work with localized extensions is to load them all and use by hand-picking:
+Other way to work with localised extensions is to load them all and use by hand-picking:
 
 ```php
         $container = DefinitionContainerBuilder::default();
@@ -28,6 +28,18 @@ Other way to work with localized extensions is to load them all and use by hand-
 but this way we skip `__call` in `DummyGenerator` so it won't work with any other strategy than `Simple`. It's not bad, just keep that in mind.
 
 **Beware**, you need to pay attention to one thing: naming. Magic method `__call` checks if requested method (like `firstName`) exists in any extension. It checks them one by one, in order of adding. So if you have by some reason 2 extensions that has same method (like `getName()` in both of them) and you run `$generator->getName()` it will execute `getName()` in extension that was added earlier to container.
+
+### How can I change definition on the fly
+
+It can be done like this:
+
+```php
+    $generator->firstName(); // will generate i.e. "Harry"
+    $generator->addDefinition(PersonExtensionInterface::class, ElvesPerson::class);
+    $generator->firstName(); // will generate i.e. "Fingolfin"
+```
+
+**Beware**, this will clear internal cache for all extensions, so they will be resolved again. Not a big deal, but worth keeping in mind.
 
 ### How can I use different strategy
 
