@@ -112,6 +112,7 @@ class DummyGenerator
     public function addDefinition(string $name, callable|DefinitionInterface|string $value): void
     {
         $this->container->add($name, $value);
+        $this->extensions = [];
     }
 
     /**

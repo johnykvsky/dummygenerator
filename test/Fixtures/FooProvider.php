@@ -22,4 +22,9 @@ final class FooProvider implements ExtensionInterface
     {
         return 'foo';
     }
+
+    public function bax(): string
+    {
+        return 'foo';
+    }
 }

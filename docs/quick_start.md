@@ -105,6 +105,8 @@ But what if I want to add/replace some definition "on the fly"? It can be done l
     $generator->firstName(); // will generate i.e. "Fingolfin"
 ```
 
+**beware** - this will clear internal cache for all extensions, so each call will resolve extensions classes. Not a big deal, but worth keeping in mind.
+
 ## Text
 
 Text extension is a bit different for one reason - it uses external `.txt` file as source to large text. By default, it's in `resources/en_US.txt` but you can either:

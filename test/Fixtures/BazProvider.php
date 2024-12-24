@@ -12,4 +12,9 @@ final class BazProvider implements ExtensionInterface
     {
         return 'baz';
     }
+
+    public function bax(): string
+    {
+        return 'baz';
+    }
 }

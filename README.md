@@ -27,7 +27,7 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * no static methods, only one magic method (`__call()` in generator)
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `addDefinition()`
-* language providers removed from core (that makes it ~9.8Mb smaller)
+* language providers removed from core (that makes it ~9.5Mb smaller)
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`, `Uuid` (you can use any uuid generator like Symfony, Ramsey...)
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
@@ -50,7 +50,7 @@ Last but not least - it make sure your tests will get random data on each run, n
 * with tests
 * with random data, it should not be random
 
-I leave answer to you.
+I leave answer to you. And yes, there might be cases when data should not be random, but usually it's not that case ;)
 
 # Installation
 
