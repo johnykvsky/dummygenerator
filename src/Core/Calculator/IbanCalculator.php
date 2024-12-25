@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Calculator;
 
@@ -22,7 +22,7 @@ class IbanCalculator implements IbanCalculatorInterface
         // Perform mod 97 and subtract from 98
         $checksum = 98 - $this->mod97($checkString);
 
-        return str_pad((string)$checksum, 2, '0', STR_PAD_LEFT);
+        return str_pad((string) $checksum, 2, '0', STR_PAD_LEFT);
     }
 
     public function isValid(string $iban): bool
@@ -34,7 +34,6 @@ class IbanCalculator implements IbanCalculatorInterface
      * Convert a letter to a number.
      *
      * @param array<int|string, string> $match
-     * @return string
      */
     protected function alphaToNumberCallback(array $match): string
     {
@@ -57,7 +56,7 @@ class IbanCalculator implements IbanCalculatorInterface
         $checksum = (int) $number[0];
 
         for ($i = 1, $size = strlen($number); $i < $size; ++$i) {
-            $checksum = (10 * $checksum + (int)$number[$i]) % 97;
+            $checksum = (10 * $checksum + (int) $number[$i]) % 97;
         }
 
         return $checksum;

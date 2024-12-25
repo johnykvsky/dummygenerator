@@ -20,10 +20,11 @@
     "symfony/deprecation-contracts": "^2.2 || ^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^11.5.0",
-    "phpstan/phpstan": "^2.0.3",
     "phpstan/extension-installer": "^1.4.2",
-    "squizlabs/php_codesniffer": "^3.7.2"
+    "phpstan/phpstan": "^2.0.3",
+    "phpunit/phpunit": "^11.5.0",
+    "slevomat/coding-standard": "^8.15",
+    "squizlabs/php_codesniffer": "^3.11.2"
   },
   "autoload": {
     "psr-4": {
@@ -43,16 +44,17 @@
     "sort-packages": true,
     "allow-plugins": {
       "bamarni/composer-bin-plugin": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     },
     "bin-dir": "vendor-bin"
   },
   "scripts": {
-    "test": "phpunit --no-coverage",
-    "test-coverage": "phpunit",
-    "test-clover": "phpunit --no-coverage --coverage-clover .build/clover.xml",
-    "check-style": "phpcs -p --standard=phpcs.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1",
-    "fix-style": "phpcbf -p --standard=phpcs.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1",
-    "phpstan": "vendor/bin/phpstan analyse src --level=8"
+    "test": "vendor-bin/phpunit --no-coverage",
+    "test-coverage": "vendor-bin/phpunit",
+    "test-clover": "vendor-bin/phpunit --no-coverage --coverage-clover .build/clover.xml",
+    "check-style": "vendor-bin/phpcs -p --standard=phpcs.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1",
+    "fix-style": "vendor-bin/phpcbf -p --standard=phpcs.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1",
+    "phpstan": "vendor-bin/phpstan analyse src --level=8"
   }
 }

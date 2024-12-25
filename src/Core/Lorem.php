@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -23,9 +23,7 @@ class Lorem implements
     use RandomizerAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $workList = [
         'alias', 'consequatur', 'aut', 'perferendis', 'sit', 'voluptatem',
         'accusantium', 'doloremque', 'aperiam', 'eaque', 'ipsa', 'quae', 'ab',

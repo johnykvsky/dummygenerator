@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -12,14 +12,10 @@ class UserAgent implements UserAgentExtensionInterface, RandomizerAwareExtension
 {
     use RandomizerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $userAgents = ['firefox', 'chrome', 'internetExplorer', 'opera', 'safari', 'edge'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $windowsPlatformTokens = [
         'Windows NT 6.2', 'Windows NT 6.1', 'Windows NT 6.0', 'Windows NT 5.2', 'Windows NT 5.1',
         'Windows NT 5.01', 'Windows NT 5.0', 'Windows NT 4.0', 'Windows 98; Win 9x 4.90', 'Windows 98',
@@ -111,11 +107,10 @@ class UserAgent implements UserAgentExtensionInterface, RandomizerAwareExtension
     {
         $saf = $this->randomizer->getInt(531, 535) . '.' . $this->randomizer->getInt(1, 50) . '.' . $this->randomizer->getInt(1, 7);
 
-        if ($this->randomizer->getBool()) {
-            $ver = $this->randomizer->getInt(4, 5) . '.' . $this->randomizer->getInt(0, 1);
-        } else {
-            $ver = $this->randomizer->getInt(4, 5) . '.0.' . $this->randomizer->getInt(1, 5);
-        }
+        $ver = $this->randomizer->getBool() ?
+            $this->randomizer->getInt(4, 5) . '.' . $this->randomizer->getInt(0, 1)
+            :
+            $this->randomizer->getInt(4, 5) . '.0.' . $this->randomizer->getInt(1, 5);
 
         $mobileDevices = [
             'iPhone; CPU iPhone OS',

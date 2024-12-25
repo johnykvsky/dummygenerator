@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Calculator;
 
@@ -12,11 +12,7 @@ use DummyGenerator\Definitions\Extension\Exception\ExtensionLengthException;
  */
 class IsbnCalculator implements IsbnCalculatorInterface
 {
-    /**
-     * @var string ISBN-10 validation pattern
-     */
     public const string PATTERN = '/^\d{9}[\dX]$/';
-
 
     public function checksum(string $input): string
     {
@@ -32,7 +28,7 @@ class IsbnCalculator implements IsbnCalculatorInterface
             $digits,
             static function (&$digit, $position) {
                 $digit = (10 - $position) * (int) $digit;
-            }
+            },
         );
         $result = (11 - array_sum($digits) % 11) % 11;
 

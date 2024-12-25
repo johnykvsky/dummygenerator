@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
 interface PaymentExtensionInterface extends ExtensionInterface
 {
-    /**
-     * @example 'MasterCard'
-     */
+    /** @example 'MasterCard' */
     public function creditCardType(): string;
 
     /**
@@ -22,30 +20,26 @@ interface PaymentExtensionInterface extends ExtensionInterface
      */
     public function creditCardNumber(?string $type = null, bool $formatted = false, string $separator = '-'): string;
 
-    /**
-     * @example 04/13
-     */
+    /** @example 04/13 */
     public function creditCardExpirationDate(bool $inFuture = true): string;
 
-
     /**
-     * @example ['type' => 'Visa', 'number' => '4539353086362790', 'name' => 'John Smith', 'expirationDate' => '04/29']
-     *
      * @param bool $valid True (by default) to get a valid expiration date, false to get a maybe valid date
-     *
      * @return array<string, mixed>
+     *
+     * @example ['type' => 'Visa', 'number' => '4539353086362790', 'name' => 'John Smith', 'expirationDate' => '04/29']
      */
     public function creditCardDetails(bool $valid = true): array;
 
     /**
      * International Bank Account Number (IBAN)
      *
-     * @see http://en.wikipedia.org/wiki/International_Bank_Account_Number
-     *
      * @param string|null $alpha2    ISO 3166-1 alpha-2 country code
      * @param string $prefix    for generating bank account number of a specific bank
+     *
+     * @see http://en.wikipedia.org/wiki/International_Bank_Account_Number
      */
-    public function iban(string $alpha2 = null, string $prefix = ''): string;
+    public function iban(?string $alpha2 = null, string $prefix = ''): string;
 
     /**
      * Return the String of a SWIFT/BIC number
@@ -57,7 +51,6 @@ interface PaymentExtensionInterface extends ExtensionInterface
      * * a 2-letter country code
      * * a 2-letter or number location code
      * * a 3-letter or number branch code (optional)
-     *
      * @example 'RZTIIT22263', 'INGBPLPW'
      */
     public function swiftBicNumber(): string;

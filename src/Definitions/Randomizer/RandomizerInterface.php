@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Randomizer;
 
@@ -10,6 +10,7 @@ use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 interface RandomizerInterface extends DefinitionInterface
 {
     public function getInt(int $min, int $max): int;
+
     public function getFloat(float $min, float $max): float;
 
     public function getBool(int $chanceOfTrue = 50): bool;
@@ -36,10 +37,8 @@ interface RandomizerInterface extends DefinitionInterface
      * @param array<int|string, mixed> $array Array to take elements from
      * @param int $count Number of elements to take
      * @param bool $unique Allow elements to be picked several times. Defaults to false
-     *
-     * @throws ExtensionArgumentException When requesting more elements than provided
-     *
      * @return array<int, mixed> New array with $count elements from $array
+     * @throws ExtensionArgumentException When requesting more elements than provided
      */
     public function randomElements(array $array, int $count = 1, bool $unique = false): array;
 }

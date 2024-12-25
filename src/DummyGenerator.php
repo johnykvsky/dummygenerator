@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator;
 
@@ -9,65 +9,18 @@ use DummyGenerator\Container\DefinitionContainerInterface;
 use DummyGenerator\Container\ResolvedDefinition;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
-use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
 use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
-use DummyGenerator\Definitions\Extension\BiasedExtensionInterface;
-use DummyGenerator\Definitions\Extension\BloodExtensionInterface;
-use DummyGenerator\Definitions\Extension\ColorExtensionInterface;
-use DummyGenerator\Definitions\Extension\CompanyExtensionInterface;
-use DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface;
-use DummyGenerator\Definitions\Extension\CountryExtensionInterface;
-use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
-use DummyGenerator\Definitions\Extension\ExtensionInterface;
-use DummyGenerator\Definitions\Extension\FileExtensionInterface;
-use DummyGenerator\Definitions\Extension\HashExtensionInterface;
-use DummyGenerator\Definitions\Extension\InternetExtensionInterface;
-use DummyGenerator\Definitions\Extension\LanguageExtensionInterface;
-use DummyGenerator\Definitions\Extension\LoremExtensionInterface;
-use DummyGenerator\Definitions\Extension\NumberExtensionInterface;
-use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
-use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
-use DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface;
-use DummyGenerator\Definitions\Extension\TextExtensionInterface;
-use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
-use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\StrategyInterface;
 
-/**
- * @mixin AddressExtensionInterface
- * @mixin BarcodeExtensionInterface
- * @mixin BiasedExtensionInterface
- * @mixin BloodExtensionInterface
- * @mixin ColorExtensionInterface
- * @mixin CompanyExtensionInterface
- * @mixin CoordinatesExtensionInterface
- * @mixin CountryExtensionInterface
- * @mixin DateTimeExtensionInterface
- * @mixin FileExtensionInterface
- * @mixin HashExtensionInterface
- * @mixin InternetExtensionInterface
- * @mixin LanguageExtensionInterface
- * @mixin LoremExtensionInterface
- * @mixin NumberExtensionInterface
- * @mixin PaymentExtensionInterface
- * @mixin PersonExtensionInterface
- * @mixin PhoneNumberExtensionInterface
- * @mixin TextExtensionInterface
- * @mixin UserAgentExtensionInterface
- * @mixin VersionExtensionInterface
- */
 class DummyGenerator
 {
-    /**
-     * @var array<string, ResolvedDefinition>
-     */
+    /** @var array<string, ResolvedDefinition> */
     protected array $extensions = [];
     private DefinitionContainerInterface $container;
     private StrategyInterface $strategy;
 
-    public function __construct(DefinitionContainerInterface $container = null, StrategyInterface $strategy = null)
+    public function __construct(?DefinitionContainerInterface $container = null, ?StrategyInterface $strategy = null)
     {
         $this->container = $container ?: DefinitionContainerBuilder::base();
         $this->strategy = $strategy ?: new SimpleStrategy();
@@ -96,7 +49,7 @@ class DummyGenerator
         if (!$this->container->has($id)) {
             throw new DefinitionNotFound(sprintf(
                 'No DummyGenerator definition with id "%s" was loaded.',
-                $id
+                $id,
             ));
         }
 
@@ -109,7 +62,6 @@ class DummyGenerator
      * Add new definition
      *
      * @param DefinitionInterface|class-string<DefinitionInterface>|callable():DefinitionInterface $value
-     * @param string $name
      */
     public function addDefinition(string $name, callable|DefinitionInterface|string $value): void
     {
@@ -117,7 +69,7 @@ class DummyGenerator
 
         $this->extensions = array_filter(
             $this->extensions,
-            static fn(ResolvedDefinition $definition) => $definition->definitionId !== $name
+            static fn (ResolvedDefinition $definition) => $definition->definitionId !== $name,
         );
     }
 
@@ -126,9 +78,7 @@ class DummyGenerator
      */
     public function parse(string $string): string
     {
-        $callback = function ($matches) {
-            return $this->process($matches[1]);
-        };
+        $callback = fn ($matches) => $this->process($matches[1]);
 
         $replaced = preg_replace_callback('/{{\s?(\w+|[\w\\\]+->\w+?)\s?}}/u', $callback, $string);
 
@@ -182,6 +132,7 @@ class DummyGenerator
         if ($extension instanceof GeneratorAwareExtensionInterface) {
             $extension = $extension->withGenerator($this);
         }
+
         return $extension;
     }
 }

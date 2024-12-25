@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\DefinitionPack;
 
@@ -66,25 +66,15 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 readonly class DefinitionPack implements DefinitionPackInterface
 {
-    /**
-     * @var array<string, class-string<DefinitionInterface>>
-     */
+    /** @var array<string, class-string<DefinitionInterface>> */
     private array $coreDefinitions;
-    /**
-     * @var array<string, class-string<CalculatorInterface>>
-     */
+    /** @var array<string, class-string<CalculatorInterface>> */
     private array $calculators;
-    /**
-     * @var array<string, class-string<ExtensionInterface>>
-     */
+    /** @var array<string, class-string<ExtensionInterface>> */
     private array $baseExtensions;
-    /**
-     * @var array<string, class-string<ExtensionInterface>>
-     */
+    /** @var array<string, class-string<ExtensionInterface>> */
     private array $defaultExtensions;
-    /**
-     * @var array<string, class-string<ExtensionInterface>>
-     */
+    /** @var array<string, class-string<ExtensionInterface>> */
     private array $complementaryExtensions;
 
     public function __construct()
@@ -133,41 +123,31 @@ readonly class DefinitionPack implements DefinitionPackInterface
         ];
     }
 
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function baseExtensions(): array
     {
         return $this->baseExtensions;
     }
 
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function defaultExtensions(): array
     {
         return $this->defaultExtensions;
     }
 
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function complementaryExtensions(): array
     {
         return $this->complementaryExtensions;
     }
 
-    /**
-     * @return array<string, class-string<CalculatorInterface>>
-     */
+    /** @return array<string, class-string<CalculatorInterface>> */
     public function calculators(): array
     {
         return $this->calculators;
     }
 
-    /**
-     * @return array<string, class-string<DefinitionInterface>>
-     */
+    /** @return array<string, class-string<DefinitionInterface>> */
     public function coreDefinitions(): array
     {
         return $this->coreDefinitions;

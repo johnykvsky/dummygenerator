@@ -1,23 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
 interface CompanyExtensionInterface extends ExtensionInterface
 {
-    /**
-     * @example 'Acme Ltd'
-     */
+    /** @example 'Acme Ltd' */
     public function company(): string;
 
-    /**
-     * @example 'Ltd'
-     */
+    /** @example 'Ltd' */
     public function companySuffix(): string;
 
-    /**
-     * @example 'Job'
-     */
+    /** @example 'Job' */
     public function jobTitle(): string;
 }

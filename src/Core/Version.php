@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -12,9 +12,7 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
 {
     use RandomizerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $semverCommonPreReleaseIdentifiers = ['alpha', 'beta', 'rc'];
 
     public function semver(bool $preRelease = false, bool $build = false): string
@@ -24,8 +22,8 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
             $this->randomizer->getInt(0, 9),
             $this->randomizer->getInt(0, 99),
             $this->randomizer->getInt(0, 99),
-            $preRelease  ? '-' . $this->semverPreReleaseIdentifier($this->randomizer->getBool()) : '',
-            $build ? '+' . $this->semverBuildIdentifier($this->randomizer->getBool()) : ''
+            $preRelease ? '-' . $this->semverPreReleaseIdentifier($this->randomizer->getBool()) : '',
+            $build ? '+' . $this->semverBuildIdentifier($this->randomizer->getBool()) : '',
         );
     }
 

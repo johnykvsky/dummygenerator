@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
@@ -24,7 +24,6 @@ interface BarcodeExtensionInterface extends ExtensionInterface
      * Get a random ISBN-10 code
      *
      * @see http://en.wikipedia.org/wiki/International_Standard_Book_Number
-     *
      * @example '4881416324'
      */
     public function isbn10(): string;
@@ -33,7 +32,6 @@ interface BarcodeExtensionInterface extends ExtensionInterface
      * Get a random ISBN-13 code
      *
      * @see http://en.wikipedia.org/wiki/International_Standard_Book_Number
-     *
      * @example '9790404436093'
      */
     public function isbn13(): string;

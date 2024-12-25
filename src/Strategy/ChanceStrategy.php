@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Strategy;
 
-use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Core\Randomizer\Randomizer;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
 class ChanceStrategy implements StrategyInterface
 {
@@ -16,7 +16,7 @@ class ChanceStrategy implements StrategyInterface
      *
      * @param float $weight A probability between 0 and 1, 0 means that we always get the default value.
      */
-    public function __construct(private readonly float $weight, RandomizerInterface $randomizer = null, private readonly mixed $default = null)
+    public function __construct(private readonly float $weight, ?RandomizerInterface $randomizer = null, private readonly mixed $default = null)
     {
         if ($randomizer === null) {
             $this->randomizer = new Randomizer();

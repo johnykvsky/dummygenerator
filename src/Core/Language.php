@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -11,9 +11,8 @@ use DummyGenerator\Definitions\Extension\LanguageExtensionInterface;
 class Language implements LanguageExtensionInterface, RandomizerAwareExtensionInterface
 {
     use RandomizerAwareExtensionTrait;
-    /**
-     * @var string[]
-     */
+
+    /** @var string[] */
     protected array $locales = [
         'aa_DJ', 'aa_ER', 'aa_ET',
         'af_NA', 'af_ZA', 'ak_GH',

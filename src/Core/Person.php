@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -15,63 +15,45 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
     use GeneratorAwareExtensionTrait;
     use RandomizerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $titleFormat = [
         '{{titleMale}}',
         '{{titleFemale}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $firstNameFormat = [
         '{{firstNameMale}}',
         '{{firstNameFemale}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $maleNameFormats = [
         '{{firstNameMale}} {{lastName}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $femaleNameFormats = [
         '{{firstNameFemale}} {{lastName}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $firstNameMale = [
-        'John', 'Harry', 'Olivier'
+        'John', 'Harry', 'Olivier',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $firstNameFemale = [
-        'Jane', 'Katy', 'Anna'
+        'Jane', 'Katy', 'Anna',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $lastName = ['Doe', 'Smith', 'White'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $titleMale = ['Mr.', 'Dr.', 'Prof.'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $titleFemale = ['Mrs.', 'Ms.', 'Miss', 'Dr.', 'Prof.'];
 
     public function name(?string $gender = null): string

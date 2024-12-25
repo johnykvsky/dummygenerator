@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Calculator;
 
@@ -11,9 +11,6 @@ use DummyGenerator\Definitions\Calculator\EanCalculatorInterface;
  */
 class EanCalculator implements EanCalculatorInterface
 {
-    /**
-     * @var string EAN validation pattern
-     */
     public const string PATTERN = '/^(?:\d{8}|\d{13})$/';
 
     public function checksum(string $digits): int

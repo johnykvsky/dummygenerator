@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -11,14 +11,11 @@ use DummyGenerator\Definitions\Extension\BloodExtensionInterface;
 class Blood implements BloodExtensionInterface, RandomizerAwareExtensionInterface
 {
     use RandomizerAwareExtensionTrait;
-    /**
-     * @var string[]
-     */
+
+    /** @var string[] */
     protected array $bloodTypes = ['A', 'AB', 'B', 'O'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $bloodRhFactors = ['+', '-'];
 
     public function bloodType(): string

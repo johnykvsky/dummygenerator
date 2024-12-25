@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
@@ -19,7 +19,6 @@ interface BiasedExtensionInterface extends ExtensionInterface
      * @param int      $min      Minimum value of the generated integers.
      * @param int      $max      Maximum value of the generated integers.
      * @param callable|string $function A function mapping x ∈ [0, 1] onto a double ∈ [0, 1]
-     *
      * @return int An integer between $min and $max.
      *
      * @example 48

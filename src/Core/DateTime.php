@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -27,7 +27,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
     {
         return $this->setTimezone(
             $this->getTimestampDateTime($this->unixTime($until)),
-            $timezone
+            $timezone,
         );
     }
 
@@ -37,7 +37,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
         return $this->setTimezone(
             $this->getTimestampDateTime($this->randomizer->getInt($min, $this->getTimestamp($until))),
-            $timezone
+            $timezone,
         );
     }
 
@@ -54,7 +54,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
         return $this->setTimezone(
             $this->getTimestampDateTime($timestamp),
-            $timezone
+            $timezone,
         );
     }
 
@@ -166,10 +166,6 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
     /**
      * Get the POSIX-timestamp of a DateTime or string (can be epoch as "1733785884").
-     *
-     * @param \DateTimeInterface|string $until
-     *
-     * @return int
      */
     protected function getTimestamp(\DateTimeInterface|string $until = 'now'): int
     {
@@ -195,7 +191,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
         return new \DateTimeImmutable('@' . $timestamp);
     }
 
-    protected function setDefaultTimezone(string $timezone = null): void
+    protected function setDefaultTimezone(?string $timezone = null): void
     {
         $this->defaultTimezone = $timezone;
     }

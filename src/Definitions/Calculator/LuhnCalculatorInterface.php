@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Calculator;
 
@@ -18,7 +18,9 @@ interface LuhnCalculatorInterface extends CalculatorInterface
      * Checks whether a number (partial number + check digit) is Luhn compliant
      */
     public function isValid(string $number): bool;
+
     public function computeCheckDigit(string $partialNumber): string;
+
     /**
      * Generate a Luhn compliant number.
      */

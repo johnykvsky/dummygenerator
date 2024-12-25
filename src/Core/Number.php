@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -31,6 +31,7 @@ class Number implements NumberExtensionInterface, RandomizerAwareExtensionInterf
             if ($count > $retries) {
                 throw new ExtensionRuntimeException('Retries limit exceeded for randomDigitNot.');
             }
+
             $result = $this->numberBetween(0, 9);
             $count++;
         } while ($result === $except);
@@ -58,11 +59,12 @@ class Number implements NumberExtensionInterface, RandomizerAwareExtensionInterf
         return round($float, $nbMaxDecimals);
     }
 
-    public function randomNumber(int $nbDigits = null, bool $strict = false): int
+    public function randomNumber(?int $nbDigits = null, bool $strict = false): int
     {
         if (null === $nbDigits) {
             $nbDigits = $this->randomDigitNotZero();
         }
+
         $max = 10 ** $nbDigits - 1;
 
         if ($max > PHP_INT_MAX) {

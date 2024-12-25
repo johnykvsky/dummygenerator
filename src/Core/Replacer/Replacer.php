@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Replacer;
 
@@ -11,10 +11,10 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorAwareReplacerTrait;
 
 class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareReplacerInterface
 {
-    public const string ENCODING = 'UTF-8';
-
     use RandomizerAwareReplacerTrait;
     use TransliteratorAwareReplacerTrait;
+
+    public const string ENCODING = 'UTF-8';
 
     public function numerify(string $string): string
     {
@@ -46,9 +46,7 @@ class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareR
             }
         }
 
-        return $this->replaceWildcard($string, '%', function () {
-            return $this->randomizer->getInt(1, 9);
-        });
+        return $this->replaceWildcard($string, '%', fn () => $this->randomizer->getInt(1, 9));
     }
 
     public function lexify(string $string, bool $ascii = false): string
@@ -57,15 +55,14 @@ class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareR
             if ($ascii) {
                 return chr($this->randomizer->getInt(33, 126)); //ascii and letters
             }
+
             return chr($this->randomizer->getInt(97, 122)); // only letters (a-z)
         });
     }
 
     public function bothify(string $string): string
     {
-        $string = $this->replaceWildcard($string, '*', function () {
-            return $this->randomizer->getInt(0, 1) ? '#' : '?';
-        });
+        $string = $this->replaceWildcard($string, '*', fn () => $this->randomizer->getInt(0, 1) ? '#' : '?');
 
         return $this->lexify($this->numerify($string));
     }

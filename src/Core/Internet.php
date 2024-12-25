@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -23,19 +23,13 @@ class Internet implements
     use RandomizerAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $freeEmailDomain = ['gmail.com', 'yahoo.com', 'hotmail.com'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $tld = ['com', 'com', 'com', 'com', 'com', 'com', 'biz', 'info', 'net', 'org'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $userNameFormats = [
         '{{lastName}}.{{firstName}}',
         '{{firstName}}.{{lastName}}',
@@ -43,17 +37,13 @@ class Internet implements
         '?{{lastName}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $emailFormats = [
         '{{userName}}@{{domainName}}',
         '{{userName}}@{{freeEmailDomain}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $urlFormats = [
         'http://www.{{domainName}}/',
         'http://{{domainName}}/',
@@ -146,6 +136,7 @@ class Internet implements
 
     public function domainWord(): string
     {
+        // @phpstan-ignore-next-line
         $lastName = $this->generator->lastName();
 
         $lastName = $this->replacer->toLower($this->replacer->transliterate($lastName));
@@ -180,6 +171,8 @@ class Internet implements
         if ($variableNbWords) {
             $nbWords = (int) ($nbWords * $this->randomizer->getInt(60, 140) / 100) + 1;
         }
+
+        // @phpstan-ignore-next-line
         $words = $this->generator->words($nbWords);
 
         return implode('-', $words);

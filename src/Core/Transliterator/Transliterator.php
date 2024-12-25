@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Transliterator;
 
@@ -20,7 +20,7 @@ class Transliterator implements TransliteratorInterface
         $transliterator = \Transliterator::create($transId);
 
         if ($transliterator === null) {
-            throw new ExtensionRuntimeException("Transliterator cannot be created for given settings");
+            throw new ExtensionRuntimeException('Transliterator cannot be created for given settings');
         }
 
         $transString = $transliterator->transliterate($string);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Container;
 
@@ -23,14 +23,10 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 final class DefinitionContainer implements DefinitionContainerInterface
 {
-    /**
-     * @var array<callable(): DefinitionInterface|DefinitionInterface|class-string<DefinitionInterface>> $definitions
-     */
+    /** @var array<callable(): DefinitionInterface|DefinitionInterface|class-string<DefinitionInterface>> $definitions */
     private array $definitions;
 
-    /**
-     * @var array<string, DefinitionInterface>
-     */
+    /** @var array<string, DefinitionInterface> */
     private array $services = [];
 
     /**
@@ -61,7 +57,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
         if (!$this->has($id)) {
             throw new NotInContainerException(sprintf(
                 'There is not service with id "%s" in the container.',
-                $id
+                $id,
             ));
         }
 
@@ -82,7 +78,6 @@ final class DefinitionContainer implements DefinitionContainerInterface
      * Add new definition
      *
      * @param DefinitionInterface|class-string<DefinitionInterface>|callable(): DefinitionInterface $value
-     * @param string $name
      */
     public function add(string $name, callable|DefinitionInterface|string $value): void
     {
@@ -120,7 +115,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
                 throw new ContainerException(
                     sprintf('Error while invoking callable for "%s"', $id),
                     0,
-                    $e
+                    $e,
                 );
             }
         } elseif ($definition instanceof DefinitionInterface) {
@@ -143,7 +138,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
 
             throw new ContainerException(sprintf(
                 'Could not instantiate class for "%s". Class was not found.',
-                $id
+                $id,
             ));
         }
     }

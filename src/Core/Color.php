@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -12,18 +12,14 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
 {
     use RandomizerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $safeColorNames = [
         'black', 'maroon', 'green', 'navy', 'olive',
         'purple', 'teal', 'lime', 'blue', 'silver',
         'gray', 'yellow', 'fuchsia', 'aqua', 'white',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $allColorNames = [
         'AliceBlue', 'AntiqueWhite', 'Aqua', 'Aquamarine',
         'Azure', 'Beige', 'Bisque', 'Black', 'BlanchedAlmond',
@@ -62,15 +58,7 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
     {
         $color = str_pad(dechex($this->randomizer->getInt(0, 255)), 3, '0', STR_PAD_LEFT);
 
-        return sprintf(
-            '#%s%s%s%s%s%s',
-            $color[0],
-            $color[0],
-            $color[1],
-            $color[1],
-            $color[2],
-            $color[2]
-        );
+        return sprintf('#%s%s%s%s%s%s', $color[0], $color[0], $color[1], $color[1], $color[2], $color[2]);
     }
 
     public function rgbColorAsArray(): array
@@ -99,7 +87,7 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
         return sprintf(
             'rgba(%s,%s)',
             $this->rgbColor(),
-            round($this->randomizer->getFloat(0, 1), 1)
+            round($this->randomizer->getFloat(0, 1), 1),
         );
     }
 
@@ -119,7 +107,7 @@ class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterfac
             '%s,%s,%s',
             $this->randomizer->getInt(0, 360),
             $this->randomizer->getInt(0, 100),
-            $this->randomizer->getInt(0, 100)
+            $this->randomizer->getInt(0, 100),
         );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\DefinitionPack;
 
@@ -10,24 +10,18 @@ use DummyGenerator\Definitions\Extension\ExtensionInterface;
 
 interface DefinitionPackInterface
 {
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function baseExtensions(): array;
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function defaultExtensions(): array;
-    /**
-     * @return array<string, class-string<ExtensionInterface>>
-     */
+
+    /** @return array<string, class-string<ExtensionInterface>> */
     public function complementaryExtensions(): array;
-    /**
-     * @return array<string, class-string<CalculatorInterface>>
-     */
+
+    /** @return array<string, class-string<CalculatorInterface>> */
     public function calculators(): array;
-    /**
-     * @return array<string, class-string<DefinitionInterface>>
-     */
+
+    /** @return array<string, class-string<DefinitionInterface>> */
     public function coreDefinitions(): array;
 }

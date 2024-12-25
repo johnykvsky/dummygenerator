@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -22,61 +22,43 @@ class Address implements
     use RandomizerAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $citySuffix = [
-        'Ville'
+        'Ville',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $streetSuffix = [
-        'Street'
+        'Street',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $cityFormats = [
         '{{firstName}}{{citySuffix}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $streetNameFormats = [
         '{{lastName}} {{streetSuffix}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $streetAddressFormats = [
         '{{buildingNumber}} {{streetName}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $addressFormats = [
         '{{streetAddress}} {{postcode}} {{city}}',
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $buildingNumber = ['%#'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $postcode = ['#####', '##-###'];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $country = ['England', 'France'];
 
     public function citySuffix(): string

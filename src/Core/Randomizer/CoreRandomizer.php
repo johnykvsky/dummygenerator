@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Randomizer;
 
@@ -11,7 +11,7 @@ use Random\Randomizer as PhpRandomizer;
 
 abstract class CoreRandomizer implements RandomizerInterface
 {
-    protected PhpRandomizer  $randomizer;
+    protected PhpRandomizer $randomizer;
 
     public function getInt(int $min, int $max): int
     {

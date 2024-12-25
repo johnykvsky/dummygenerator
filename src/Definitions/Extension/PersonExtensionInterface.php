@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
@@ -23,35 +23,25 @@ interface PersonExtensionInterface extends ExtensionInterface
      */
     public function firstName(?string $gender = null): string;
 
-    /**
-     * @example 'John'
-     */
+    /** @example 'John' */
     public function firstNameMale(): string;
 
-    /**
-     * @example 'Jane'
-     */
+    /** @example 'Jane' */
     public function firstNameFemale(): string;
 
-    /**
-     * @example 'Doe'
-     */
+    /** @example 'Doe' */
     public function lastName(): string;
 
     /**
-     * @example 'Mrs.'
-     *
      * @param string|null $gender 'male', 'female' or null for any
+     *
+     * @example 'Mrs.'
      */
     public function title(?string $gender = null): string;
 
-    /**
-     * @example 'Mr.'
-     */
+    /** @example 'Mr.' */
     public function titleMale(): string;
 
-    /**
-     * @example 'Mrs.'
-     */
+    /** @example 'Mrs.' */
     public function titleFemale(): string;
 }

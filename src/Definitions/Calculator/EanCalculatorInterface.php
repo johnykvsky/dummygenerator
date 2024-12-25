@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Calculator;
 
@@ -12,6 +12,7 @@ interface EanCalculatorInterface extends CalculatorInterface
      * @see https://en.wikipedia.org/wiki/International_Article_Number
      */
     public function checksum(string $digits): int;
+
     /**
      * Checks whether the provided number is an EAN compliant number and that
      * the checksum is correct.

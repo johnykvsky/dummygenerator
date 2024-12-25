@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Transliterator;
 
@@ -8,9 +8,7 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 class SimpleTransliterator implements TransliteratorInterface
 {
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected array $transliterationTable = [
         'Ĳ' => 'I', 'Ö' => 'O', 'Œ' => 'O', 'Ü' => 'U', 'ä' => 'a', 'æ' => 'a',
         'ĳ' => 'i', 'ö' => 'o', 'œ' => 'o', 'ü' => 'u', 'ß' => 's', 'ſ' => 's',

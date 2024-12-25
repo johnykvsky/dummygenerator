@@ -1,53 +1,35 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Definitions\Extension;
 
 interface AddressExtensionInterface extends ExtensionInterface
 {
-    /**
-     * @example '791 Crist Parks, Sashabury, IL 86039-9874'
-     */
+    /** @example '791 Crist Parks, Sashabury, IL 86039-9874' */
     public function address(): string;
 
-    /**
-     * @example 'Sashabury'
-     */
+    /** @example 'Sashabury' */
     public function city(): string;
 
-    /**
-     * @example 'town'
-     */
+    /** @example 'town' */
     public function citySuffix(): string;
 
-    /**
-     * @example 'Avenue'
-     */
+    /** @example 'Avenue' */
     public function streetSuffix(): string;
 
-    /**
-     * @example 86039-9874
-     */
+    /** @example 86039-9874 */
     public function postcode(): string;
 
-    /**
-     * @example 'Crist Parks'
-     */
+    /** @example 'Crist Parks' */
     public function streetName(): string;
 
-    /**
-     * @example '791 Crist Parks'
-     */
+    /** @example '791 Crist Parks' */
     public function streetAddress(): string;
 
-    /**
-     * @example '791'
-     */
+    /** @example '791' */
     public function buildingNumber(): string;
 
-    /**
-     * @example 'Japan'
-     */
+    /** @example 'Japan' */
     public function country(): string;
 }

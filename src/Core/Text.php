@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -20,25 +20,19 @@ class Text implements
     use RandomizerAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
 
-    protected string $defaultText = __DIR__.'/../../resources/en_US.txt';
+    protected string $defaultText = __DIR__ . '/../../resources/en_US.txt';
 
     protected string $baseText = '';
-    /**
-     * @var non-empty-string
-     */
+    /** @var non-empty-string */
     protected string $separator = ' ';
     protected int $separatorLen = 1;
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<int, string> */
     protected array $explodedText = [];
-    /**
-     * @var array<int, array<string, array<int, string>>>
-     */
+    /** @var array<int, array<string, array<int, string>>> */
     protected array $consecutiveWords = [];
     protected bool $textStartsWithUppercase = true;
 
-    public function __construct(string $baseText = null)
+    public function __construct(?string $baseText = null)
     {
         if (null !== $baseText) {
             $this->baseText = $baseText;
@@ -47,15 +41,12 @@ class Text implements
         }
     }
 
-
     /**
      * Generate a text string by the Markov chain algorithm.
      *
      * Depending on the $maxNbChars, returns a random valid looking text. The algorithm
      * generates a weighted table with the specified number of words as the index and the
      * possible following words as the value.
-     *
-     * @example 'Alice, swallowing down her flamingo, and began by taking the little golden key'
      *
      * @param int $min Minimum number of characters the text should contain (maximum: 8)
      * @param int $max Maximum number of characters the text should contain (minimum: 10)
@@ -64,7 +55,7 @@ class Text implements
      *                        generated text usually doesn't make sense. Higher index sizes (up to 5)
      *                        produce more correct text, at the price of less randomness.
      *
-     * @return string
+     * @example 'Alice, swallowing down her flamingo, and began by taking the little golden key'
      */
     public function realText(int $min = 160, int $max = 200, int $indexSize = 2): string
     {
@@ -105,11 +96,7 @@ class Text implements
         return $result;
     }
 
-    /**
-     * @param int $max
-     * @param array<string, array<int, string>> $words
-     * @return string
-     */
+    /** @param array<string, array<int, string>> $words */
     protected function generateText(int $max, array $words): string
     {
         $result = [];
@@ -147,10 +134,7 @@ class Text implements
         return preg_replace("/([ ,-:;\x{2013}\x{2014}]+$)/us", '', $result) . '.';
     }
 
-    /**
-     * @param int $indexSize
-     * @return array<string, array<int, string>>
-     */
+    /** @return array<string, array<int, string>> */
     protected function getConsecutiveWords(int $indexSize): array
     {
         if (!isset($this->consecutiveWords[$indexSize])) {
@@ -169,22 +153,21 @@ class Text implements
                 if (!isset($words[$stringIndex])) {
                     $words[$stringIndex] = [];
                 }
+
                 $word = $parts[$i];
                 $words[$stringIndex][] = $word;
                 array_shift($index);
                 $index[] = $word;
             }
+
             // cache look up words for performance
-            /** @var array<string, array<int, string>> $words */
             $this->consecutiveWords[$indexSize] = $words;
         }
 
         return $this->consecutiveWords[$indexSize];
     }
 
-    /**
-     * @return array<int, string>
-     */
+    /** @return array<int, string> */
     protected function getExplodedText(): array
     {
         if (empty($this->explodedText)) {

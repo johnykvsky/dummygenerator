@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
@@ -22,13 +22,12 @@ class PhoneNumber implements
     use LuhnCalculatorAwareExtensionTrait;
     use ReplacerAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $formats = ['###-###-###'];
 
     /**
      * @var string[]
+     *
      * @see https://github.com/giggsey/libphonenumber-for-php/blob/master/src/CountryCodeToRegionCodeMap.php
      * @see https://libphonenumber.appspot.com/phonenumberparser?number=%2B4576597442
      */
