@@ -17,6 +17,7 @@ use DummyGenerator\Core\Company;
 use DummyGenerator\Core\Coordinates;
 use DummyGenerator\Core\Country;
 use DummyGenerator\Core\DateTime;
+use DummyGenerator\Core\Enum;
 use DummyGenerator\Core\File;
 use DummyGenerator\Core\Hash;
 use DummyGenerator\Core\Internet;
@@ -47,6 +48,7 @@ use DummyGenerator\Definitions\Extension\CompanyExtensionInterface;
 use DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface;
 use DummyGenerator\Definitions\Extension\CountryExtensionInterface;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
+use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
 use DummyGenerator\Definitions\Extension\FileExtensionInterface;
 use DummyGenerator\Definitions\Extension\HashExtensionInterface;
@@ -100,6 +102,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
             LanguageExtensionInterface::class => Language::class,
             LoremExtensionInterface::class => Lorem::class,
             NumberExtensionInterface::class => Number::class,
+            EnumExtensionInterface::class => Enum::class,
             ];
 
         $this->defaultExtensions = [
