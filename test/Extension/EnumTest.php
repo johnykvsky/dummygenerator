@@ -10,7 +10,8 @@ use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Core\Randomizer\Randomizer;
-use DummyGenerator\Test\Fixtures\SuitBackedEnum;
+use DummyGenerator\Test\Fixtures\SuitBackedIntEnum;
+use DummyGenerator\Test\Fixtures\SuitBackedStringEnum;
 use DummyGenerator\Test\Fixtures\SuitEnum;
 use PHPUnit\Framework\TestCase;
 use UnitEnum;
@@ -29,9 +30,14 @@ class EnumTest extends TestCase
         $this->generator = new DummyGenerator($container);
     }
 
-    public function testValue(): void
+    public function testStringValue(): void
     {
-        self::assertIsString($this->generator->value(SuitBackedEnum::class));
+        self::assertIsString($this->generator->value(SuitBackedStringEnum::class));
+    }
+
+    public function testIntValue(): void
+    {
+        self::assertIsInt($this->generator->value(SuitBackedIntEnum::class));
     }
 
     public function testElement(): void

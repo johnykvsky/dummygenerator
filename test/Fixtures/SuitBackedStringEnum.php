@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Fixtures;
 
-enum SuitBackedEnum: string
+enum SuitBackedStringEnum: string
 {
     case Hearts = 'Hearts';
     case Diamonds = 'Diamonds';
