@@ -33,6 +33,11 @@ abstract class CoreRandomizer implements RandomizerInterface
         return $this->randomizer->getBytes($length);
     }
 
+    public function getBytesFromString(string $string, int $length = 8): string
+    {
+        return $this->randomizer->getBytesFromString($string, $length);
+    }
+
     public function randomLetter(): string
     {
         return chr($this->randomizer->getInt(97, 122));

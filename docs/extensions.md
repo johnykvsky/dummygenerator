@@ -12,6 +12,7 @@ Here is list of extensions available in the `DummyGenerator`, all those are inte
 * `CoordinatesExtensionInterface`
 * `CountryExtensionInterface`
 * `DateTimeExtensionInterface`
+* `EnumExtensionInterface`
 * `FileExtensionInterface`
 * `HashExtensionInterface`
 * `InternetExtensionInterface`
@@ -21,6 +22,7 @@ Here is list of extensions available in the `DummyGenerator`, all those are inte
 * `PaymentExtensionInterface`
 * `PersonExtensionInterface`
 * `PhoneNumberExtensionInterface`
+* `StringsExtensionInterface`
 * `TextExtensionInterface`
 * `UserAgentExtensionInterface`
 * `VersionExtensionInterface`
@@ -82,6 +84,12 @@ Array
             [century()] => 'IV'
             [timezone()] => 'Africa/Tripoli'
         )
+        
+    [DummyGenerator\Definitions\Extension\EnumExtensionInterface] => Array
+        (
+            [value()] => ''
+            [element()] => ''
+        )
 
     [DummyGenerator\Definitions\Extension\HashExtensionInterface] => Array
         (
@@ -116,6 +124,11 @@ Array
             [randomFloat()] => 1.389929407704253E+308
             [randomNumber()] => 5605817
             [boolean()] => true
+        )
+
+    [DummyGenerator\Definitions\Extension\StringsExtensionInterface] => Array
+        (
+            [string()] => 'nvxhd'
         )
 
     [DummyGenerator\Definitions\Extension\PersonExtensionInterface] => Array

@@ -24,7 +24,7 @@ class Lorem implements
     use ReplacerAwareExtensionTrait;
 
     /** @var string[] */
-    protected array $workList = [
+    protected array $wordList = [
         'alias', 'consequatur', 'aut', 'perferendis', 'sit', 'voluptatem',
         'accusantium', 'doloremque', 'aperiam', 'eaque', 'ipsa', 'quae', 'ab',
         'illo', 'inventore', 'veritatis', 'et', 'quasi', 'architecto',
@@ -66,7 +66,7 @@ class Lorem implements
 
     public function word(): string
     {
-        return $this->randomizer->randomElement($this->workList);
+        return $this->randomizer->randomElement($this->wordList);
     }
 
     public function words(int $wordCount = 3): array
