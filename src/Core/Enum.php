@@ -8,8 +8,8 @@ use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInter
 use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
-use ReflectionException;
 use ReflectionEnum;
+use ReflectionException;
 use UnitEnum;
 
 class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface

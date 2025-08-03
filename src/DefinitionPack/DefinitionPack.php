@@ -29,6 +29,7 @@ use DummyGenerator\Core\Person;
 use DummyGenerator\Core\PhoneNumber;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
+use DummyGenerator\Core\Strings;
 use DummyGenerator\Core\Text;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Core\UserAgent;
@@ -59,6 +60,7 @@ use DummyGenerator\Definitions\Extension\NumberExtensionInterface;
 use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
 use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
 use DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface;
+use DummyGenerator\Definitions\Extension\StringsExtensionInterface;
 use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
 use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
@@ -98,11 +100,12 @@ readonly class DefinitionPack implements DefinitionPackInterface
             CoordinatesExtensionInterface::class => Coordinates::class,
             CountryExtensionInterface::class => Country::class,
             DateTimeExtensionInterface::class => DateTime::class,
+            EnumExtensionInterface::class => Enum::class,
             HashExtensionInterface::class => Hash::class,
             LanguageExtensionInterface::class => Language::class,
             LoremExtensionInterface::class => Lorem::class,
             NumberExtensionInterface::class => Number::class,
-            EnumExtensionInterface::class => Enum::class,
+            StringsExtensionInterface::class => Strings::class,
             ];
 
         $this->defaultExtensions = [

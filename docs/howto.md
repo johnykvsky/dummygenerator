@@ -75,7 +75,7 @@ In example:
         $container->add(RandomizerInterface::class, MyRandomizer::class); // now MyRandomizer will be used for every internal call ie. to randomElement()
         $container->add(TransliteratorInterface::class, TransliteratorOnSteroids::class); // now TransliteratorOnSteroids will be used for transliterate()  
         $container->add(LuhnCalculatorInterface::class, ProperLuhnCalculator::class); // now ProperLuhnCalculator will be used Luhn operations 
-        $generator = new DummyGenerator();
+        $generator = new DummyGenerator($container);
 ```
 
 ### How can I use generator or randomizer in my custom extension
@@ -99,3 +99,57 @@ And that's all. Behind the scenes when fetching definition, container check if i
 If in your extension you implement `RandomizerAwareExtensionInterface`, add trait `RandomizerAwareExtensionTrait` - you can use `$this->randomizer` as implementation of either default `Randomizer` or any other service you have put in `DefinitionContainer` under the name `RandomizerInterface::class`
 
 One notice - there is also `TransliteratorAwareReplacerInterface` and `TransliteratorAwareReplacerTrait` since `Replacer` itself does `transliterate()` and needs this dependency.
+
+### How can I use EnumExtension
+
+Enum extension allows you to get random element or value from selected Enum object. It has two methods:
+ * value(), that will get value from backed enums
+ * element(), that will get element from enum, it will be UnitEnum object
+
+For following enum:
+
+```php
+enum SuitBackedIntEnum: string
+{
+    case Hearts = 'Hearts';
+    case Diamonds = 'Diamonds';
+    case Clubs = 'Clubs';
+    case Spades = 'Spades';
+}
+```
+
+You can do following:
+
+```php
+        $container = DefinitionContainerBuilder::base(); // base extensions 
+        $generator = new DummyGenerator($container);
+        $generator->enum(SuitBackedIntEnum::class)->element(); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
+        // or
+        $generator->enum(SuitBackedIntEnum::class)->value(); // it will get random value, i.e. "Spades"
+```
+
+### How can I use StringsExtension
+
+With `LoremExtension` you can generate `words()` or `text()`. You can generate single word too - with `word()`, it will give you random words from Lorem Ipsum sample.
+
+There is also `TextExtension` that allows you to generate random text with given length with `realText()`.
+
+But sometimes you want just a simple random string, with given length or given structure: only letters, with some numbers, with capital letters. This is where `StringsExtension` can help you:
+
+```php
+        $container = DefinitionContainerBuilder::base(); // base extensions 
+        $generator = new DummyGenerator($container);
+        $string1 = $generator->string(); // it will give you random string, lowercase, with length between 3 and 8
+        $string2 = $generator->string(3, 3); // it will give you random string, lowercase, with length equal to 3
+        $string4 = $generator->string(3, 10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'); // it will give you random string, mixed case, with length from 3 to 10
+```
+
+As you can see you can pass any chars pool for generation. `StringsExtension` comes with 3 predefined pools:
+
+ * Strings::ALPHA_POOL equals to `abcdefghijklmnopqrstuvwxyz`;
+ * Strings::ALPHA_CASE_POOL equals to `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+ * Strings::ALPHA_NUM_POOL equals to `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+
+If you want to have string with possible spaces - just create your own pool, i.e. `abcdefghijkl mnopqrstuvwxyz`
+
+At core, it uses `\Random\Randomizer::getBytesFromString()` to generate random string.

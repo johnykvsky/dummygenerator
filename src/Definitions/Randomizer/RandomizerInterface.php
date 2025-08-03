@@ -17,6 +17,8 @@ interface RandomizerInterface extends DefinitionInterface
 
     public function getBytes(int $length = 16): string;
 
+    public function getBytesFromString(string $string, int $length = 8): string;
+
     public function randomLetter(): string;
 
     /** @param array<int|string, mixed> $array */
