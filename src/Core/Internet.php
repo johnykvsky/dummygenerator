@@ -182,7 +182,6 @@ class Internet implements
     {
         $ipv4 = long2ip($this->randomizer->getBool() ? $this->randomizer->getInt(-2147483648, -2) : $this->randomizer->getInt(16777216, 2147483647));
 
-        // @phpstan-ignore-next-line
         if ($ipv4 === false) {
             throw new ExtensionRuntimeException('IPv4 failed with the selected data.');
         }
@@ -207,7 +206,6 @@ class Internet implements
 
         $localIpv4 = long2ip($this->randomizer->getInt((int) ip2long($ipBlock[0]), (int) ip2long($ipBlock[1])));
 
-        // @phpstan-ignore-next-line
         if ($localIpv4 === false) {
             throw new ExtensionRuntimeException('IPv4 failed with the selected data.');
         }
