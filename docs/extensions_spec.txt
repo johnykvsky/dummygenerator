@@ -1,0 +1,227 @@
+Array
+(
+    [DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface] => Array
+        (
+            [latitude ($min = -90, $max = 90)] => (float) 34.376874
+            [longitude ($min = -180, $max = 180)] => (float) 127.673861
+            [coordinates ()] => (array) ['25.700386', '42.374717']
+        )
+
+    [DummyGenerator\Definitions\Extension\CountryExtensionInterface] => Array
+        (
+            [countryISOAlpha2 ()] => (string) 'LR'
+            [countryISOAlpha3 ()] => (string) 'PAN'
+        )
+
+    [DummyGenerator\Definitions\Extension\DateTimeExtensionInterface] => Array
+        (
+            [dateTime ($until = now, $timezone)] => (DateTimeInterface) DateTimeImmutable('2014-11-18 15:23:57')
+            [dateTimeAD ($until = now, $timezone)] => (DateTimeInterface) DateTimeImmutable('1387-10-19 12:14:09')
+            [dateTimeBetween ($from = -30 years, $until = now, $timezone)] => (DateTimeInterface) DateTimeImmutable('2009-07-07 02:43:29')
+            [dateTimeInInterval ($from = -30 years, $interval = +5 days, $timezone)] => (DateTimeInterface) DateTimeImmutable('1995-08-04 18:36:11')
+            [dateTimeThisWeek ($until = sunday this week, $timezone)] => (DateTimeInterface) DateTimeImmutable('2025-08-06 20:52:47')
+            [dateTimeThisMonth ($until = last day of this month, $timezone)] => (DateTimeInterface) DateTimeImmutable('2025-08-21 21:02:01')
+            [dateTimeThisYear ($until = last day of december, $timezone)] => (DateTimeInterface) DateTimeImmutable('2025-04-28 04:48:16')
+            [dateTimeThisDecade ($until = now, $timezone)] => (DateTimeInterface) DateTimeImmutable('2021-09-04 22:13:29')
+            [dateTimeThisCentury ($until = now, $timezone)] => (DateTimeInterface) DateTimeImmutable('2011-11-21 09:01:44')
+            [date ($format = Y-m-d, $until = now)] => (string) '1983-11-01'
+            [time ($format = H:i:s, $until = now)] => (string) '04:30:50'
+            [unixTime ($until = now)] => (int) 76968078
+            [iso8601 ($until = now)] => (string) '1999-07-18T00:33:50+00:00'
+            [amPm ($until = now)] => (string) 'pm'
+            [dayOfMonth ($until = now)] => (string) '28'
+            [dayOfWeek ($until = now)] => (string) 'Monday'
+            [month ($until = now)] => (string) '06'
+            [monthName ($until = now)] => (string) 'July'
+            [year ($until = now)] => (string) '1975'
+            [century ()] => (string) 'II'
+            [timezone ()] => (string) 'America/Argentina/Salta'
+        )
+
+    [DummyGenerator\Definitions\Extension\EnumExtensionInterface] => Array
+        (
+            [value ($enumClassname)] => (string|int) ''
+            [element ($enumClassname)] => (UnitEnum) ''
+        )
+
+    [DummyGenerator\Definitions\Extension\HashExtensionInterface] => Array
+        (
+            [md5 ()] => (string) '314c66a75849c98708ad3a1b9ed08504'
+            [sha1 ()] => (string) '86b9a35cd5a857ab9e3ce7d15fcdddad3a0195c4'
+            [sha256 ()] => (string) '0e3d8fc0350bf4d2dc7869cb118d3c7bd5ea5db076c73bd671c19dcb4e236105'
+        )
+
+    [DummyGenerator\Definitions\Extension\LanguageExtensionInterface] => Array
+        (
+            [languageCode ()] => (string) 'jv'
+            [locale ()] => (string) 'en_AU'
+        )
+
+    [DummyGenerator\Definitions\Extension\LoremExtensionInterface] => Array
+        (
+            [word ()] => (string) 'voluptate'
+            [words ($wordCount = 3)] => (array) ['qui', 'aut', 'doloribus']
+            [sentence ($wordCount = 6, $variableWordCount = 1)] => (string) 'Saepe voluptate et dignissimos maxime veniam aspernatur.'
+            [sentences ($sentenceCount = 3)] => (array) ['Est voluptas unde assumenda vitae sint accusamus.', 'Dolores qui laudantium veniam aut eaque nemo.', 'In nihil autem consequuntur et velit porro.']
+            [paragraph ($sentenceCount = 3, $variableSentenceCount = 1)] => (string) 'Ipsam perspiciatis illum omnis et sunt occaecati non rerum. Qui natus quo quis nulla. Aperiam corrupti qui id est repellendus est perspiciatis.'
+            [paragraphs ($paragraphCount = 3)] => (array) ['Consectetur ea dolorem illo aut laboriosam. Voluptatem cupiditate repellat consectetur harum rem est. Aspernatur eos eos nisi nostrum sit voluptatem tempore.', 'Tempore qui quas suscipit doloremque minus quaerat veniam. Sunt et iusto et molestiae nostrum est autem. Dignissimos corrupti illo repellat officia nemo.', 'Odit sed occaecati maiores. Delectus iure non velit et quia. Et sequi rem rerum earum. Saepe velit ea dolorum non.']
+            [text ($maxCharacters = 200)] => (string) 'Dolor quis blanditiis et quae. Et sed consectetur est accusantium velit repellendus voluptates. Cupiditate sapiente qui est eius ut sit.'
+        )
+
+    [DummyGenerator\Definitions\Extension\NumberExtensionInterface] => Array
+        (
+            [numberBetween ($min, $max = 2147483647)] => (int) 900250444
+            [randomDigit ()] => (int) 9
+            [randomDigitNot ($except, $retries = 1000)] => (int) 4
+            [randomDigitNotZero ()] => (int) 9
+            [randomFloat ($nbMaxDecimals, $min, $max)] => (float) 1.77567995936754E+308
+            [randomNumber ($nbDigits, $strict)] => (int) 492
+            [boolean ($chanceOfGettingTrue = 50)] => (bool) false
+        )
+
+    [DummyGenerator\Definitions\Extension\StringsExtensionInterface] => Array
+        (
+            [string ($min = 3, $max = 8, $pool)] => (string) 'lzatmmdv'
+        )
+
+    [DummyGenerator\Definitions\Extension\PersonExtensionInterface] => Array
+        (
+            [name ($gender)] => (string) 'Jane Smith'
+            [firstName ($gender)] => (string) 'Jane'
+            [firstNameMale ()] => (string) 'John'
+            [firstNameFemale ()] => (string) 'Katy'
+            [lastName ()] => (string) 'Smith'
+            [title ($gender)] => (string) 'Prof.'
+            [titleMale ()] => (string) 'Prof.'
+            [titleFemale ()] => (string) 'Mrs.'
+        )
+
+    [DummyGenerator\Definitions\Extension\InternetExtensionInterface] => Array
+        (
+            [email ()] => (string) 'olivier.smith@hotmail.com'
+            [safeEmail ()] => (string) 'john77@example.org'
+            [freeEmail ()] => (string) 'anna.white@hotmail.com'
+            [companyEmail ()] => (string) 'smith.katy@doe.com'
+            [freeEmailDomain ()] => (string) 'gmail.com'
+            [safeEmailDomain ()] => (string) 'example.net'
+            [userName ()] => (string) 'harry16'
+            [password ($minLength = 6, $maxLength = 20)] => (string) '?<y:L|R|p85]Ej'
+            [domainName ()] => (string) 'smith.com'
+            [domainWord ()] => (string) 'white'
+            [tld ()] => (string) 'com'
+            [url ()] => (string) 'http://www.white.org/voluptatum-voluptatem-esse-autem-earum'
+            [slug ($nbWords = 6, $variableNbWords = 1)] => (string) 'rerum-eos-pariatur-commodi'
+            [ipv4 ()] => (string) '72.220.96.170'
+            [ipv6 ()] => (string) '9d43:8ed0:5e34:3117:e0a1:2c4b:589f:dc2'
+            [localIpv4 ()] => (string) '10.136.81.90'
+            [macAddress ()] => (string) 'CB:06:CB:E9:63:7B'
+        )
+
+    [DummyGenerator\Definitions\Extension\AddressExtensionInterface] => Array
+        (
+            [citySuffix ()] => (string) 'Ville'
+            [streetSuffix ()] => (string) 'Street'
+            [buildingNumber ()] => (string) '56'
+            [city ()] => (string) 'HarryVille'
+            [streetName ()] => (string) 'Doe Street'
+            [streetAddress ()] => (string) '17 White Street'
+            [postcode ()] => (string) '85703'
+            [address ()] => (string) '13 Smith Street 59-162 HarryVille'
+            [country ()] => (string) 'France'
+        )
+
+    [DummyGenerator\Definitions\Extension\BarcodeExtensionInterface] => Array
+        (
+            [ean13 ()] => (string) '8178241093937'
+            [ean8 ()] => (string) '17628167'
+            [isbn10 ()] => (string) '2788408137'
+            [isbn13 ()] => (string) '9785201612627'
+        )
+
+    [DummyGenerator\Definitions\Extension\BiasedExtensionInterface] => Array
+        (
+            [biasedNumberBetween ($min, $max = 100, $function = sqrt)] => (int) 48
+            [unbiased ()] => (int) 1
+            [linearLow ($x)] => (float) ''
+            [linearHigh ($x)] => (float) ''
+        )
+
+    [DummyGenerator\Definitions\Extension\BloodExtensionInterface] => Array
+        (
+            [bloodType ()] => (string) 'A'
+            [bloodRh ()] => (string) '+'
+            [bloodGroup ()] => (string) 'AB+'
+        )
+
+    [DummyGenerator\Definitions\Extension\ColorExtensionInterface] => Array
+        (
+            [hexColor ()] => (string) '#4230fc'
+            [safeHexColor ()] => (string) '#00dd22'
+            [rgbColorAsArray ()] => (array) ['150', '234', '136']
+            [rgbColor ()] => (string) '137,211,7'
+            [rgbCssColor ()] => (string) 'rgb(155,192,21)'
+            [rgbaCssColor ()] => (string) 'rgba(61,101,106,0)'
+            [safeColorName ()] => (string) 'navy'
+            [colorName ()] => (string) 'LightGoldenRodYellow'
+            [hslColor ()] => (string) '82,58,11'
+            [hslColorAsArray ()] => (array) ['156', '32', '58']
+        )
+
+    [DummyGenerator\Definitions\Extension\CompanyExtensionInterface] => Array
+        (
+            [company ()] => (string) 'Doe Ltd'
+            [companySuffix ()] => (string) 'Ltd'
+            [jobTitle ()] => (string) 'quis'
+        )
+
+    [DummyGenerator\Definitions\Extension\FileExtensionInterface] => Array
+        (
+            [mimeType ()] => (string) 'application/x-blorb'
+            [extension ()] => (string) '3g2'
+        )
+
+    [DummyGenerator\Definitions\Extension\PaymentExtensionInterface] => Array
+        (
+            [creditCardType ()] => (string) 'MasterCard'
+            [creditCardNumber ($type, $formatted, $separator = -)] => (string) '4556540424724966'
+            [currencyCode ()] => (string) 'XCD'
+            [creditCardExpirationDate ($inFuture = 1)] => (string) '08/26'
+            [creditCardDetails ($valid = 1)] => (array) ['Visa', '4485863443983470', 'Olivier Smith', '12/27']
+            [iban ($alpha2, $prefix)] => (string) 'BE26697619542093'
+            [swiftBicNumber ()] => (string) 'SAHLSIUO455'
+        )
+
+    [DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface] => Array
+        (
+            [phoneNumber ()] => (string) '255-968-719'
+            [e164PhoneNumber ()] => (string) '+50500413505'
+            [imei ()] => (string) '602966563551856'
+        )
+
+    [DummyGenerator\Definitions\Extension\TextExtensionInterface] => Array
+        (
+            [realText ($min = 160, $max = 200, $indexSize = 2)] => (string) 'The simple truth is, that up to ‘make a talk?’ It must be confessed that it has an amazingly moon-hoax-y air. Very little dependence is to be anything but brass. The idea of its plentifulness in the.'
+        )
+
+    [DummyGenerator\Definitions\Extension\UserAgentExtensionInterface] => Array
+        (
+            [userAgent ()] => (string) 'Mozilla/5.0 (Windows; U; Windows NT 5.01) AppleWebKit/531.13.5 (KHTML, like Gecko) Version/5.1 Safari/531.13.5'
+            [chrome ()] => (string) 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_7_4) AppleWebKit/5312 (KHTML, like Gecko) Chrome/39.0.822.0 Mobile Safari/5312'
+            [edge ()] => (string) 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/532.2 (KHTML, like Gecko) Chrome/80.0.4265.36 Safari/532.2 EdgA/80.01107.59'
+            [firefox ()] => (string) 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0) Gecko/20140212 Firefox/37.0'
+            [safari ()] => (string) 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_2_2 like Mac OS X; nl-NL) AppleWebKit/535.39.4 (KHTML, like Gecko) Version/3.0.5 Mobile/8B113 Safari/6535.39.4'
+            [opera ()] => (string) 'Opera/8.65 (X11; Linux x86_64; nl-NL) Presto/2.10.354 Version/10.00'
+            [internetExplorer ()] => (string) 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.01; Trident/3.0)'
+            [windowsPlatformToken ()] => (string) 'Windows NT 5.1'
+            [macPlatformToken ()] => (string) 'Macintosh; U; PPC Mac OS X 10_7_8'
+            [iosMobileToken ()] => (string) 'iPhone; CPU iPhone OS 14_0 like Mac OS X'
+            [androidMobileToken ()] => (string) 'Linux; Android 9'
+            [linuxPlatformToken ()] => (string) 'X11; Linux x86_64'
+        )
+
+    [DummyGenerator\Definitions\Extension\VersionExtensionInterface] => Array
+        (
+            [semver ($preRelease, $build)] => (string) '4.77.63'
+        )
+
+)

@@ -3,8 +3,8 @@
 Quickest start is:
 
 ```php
-        $generator = new DummyGenerator(DefinitionContainerBuilder::all());
-        echo $generator->firstName(); // generate random first name
+$generator = new DummyGenerator(DefinitionContainerBuilder::all());
+echo $generator->firstName(); // generate random first name
 ```
 
 Done. This load `DummyGenerator` with all extensions available in core. If you want to know what can you generate beside first name - visit [this page](extensions.md) containing full list of available extensions and their methods.
@@ -12,7 +12,7 @@ Done. This load `DummyGenerator` with all extensions available in core. If you w
 Once you know how to start, let's get into details. Above example could be written as:
 
 ```php
-    $generator = new DummyGenerator(DefinitionContainerBuilder::all(), new SimpleStrategy());
+$generator = new DummyGenerator(DefinitionContainerBuilder::all(), new SimpleStrategy());
 ```
 
 And now we can see that `DummyGenerator` nas 2 parameters:
@@ -27,7 +27,7 @@ You can look at `src/Definitions` directory for available definitions interfaces
 If you like, you can skip all definitions included with `DummyGenerator` and just add your own:
 
 ```php
-    $generator = new DummyGenerator(new DefinitionContainer(['my_own_item' => new MyOwnItem()]));
+$generator = new DummyGenerator(new DefinitionContainer(['my_own_item' => new MyOwnItem()]));
 ```
 
 ## Strategy
@@ -44,10 +44,10 @@ For `Unique` and `Valid` strategy there is fixed amount of retries after which e
 Examples of different strategies:
 
 ```php
-        $simple = new SimpleStrategy();
-        $unique = new UniqueStrategy(retries: 500); // we have 500 retries to get unique values
-        $chance = new ChanceStrategy(weight: 50); // 50% chance to get value
-        $valid = new ValidStrategy(fn($x) => $x <= 50); // generated value has to be lower or equal than 50 
+$simple = new SimpleStrategy();
+$unique = new UniqueStrategy(retries: 500); // we have 500 retries to get unique values
+$chance = new ChanceStrategy(weight: 50); // 50% chance to get value
+$valid = new ValidStrategy(fn($x) => $x <= 50); // generated value has to be lower or equal than 50 
 ```
 
 ## Container builder
@@ -55,9 +55,9 @@ Examples of different strategies:
 Container builder allows to load predefined sets of extensions. You can choose between loading Basic, Default or All extensions by using:
 
 ```php
-    $basic = DefinitionContainerBuilder::base();
-    $default = DefinitionContainerBuilder::default();
-    $all = DefinitionContainerBuilder::all();
+$basic = DefinitionContainerBuilder::base();
+$default = DefinitionContainerBuilder::default();
+$all = DefinitionContainerBuilder::all();
 ```
 
 Just pass any of them to `DummyGenerator`. 
@@ -71,32 +71,32 @@ Extensions available in each pack:
 But hey, what if I don't need any extensions from Core? Or want only 3 of them? Let's say you have 2 custom extensions, and you need only them.
 
 ```php
-    class MyOwnExtension implements ExtensionInterface
+class MyOwnExtension implements ExtensionInterface
+{
+    public function foo(string $something): string
     {
-        public function foo(string $something): string
-        {
-            return $something . ' is awesome!';
-        }
+        return $something . ' is awesome!';
     }
-    
-    class MyOtherExtension implements ExtensionInterface
+}
+
+class MyOtherExtension implements ExtensionInterface
+{
+    public function boo(string $something): string
     {
-        public function boo(string $something): string
-        {
-            return $something . ' is a crap!';
-        }
+        return $something . ' is a crap!';
     }
+}
 ```
 
 No problem, just try this:
 
 ```php
-        $container = new DefinitionContainer(); // initialize container with no extensions
-        $container->add(MyOwnExtension::class, MyOwnExtension::class); // first parameter is ID/name, second value (extension itself)
-        $container->add('my_other_extension', MyOtherExtension::class); // ID can be regular string
-        $generator = new DummyGenerator($container);
-        echo $generator->foo('Anna'); // gives 'Anna is awesome!'
-        echo $generator->boo('School'); // gives 'School is a crap!' 
+$container = new DefinitionContainer(); // initialize container with no extensions
+$container->add(MyOwnExtension::class, MyOwnExtension::class); // first parameter is ID/name, second value (extension itself)
+$container->add('my_other_extension', MyOtherExtension::class); // ID can be regular string
+$generator = new DummyGenerator($container);
+echo $generator->foo('Anna'); // gives 'Anna is awesome!'
+echo $generator->boo('School'); // gives 'School is a crap!' 
 ```
 
 ## Text Extension

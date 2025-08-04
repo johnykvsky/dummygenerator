@@ -13,8 +13,7 @@ use DummyGenerator\DummyGenerator;
 
 class ExtensionsDocs
 {
-    private bool $withDetails = false;
-    private bool $basicInfo = false;
+    private bool $withParamTypes = false;
     private DefinitionContainerInterface $definitionContainer;
 
     public function __construct(?DefinitionContainer $definitionContainer = null)
@@ -24,9 +23,9 @@ class ExtensionsDocs
         }
     }
 
-    public function withDetails(): self
+    public function withParamTypes(): self
     {
-        $this->withDetails = true;
+        $this->withParamTypes = true;
 
         return $this;
     }
@@ -70,7 +69,7 @@ class ExtensionsDocs
                     $parameter['type'] = $this->getTypes($reflparameter->getType());
 
 
-                    if (!$this->basicInfo && $reflparameter->isDefaultValueAvailable()) {
+                    if ($reflparameter->isDefaultValueAvailable()) {
                         $parameter['default'] = $reflparameter->getDefaultValue();
                     }
 
@@ -78,25 +77,22 @@ class ExtensionsDocs
                 }
 
                 $parametersJoined = [];
-                $parametersString = '';
 
-                if ($this->basicInfo !== false) {
-                    foreach ($parameters as $parameter) {
-                        if ($this->withDetails && !empty($parameter['type'])) {
-                            $parametersString = $parameter['type'] . ' ' . $parameter['name'];
-                        } else {
-                            $parametersString = $parameter['name'];
-                        }
-
-                        if (!empty($parameter['default'])) {
-                            $parametersString .= ' = ' . $parameter['default'];
-                        }
-
-                        $parametersJoined[] = $parametersString;
+                foreach ($parameters as $parameter) {
+                    if ($this->withParamTypes && !empty($parameter['type'])) {
+                        $parametersString = $parameter['type'] . ' ' . $parameter['name'];
+                    } else {
+                        $parametersString = $parameter['name'];
                     }
 
-                    $parametersString = implode(', ', $parametersJoined);
+                    if (!empty($parameter['default'])) {
+                        $parametersString .= ' = ' . $parameter['default'];
+                    }
+
+                    $parametersJoined[] = $parametersString;
                 }
+
+                $parametersString = implode(', ', $parametersJoined);
 
                 try {
                     $example = $generator->$methodName();
@@ -108,18 +104,12 @@ class ExtensionsDocs
                 $example = $this->formatExample($example);
                 $returnTypes = $this->getTypes($reflmethod->getReturnType());
 
-                if ($this->withDetails) {
-                    $extensions[$id][$methodName . ' (' . $parametersString . ')'] = '(' . $returnTypes . ') ' . $example;
-                } elseif ($this->basicInfo === false) {
-                    $extensions[$id][$methodName . '(' . $parametersString . ')'] = $example;
-                } else {
-                    $extensions[$id][$methodName] = $example;
-                }
+                $extensions[$id][$methodName . ' (' . $parametersString . ')'] = '(' . $returnTypes . ') ' . $example;
             }
         }
 
         // it might be easier to go with this, instead of returning
-        // file_put_contents('docs_result_'.uniqid('', true).'.txt', print_r($extensions, true));
+        // file_put_contents('./docs/extensions_spec_'.date('Ymd').'.txt', print_r($extensions, true));
         // var_export($errors);
 
         return $extensions;
