@@ -1,6 +1,6 @@
 # DummyGenerator
 
-[![Software License][ico-license]](LICENSE.md)
+[![Software License][ico-license]](LICENSE)
 [![Build Status][ico-build]][link-build]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -8,8 +8,8 @@
 DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
-        $generator = new DummyGenerator(DefinitionContainerBuilder::all());
-        echo $generator->firstName();
+$generator = new DummyGenerator(DefinitionContainerBuilder::all());
+echo $generator->firstName();
 ```
 
 Full list of stuff you can generate is available [here](docs/extensions.md).
@@ -31,6 +31,10 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`, `Uuid` (you can use any uuid generator like Symfony, Ramsey...)
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
+* added `Enum`, to get random values from PHP enums
+* added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
+
+This package also fixes problem with FakerPHP `__destruct()` messing up with `seed`, plus various other issues.
 
 There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (check `BiasedTest`).
 
@@ -64,7 +68,7 @@ Everybody like quick start - it's [here](docs/quick_start.md), you're welcome.
 
 ### HowTo
 
-For quick info about how to do various stuff visit [howto](docs/howto.md)
+For quick info about how to do various stuff visit [HowTo](docs/howto.md)
 
 # Other stuff
 

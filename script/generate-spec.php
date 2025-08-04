@@ -7,5 +7,5 @@ include __DIR__ . '/ExtensionsDocs.php';
 
 $extensionsDocs = new \Script\ExtensionsDocs();
 
-$extensions = $extensionsDocs->getExtensions(); // or: $extensionsDocs->withDetails()->getExtensions();
+$extensions = $extensionsDocs->getExtensions(); // or: $extensionsDocs->withParamTypes()->getExtensions();
 

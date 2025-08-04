@@ -1,10 +1,10 @@
 ### How can I add my own localised definitions
 
 ```php
-        $container = DefinitionContainerBuilder::default();
-        $container->add(AddressExtensionInterface::class, \My\Custom\Provider\pl_PL\Address::class, ;
-        $container->add(LicensePlate::class, \My\Custom\Provider\pl_PL\LicensePlate::class);
-        $generator = new DummyGenerator($container);
+$container = DefinitionContainerBuilder::default();
+$container->add(AddressExtensionInterface::class, \My\Custom\Provider\pl_PL\Address::class, ;
+$container->add(LicensePlate::class, \My\Custom\Provider\pl_PL\LicensePlate::class);
+$generator = new DummyGenerator($container);
 ```
 
 In this example two things happened:
@@ -16,13 +16,13 @@ In this example two things happened:
 Other way to work with localised extensions is to load them all and use by hand-picking:
 
 ```php
-        $container = DefinitionContainerBuilder::default();
-        $container->add(AddressPL::class, \My\Custom\Provider\AddressPL::class);
-        $container->add(AddressDE::class, \My\Custom\Provider\AddressDE::class);
-        $generator = new DummyGenerator($container);
-        echo $generator->firstName(); // default (English) first name
-        echo $generator->ext(AddressPL::class)->firstName(); // Polish first name
-        echo $generator->ext(AddressDE::class)->firstName(); // German first name
+$container = DefinitionContainerBuilder::default();
+$container->add(AddressPL::class, \My\Custom\Provider\AddressPL::class);
+$container->add(AddressDE::class, \My\Custom\Provider\AddressDE::class);
+$generator = new DummyGenerator($container);
+echo $generator->firstName(); // default (English) first name
+echo $generator->ext(AddressPL::class)->firstName(); // Polish first name
+echo $generator->ext(AddressDE::class)->firstName(); // German first name
 ```
 
 but this way we skip `__call` in `DummyGenerator` so it won't work with any other strategy than `Simple`. It's not bad, just keep that in mind.
@@ -34,9 +34,9 @@ but this way we skip `__call` in `DummyGenerator` so it won't work with any othe
 It can be done like this:
 
 ```php
-    $generator->firstName(); // will generate i.e. "Harry"
-    $generator->addDefinition(PersonExtensionInterface::class, ElvesPerson::class);
-    $generator->firstName(); // will generate i.e. "Fingolfin"
+$generator->firstName(); // will generate i.e. "Harry"
+$generator->addDefinition(PersonExtensionInterface::class, ElvesPerson::class);
+$generator->firstName(); // will generate i.e. "Fingolfin"
 ```
 
 **Beware**, this will clear internal cache for all extensions, so they will be resolved again. Not a big deal, but worth keeping in mind.
@@ -46,22 +46,22 @@ It can be done like this:
 If we want to use different strategy, like uniqueness:
 
 ```php
-        $generator = new DummyGenerator(DefinitionContainerBuilder::default(), new UniqueStrategy(5));
+$generator = new DummyGenerator(DefinitionContainerBuilder::default(), new UniqueStrategy(5));
 ```
 
 or by:
 
 ```php
-        $geneator->withStrategy(new UniqueStrategy(5))->firstName();
+$geneator->withStrategy(new UniqueStrategy(5))->firstName();
 ```
 
 Method `withStrategy` returns new generator, so you can do also that:
 ```php
-        $generator->firstName(); // default strategy
-        $generator2 = $geneator->withStrategy(new UniqueStrategy(5));
-        $generator2->firstName(); // uniqueness
-        $generator2->firstName(); // uniqueness
-        $generator1->firstName(); // default strategy
+$generator->firstName(); // default strategy
+$generator2 = $geneator->withStrategy(new UniqueStrategy(5));
+$generator2->firstName(); // uniqueness
+$generator2->firstName(); // uniqueness
+$generator1->firstName(); // default strategy
 ```
 
 ### How can I overwrite default implementations
@@ -70,12 +70,12 @@ Very easily, just use base interface as a name and point to your implementation.
 
 In example:
 ```php
-        $container = DefinitionContainerBuilder::all(); // all extensions
-        $container->add(CompanyExtensionInterface::class, MyCustomCompany::class); // now MyCustomerCountry will be used ie. for $generator->company()
-        $container->add(RandomizerInterface::class, MyRandomizer::class); // now MyRandomizer will be used for every internal call ie. to randomElement()
-        $container->add(TransliteratorInterface::class, TransliteratorOnSteroids::class); // now TransliteratorOnSteroids will be used for transliterate()  
-        $container->add(LuhnCalculatorInterface::class, ProperLuhnCalculator::class); // now ProperLuhnCalculator will be used Luhn operations 
-        $generator = new DummyGenerator($container);
+$container = DefinitionContainerBuilder::all(); // all extensions
+$container->add(CompanyExtensionInterface::class, MyCustomCompany::class); // now MyCustomerCountry will be used ie. for $generator->company()
+$container->add(RandomizerInterface::class, MyRandomizer::class); // now MyRandomizer will be used for every internal call ie. to randomElement()
+$container->add(TransliteratorInterface::class, TransliteratorOnSteroids::class); // now TransliteratorOnSteroids will be used for transliterate()  
+$container->add(LuhnCalculatorInterface::class, ProperLuhnCalculator::class); // now ProperLuhnCalculator will be used Luhn operations 
+$generator = new DummyGenerator($container);
 ```
 
 ### How can I use generator or randomizer in my custom extension
@@ -121,11 +121,11 @@ enum SuitBackedIntEnum: string
 You can do following:
 
 ```php
-        $container = DefinitionContainerBuilder::base(); // base extensions 
-        $generator = new DummyGenerator($container);
-        $generator->enum(SuitBackedIntEnum::class)->element(); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
-        // or
-        $generator->enum(SuitBackedIntEnum::class)->value(); // it will get random value, i.e. "Spades"
+$container = DefinitionContainerBuilder::base(); // base extensions 
+$generator = new DummyGenerator($container);
+$generator->enum(SuitBackedIntEnum::class)->element(); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
+// or
+$generator->enum(SuitBackedIntEnum::class)->value(); // it will get random value, i.e. "Spades"
 ```
 
 ### How can I use StringsExtension
@@ -137,18 +137,18 @@ There is also `TextExtension` that allows you to generate random text with given
 But sometimes you want just a simple random string, with given length or given structure: only letters, with some numbers, with capital letters. This is where `StringsExtension` can help you:
 
 ```php
-        $container = DefinitionContainerBuilder::base(); // base extensions 
-        $generator = new DummyGenerator($container);
-        $string1 = $generator->string(); // it will give you random string, lowercase, with length between 3 and 8
-        $string2 = $generator->string(3, 3); // it will give you random string, lowercase, with length equal to 3
-        $string4 = $generator->string(3, 10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'); // it will give you random string, mixed case, with length from 3 to 10
+$container = DefinitionContainerBuilder::base(); // base extensions 
+$generator = new DummyGenerator($container);
+$string1 = $generator->string(); // it will give you random string, lowercase, with length between 3 and 8
+$string2 = $generator->string(3, 3); // it will give you random string, lowercase, with length equal to 3
+$string4 = $generator->string(3, 10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'); // it will give you random string, mixed case, with length from 3 to 10
 ```
 
 As you can see you can pass any chars pool for generation. `StringsExtension` comes with 3 predefined pools:
 
- * Strings::ALPHA_POOL equals to `abcdefghijklmnopqrstuvwxyz`;
- * Strings::ALPHA_CASE_POOL equals to `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
- * Strings::ALPHA_NUM_POOL equals to `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+ * `Strings::ALPHA_POOL` equals to `abcdefghijklmnopqrstuvwxyz`;
+ * `Strings::ALPHA_CASE_POOL` equals to `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+ * `Strings::ALPHA_NUM_POOL` equals to `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`;
 
 If you want to have string with possible spaces - just create your own pool, i.e. `abcdefghijkl mnopqrstuvwxyz`
 
