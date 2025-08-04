@@ -35,6 +35,9 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
+    - name: Create build directory for caching
+      run: mkdir -p .build
+
     - name: Run style check
       run: composer run-script check-style
 
