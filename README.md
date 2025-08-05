@@ -2,9 +2,7 @@
 
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-build]][link-build]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![Coveralls Status][ico-coveralls]][link-coveralls]
+[![Coverage Status][ico-coveralls]][link-coveralls]
 
 DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
@@ -82,12 +80,8 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 * add more providers?
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/johnykvsky/dummygenerator.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/johnykvsky/dummygenerator.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
 [ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg?branch=feature/coveralls
 
-[link-scrutinizer]: https://scrutinizer-ci.com/g/johnykvsky/dummygenerator/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/johnykvsky/dummygenerator
 [link-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml
 [link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator?branch=feature/coveralls
