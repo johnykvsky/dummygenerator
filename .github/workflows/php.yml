@@ -52,5 +52,5 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         composer require php-coveralls/php-coveralls -n -W
-        composer run-script test-coverage
+        composer run-script test-clover
         composer run-script coverals
