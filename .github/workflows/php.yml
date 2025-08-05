@@ -54,3 +54,5 @@ jobs:
         composer require php-coveralls/php-coveralls -n -W
         composer run-script test-clover
         composer run-script coverals
+      with:
+        coverage: xdebug
