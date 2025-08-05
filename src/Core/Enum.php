@@ -22,10 +22,14 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
      */
     public function value(string $enumClassname): string|int
     {
-        $enum = new ReflectionEnum($enumClassname);
+        try {
+            $enum = new ReflectionEnum($enumClassname);
+        } catch (ReflectionException $e) {
+            throw new ExtensionArgumentException('Invalid PHP Enum', $e->getCode(), $e);
+        }
 
-        if (!$enum->isEnum()) {
-            throw new ExtensionArgumentException('Argument should be PHP Enum class name');
+        if (!$enum->isBacked()) {
+            throw new ExtensionArgumentException('Argument should be backed PHP Enum');
         }
 
         return $this->randomizer->randomElement($enumClassname::cases())->value;
@@ -37,10 +41,10 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
      */
     public function element(string $enumClassname): UnitEnum
     {
-        $enum = new \ReflectionEnum($enumClassname);
-
-        if (!$enum->isEnum()) {
-            throw new ExtensionArgumentException('Argument should be PHP Enum class name');
+        try {
+            new ReflectionEnum($enumClassname);
+        } catch (ReflectionException $e) {
+            throw new ExtensionArgumentException('Invalid PHP Enum', $e->getCode(), $e);
         }
 
         return $this->randomizer->randomElement($enumClassname::cases());

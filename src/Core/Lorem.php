@@ -139,6 +139,10 @@ class Lorem implements
 
         $text = [];
 
+        if ($type === 'sentence') {
+            $maxCharacters = $maxCharacters - 1; // we add dot at the end
+        }
+
         do {
             $size = 0;
 
@@ -152,7 +156,7 @@ class Lorem implements
             array_pop($text);
         } while (empty($text));
 
-        if ($type === 'word') {
+        if ($type === 'sentence') {
             // capitalize first letter
             $text[0] = ucwords($text[0]);
 

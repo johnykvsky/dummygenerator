@@ -66,4 +66,14 @@ class LoremTest extends TestCase
     {
         self::assertTrue(strlen($this->generator->text(maxCharacters: 80)) < 80);
     }
+
+    public function testTextWord(): void
+    {
+        self::assertTrue(strlen($this->generator->text(maxCharacters: 20)) < 20);
+    }
+
+    public function testTextParagraph(): void
+    {
+        self::assertTrue(strlen($this->generator->text(maxCharacters: 120)) < 120);
+    }
 }

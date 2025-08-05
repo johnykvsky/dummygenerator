@@ -8,6 +8,7 @@ use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\Biased;
 use DummyGenerator\Core\Randomizer\XoshiroRandomizer;
 use DummyGenerator\Definitions\Extension\BiasedExtensionInterface;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use PHPUnit\Framework\TestCase;
@@ -89,6 +90,14 @@ class BiasedTest extends TestCase
             self::assertGreaterThan((int) (self::NUMBERS * $assumed * .9), $amount, 'Value was more than 10 percent under the expected value');
             self::assertLessThan((int) (self::NUMBERS * $assumed * 1.1), $amount, 'Value was more than 10 percent over the expected value');
         }
+    }
+
+    public function testBiasedForNonCallalbe()
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('Given $function must be a callable');
+        $this->generator->biasedNumberBetween(1, self::MAX, 'something_not_callable');
+
     }
 
     private function perform(callable|string $function): void
