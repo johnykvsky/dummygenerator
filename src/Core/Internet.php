@@ -180,13 +180,7 @@ class Internet implements
 
     public function ipv4(): string
     {
-        $ipv4 = long2ip($this->randomizer->getBool() ? $this->randomizer->getInt(-2147483648, -2) : $this->randomizer->getInt(16777216, 2147483647));
-
-        if ($ipv4 === false) {
-            throw new ExtensionRuntimeException('IPv4 failed with the selected data.');
-        }
-
-        return $ipv4;
+        return long2ip($this->randomizer->getBool() ? $this->randomizer->getInt(-2147483648, -2) : $this->randomizer->getInt(16777216, 2147483647));
     }
 
     public function ipv6(): string
@@ -204,13 +198,7 @@ class Internet implements
     {
         $ipBlock = $this->randomizer->randomElement($this->localIpBlocks);
 
-        $localIpv4 = long2ip($this->randomizer->getInt((int) ip2long($ipBlock[0]), (int) ip2long($ipBlock[1])));
-
-        if ($localIpv4 === false) {
-            throw new ExtensionRuntimeException('IPv4 failed with the selected data.');
-        }
-
-        return $localIpv4;
+        return long2ip($this->randomizer->getInt((int) ip2long($ipBlock[0]), (int) ip2long($ipBlock[1])));
     }
 
     public function macAddress(): string
