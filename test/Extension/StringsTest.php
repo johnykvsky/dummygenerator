@@ -6,6 +6,7 @@ namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\Strings;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\StringsExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
@@ -49,4 +50,17 @@ class StringsTest extends TestCase
         self::assertEquals('111', $string);
     }
 
+    public function testMinBelowLimit(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('$min should be at least 1');
+        $this->generator->string(0, 3, '11111');
+    }
+
+    public function testMinHigherThanMax(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('$min cannot be higher than $max');
+        $this->generator->string(7, 3, '11111');
+    }
 }

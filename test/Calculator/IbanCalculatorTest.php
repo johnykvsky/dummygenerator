@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Calculator;
+namespace DummyGenerator\Test\Calculator;
 
 use DummyGenerator\Core\Calculator\IbanCalculator;
 use PHPUnit\Framework\TestCase;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Calculator;
+namespace DummyGenerator\Test\Calculator;
 
 use DummyGenerator\Core\Calculator\EanCalculator;
 use PHPUnit\Framework\TestCase;
@@ -27,4 +27,12 @@ class EanCalculatorTest extends TestCase
         self::assertTrue($calculator->isValid(self::EAN8));
         self::assertTrue($calculator->isValid(self::EAN13));
     }
+
+    public function testIsInvalid(): void
+    {
+        $calculator = new EanCalculator;
+
+        self::assertFalse($calculator->isValid('123123'));
+    }
+
 }
