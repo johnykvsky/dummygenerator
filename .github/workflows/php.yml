@@ -15,7 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: xdebug
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -54,5 +60,3 @@ jobs:
         composer require php-coveralls/php-coveralls -n -W
         composer run-script test-clover
         composer run-script coverals
-      with:
-        coverage: xdebug
