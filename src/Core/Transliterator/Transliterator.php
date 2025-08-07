@@ -4,23 +4,27 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Transliterator;
 
-use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 class Transliterator implements TransliteratorInterface
 {
-    public function transliterate(string $string): string
+    private const string TRANSLITERATOR_PATTERN = 'Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;';
+
+    public function transliterate(string $string, ?string $pattern = null): string
     {
         if (0 === preg_match('/[^A-Za-z0-9_.]/', $string)) {
             return $string;
         }
 
-        $transId = 'Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;';
+        if ($pattern === null) {
+            $pattern = self::TRANSLITERATOR_PATTERN;
+        }
 
-        $transliterator = \Transliterator::create($transId);
+        $transliterator = \Transliterator::create($pattern);
 
         if ($transliterator === null) {
-            throw new ExtensionRuntimeException('Transliterator cannot be created for given settings');
+            throw new ExtensionArgumentException('Transliterator cannot be created for given pattern');
         }
 
         $transString = $transliterator->transliterate($string);
