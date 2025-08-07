@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace DummyGenerator\Core\Calculator;
 
 use DummyGenerator\Definitions\Calculator\IsbnCalculatorInterface;
-use DummyGenerator\Definitions\Extension\Exception\ExtensionLengthException;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 
 /**
  * Utility class for validating ISBN-10
@@ -20,7 +20,7 @@ class IsbnCalculator implements IsbnCalculatorInterface
         $length = 9;
 
         if (strlen($input) !== $length) {
-            throw new ExtensionLengthException(sprintf('Input length should be equal to %d', $length));
+            throw new ExtensionArgumentException(sprintf('Input length should be equal to %d', $length));
         }
 
         $digits = str_split($input);
