@@ -81,7 +81,7 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
-[ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg?branch=feature/coveralls
+[ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg
 
 [link-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml
-[link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator?branch=feature/coveralls
+[link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator
