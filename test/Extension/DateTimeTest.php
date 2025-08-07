@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Extension;
 
+use DateTimeImmutable;
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\DateTime;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use PHPUnit\Framework\TestCase;
 
-// TODO slippery slope, random dates might fail on tests, we'll see
 class DateTimeTest extends TestCase
 {
     private DummyGenerator $generator;
@@ -26,6 +27,7 @@ class DateTimeTest extends TestCase
         $container->add(RandomizerInterface::class, Randomizer::class);
         $container->add(DateTimeExtensionInterface::class, DateTime::class);
         $this->generator = new DummyGenerator($container);
+        date_default_timezone_set('UTC');
         $this->now = new \DateTimeImmutable(timezone: new \DateTimeZone('UTC'));
     }
 
@@ -54,6 +56,17 @@ class DateTimeTest extends TestCase
         self::assertTrue($date >= $date1 && $date <= $date2);
     }
 
+    public function testInvalidDateTimeBetween(): void
+    {
+        $date1 = new \DateTimeImmutable('2021-04-12 10:34:23', new \DateTimeZone('UTC'));
+        $date2 = new \DateTimeImmutable('2022-05-11 14:08:46', new \DateTimeZone('UTC'));
+
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('"$from" must be anterior to "$until".');
+        $this->generator->dateTimeBetween(from: $date2, until: $date1, timezone: 'UTC');
+
+    }
+
     public function testDateTimeInterval(): void
     {
         $date1 = new \DateTimeImmutable('2021-04-12 10:34:23', new \DateTimeZone('UTC'));
@@ -62,6 +75,14 @@ class DateTimeTest extends TestCase
         $date = $this->generator->dateTimeInInterval(from: $date1, interval: new \DateInterval('P10D'), timezone: 'UTC');
 
         self::assertTrue($date >= $date1 && $date <= $date2);
+    }
+
+    public function testInvalidTimezone(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('"$timezone" is not a valid timezone.');
+
+        $this->generator->dateTimeInInterval(from: new DateTimeImmutable(), interval: new \DateInterval('P10D'), timezone: 'ABC');
     }
 
     public function testDateTimeThisWeek(): void
@@ -137,6 +158,12 @@ class DateTimeTest extends TestCase
         $time = $this->generator->unixTime(until: $this->now);
 
         self::assertTrue($time <= $this->now->getTimestamp());
+    }
+
+    public function testTimestamp()
+    {
+        $time = $this->now->getTimestamp() - 3600;
+        self::assertTrue($time <= $this->generator->dateTimeBetween(from: (string) $time, timezone: 'UTC')->format('U'));
     }
 
     public function testIso8601(): void

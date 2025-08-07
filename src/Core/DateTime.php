@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace DummyGenerator\Core;
 
 use DateInterval;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
 use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
@@ -20,8 +22,6 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
      * TODO move to interface const
      */
     protected array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
-
-    protected ?string $defaultTimezone = null;
 
     public function dateTime(DateTimeInterface|string $until = 'now', ?string $timezone = null): \DateTimeInterface
     {
@@ -77,7 +77,19 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
     public function dateTimeThisWeek(DateTimeInterface|string $until = 'sunday this week', ?string $timezone = null): \DateTimeInterface
     {
-        return $this->dateTimeBetween('monday this week', $until, $timezone);
+        $from = new DateTimeImmutable();
+
+        if ($timezone !== null) {
+            $from = $from->setTimezone(new DateTimeZone($timezone));
+        }
+
+        if ($from->format('w') !== '1') {
+            $from = $from->modify('last monday');
+        }
+
+        $from = $from->setTime(0, 0, 0);
+
+        return $this->dateTimeBetween($from, $until, $timezone);
     }
 
     public function dateTimeThisMonth(DateTimeInterface|string $until = 'last day of this month', ?string $timezone = null): \DateTimeInterface
@@ -177,7 +189,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
             return $until->getTimestamp();
         }
 
-        return (int) strtotime(empty($until) ? 'now' : $until);
+        return $this->getDateTimeFromString($until)->getTimestamp();
     }
 
     /**
@@ -191,19 +203,18 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
         return new \DateTimeImmutable('@' . $timestamp);
     }
 
-    protected function setDefaultTimezone(?string $timezone = null): void
-    {
-        $this->defaultTimezone = $timezone;
-    }
-
-    protected function getDefaultTimezone(): ?string
-    {
-        return $this->defaultTimezone;
-    }
-
     protected function resolveTimezone(?string $timezone): string
     {
-        return $timezone ?? $this->defaultTimezone ?? date_default_timezone_get();
+        if ($timezone === null) {
+            return date_default_timezone_get();
+        }
+
+        $timezones = \DateTimeZone::listIdentifiers();
+        if (in_array($timezone, $timezones, true)) {
+            return $timezone;
+        }
+
+        throw new ExtensionArgumentException('"$timezone" is not a valid timezone.');
     }
 
     /**
@@ -215,5 +226,14 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
         // @phpstan-ignore-next-line
         return $dateTime->setTimezone(new \DateTimeZone($timezone));
+    }
+
+    protected function getDateTimeFromString(string $dateString): DateTimeInterface
+    {
+        try {
+            return new DateTimeImmutable($dateString);
+        } catch (\Throwable $e) {
+            throw new ExtensionArgumentException('Invalid datetime string given.', $e->getCode(), $e);
+        }
     }
 }

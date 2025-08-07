@@ -6,6 +6,7 @@ namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Core\Lorem;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\LoremExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
@@ -52,9 +53,23 @@ class LoremTest extends TestCase
         self::assertCount(4, $this->generator->sentences(sentenceCount: 4));
     }
 
+    public function testSentenceBelowMin(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('$wordCount should be at least 1');
+        $this->generator->sentence(wordCount: 0);
+    }
+
     public function testParagraph(): void
     {
         self::assertNotEmpty($this->generator->paragraph(sentenceCount: 4, variableSentenceCount: false));
+    }
+
+    public function testParagraphBelowMin(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('$sentenceCount should be at least 1');
+        $this->generator->paragraph(sentenceCount: 0);
     }
 
     public function testParagraphs(): void
@@ -65,6 +80,13 @@ class LoremTest extends TestCase
     public function testText(): void
     {
         self::assertTrue(strlen($this->generator->text(maxCharacters: 80)) < 80);
+    }
+
+    public function testTextBelowMax(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('$maxCharacters can only generate text of at least 5 characters');
+        $this->generator->text(maxCharacters: 2);
     }
 
     public function testTextWord(): void

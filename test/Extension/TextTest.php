@@ -9,6 +9,7 @@ use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
 use DummyGenerator\Core\Text;
 use DummyGenerator\Core\Transliterator\Transliterator;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
@@ -39,6 +40,41 @@ class TextTest extends TestCase
         $length = $this->generator->ext(ReplacerInterface::class)->strlen($realText);
 
         self::assertTrue($length >= 5 && $length <= 50);
+    }
+
+    public function testRealTextMinBelowLimitError(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('min must be at least 1');
+        $this->generator->realText(min: 0, max: 50, indexSize: 3);
+    }
+
+    public function testRealTextMaxBelowLimitError(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('max must be at least 10');
+        $this->generator->realText(min: 2, max: 5, indexSize: 3);
+    }
+
+    public function testRealTextIndexSizeBelowLimitError(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('indexSize must be at least 1');
+        $this->generator->realText(min: 2, max: 50, indexSize: 0);
+    }
+
+    public function testRealTextIndexSizeAboveLimitError(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('indexSize must be at most 5');
+        $this->generator->realText(min: 2, max: 50, indexSize: 10);
+    }
+
+    public function testRealTextMinHigherThanMaxError(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('min must be smaller than max');
+        $this->generator->realText(min: 20, max: 15, indexSize: 3);
     }
 
     public function testRealTextConstructor(): void
