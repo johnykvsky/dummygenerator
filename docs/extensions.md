@@ -24,6 +24,7 @@ Here is list of extensions available in the `DummyGenerator`, all those are inte
 * `StringsExtensionInterface`
 * `TextExtensionInterface`
 * `UserAgentExtensionInterface`
+* `UuidExtensionInterface`
 * `VersionExtensionInterface`
 
 Apart from this you can overwrite calculators:
