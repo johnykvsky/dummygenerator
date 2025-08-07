@@ -107,6 +107,11 @@ class InternetTest extends TestCase
         self::assertCount(5, explode('-', $this->generator->slug(nbWords: 5, variableNbWords: false)));
     }
 
+    public function testEmptySlug(): void
+    {
+        self::assertEquals('', $this->generator->slug(nbWords: 0));
+    }
+
     public function testIPv4(): void
     {
         self::assertNotEmpty($this->generator->ipv4());
