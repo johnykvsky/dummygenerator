@@ -33,6 +33,7 @@ use DummyGenerator\Core\Strings;
 use DummyGenerator\Core\Text;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Core\UserAgent;
+use DummyGenerator\Core\Uuid;
 use DummyGenerator\Core\Version;
 use DummyGenerator\Definitions\Calculator\CalculatorInterface;
 use DummyGenerator\Definitions\Calculator\EanCalculatorInterface;
@@ -63,6 +64,7 @@ use DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface;
 use DummyGenerator\Definitions\Extension\StringsExtensionInterface;
 use DummyGenerator\Definitions\Extension\TextExtensionInterface;
 use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
+use DummyGenerator\Definitions\Extension\UuidExtensionInterface;
 use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
@@ -106,6 +108,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
             LoremExtensionInterface::class => Lorem::class,
             NumberExtensionInterface::class => Number::class,
             StringsExtensionInterface::class => Strings::class,
+            UuidExtensionInterface::class => Uuid::class,
             ];
 
         $this->defaultExtensions = [

@@ -27,8 +27,9 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `addDefinition()`
 * language providers removed from core (that makes it ~9.5Mb smaller)
+* changed `Uuid`, it supports `v4` only, use `uuid4()`
 * removed database providers (core is only for dummy data generation)
-* removed `HmlLorem`, `Uuid` (you can use any uuid generator like Symfony, Ramsey...)
+* removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
