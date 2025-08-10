@@ -17,6 +17,8 @@ Faker died ~~for our~~ because of being hard to maintain - more on that [here](h
 
 I needed simple dummy data generator for PHP 8.3 and with modern architecture in mind, so DummyGenerator came to life.
 
+Apart from different initialization and providers removed from core it should be in general a drop-in replacement for Faker. Some small differences are mentioned below.
+
 # Changes in compare to Faker
 
 * required PHP >= 8.3
@@ -36,7 +38,7 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 
 This package also fixes problem with FakerPHP `__destruct()` messing up with `seed`, plus various other issues.
 
-There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (check `BiasedTest`).
+There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (see [HowTo](docs/howto.md) for more).
 
 Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
 
