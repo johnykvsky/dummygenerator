@@ -43,13 +43,13 @@ $generator->firstName(); // will generate i.e. "Fingolfin"
 
 ### How can I use different strategy
 
-If we want to use different strategy, like uniqueness:
+If we want to use different strategy, like uniqueness with max 5 retries:
 
 ```php
 $generator = new DummyGenerator(DefinitionContainerBuilder::default(), new UniqueStrategy(5));
 ```
 
-or by:
+or if you want to replace it on the fly, just do it with:
 
 ```php
 $geneator->withStrategy(new UniqueStrategy(5))->firstName();
@@ -61,7 +61,7 @@ $generator->firstName(); // default strategy
 $generator2 = $geneator->withStrategy(new UniqueStrategy(5));
 $generator2->firstName(); // uniqueness
 $generator2->firstName(); // uniqueness
-$generator1->firstName(); // default strategy
+$generator->firstName(); // default strategy
 ```
 
 ### How can I overwrite default implementations
@@ -153,3 +153,18 @@ As you can see you can pass any chars pool for generation. `StringsExtension` co
 If you want to have string with possible spaces - just create your own pool, i.e. `abcdefghijkl mnopqrstuvwxyz`
 
 At core, it uses `\Random\Randomizer::getBytesFromString()` to generate random string.
+
+### How can I use seed()
+
+You have to change default randomizer to `XoshiroRandomizer` with desired seed number, i.e. for `seed=123` it would be:
+
+```php
+    // standard initialization, adapt this to your needs
+    $container = \DummyGenerator\Container\DefinitionContainerBuilder::base();
+    $generator = new \DummyGenerator\DummyGenerator($container);  
+    // replace randomizer with XoshiroRandomizer, which supports seed
+    $generator->addDefinition(
+        \DummyGenerator\Definitions\Randomizer\RandomizerInterface::class,
+        new \DummyGenerator\Core\Randomizer\XoshiroRandomizer(seed: 123)
+    );
+```
