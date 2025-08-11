@@ -13,12 +13,12 @@ interface EnumExtensionInterface extends ExtensionInterface
      *
      * @example 'diamonds'
      */
-    public function value(string $enumClassname): string|int;
+    public function enumValue(string $enumClassname): string|int;
 
     /**
      * Get a random element from passed PHP enum
      *
      * @example Suit::Diamonds
      */
-    public function element(string $enumClassname): UnitEnum;
+    public function enumElement(string $enumClassname): UnitEnum;
 }

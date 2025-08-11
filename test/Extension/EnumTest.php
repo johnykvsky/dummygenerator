@@ -34,44 +34,44 @@ class EnumTest extends TestCase
 
     public function testStringValue(): void
     {
-        self::assertIsString($this->generator->value(SuitBackedStringEnum::class));
+        self::assertIsString($this->generator->enumValue(SuitBackedStringEnum::class));
     }
 
     public function testIntValue(): void
     {
-        self::assertIsInt($this->generator->value(SuitBackedIntEnum::class));
+        self::assertIsInt($this->generator->enumValue(SuitBackedIntEnum::class));
     }
 
     public function testValueForInvalidClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
-        $this->generator->value('none_enum_string');
+        $this->generator->enumValue('none_enum_string');
     }
 
     public function testValueForNonBacked(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Argument should be backed PHP Enum');
-        $this->generator->value(SuitEnum::class);
+        $this->generator->enumValue(SuitEnum::class);
     }
 
     public function testElement(): void
     {
-        self::assertInstanceOf(UnitEnum::class, $this->generator->element(SuitEnum::class));
+        self::assertInstanceOf(UnitEnum::class, $this->generator->enumElement(SuitEnum::class));
     }
 
     public function testElementForInvalidClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
-        $this->generator->element('none_enum_string');
+        $this->generator->enumElement('none_enum_string');
     }
 
     public function testElementForNonEnumClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
-        $this->generator->element(BarProvider::class);
+        $this->generator->enumElement(BarProvider::class);
     }
 }

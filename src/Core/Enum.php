@@ -18,9 +18,9 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
 
     /**
      * @param class-string<UnitEnum> $enumClassname
-     * @throws ReflectionException
+     * @throws ExtensionArgumentException
      */
-    public function value(string $enumClassname): string|int
+    public function enumValue(string $enumClassname): string|int
     {
         try {
             $enum = new ReflectionEnum($enumClassname);
@@ -37,9 +37,9 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
 
     /**
      * @param class-string<UnitEnum> $enumClassname
-     * @throws ReflectionException
+     * @throws ExtensionArgumentException
      */
-    public function element(string $enumClassname): UnitEnum
+    public function enumElement(string $enumClassname): UnitEnum
     {
         try {
             new ReflectionEnum($enumClassname);
