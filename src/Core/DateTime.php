@@ -8,14 +8,17 @@ use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
+use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
 use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 
-class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionInterface
+class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionInterface, ClockAwareExtensionInterface
 {
     use RandomizerAwareExtensionTrait;
+    use ClockAwareExtensionTrait;
 
     /**
      * @var string[]
@@ -77,7 +80,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
 
     public function dateTimeThisWeek(DateTimeInterface|string $until = 'sunday this week', ?string $timezone = null): \DateTimeInterface
     {
-        $from = new DateTimeImmutable();
+        $from = $this->clock->now();
 
         if ($timezone !== null) {
             $from = $from->setTimezone(new DateTimeZone($timezone));

@@ -4,11 +4,14 @@ declare(strict_types = 1);
 
 namespace DummyGenerator;
 
+use DummyGenerator\Clock\SystemClock;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Container\DefinitionContainerBuilder;
 use DummyGenerator\Container\DefinitionContainerInterface;
 use DummyGenerator\Container\ResolvedDefinition;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
+use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
 use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\StrategyInterface;
@@ -19,11 +22,16 @@ class DummyGenerator
     protected array $extensions = [];
     private DefinitionContainerInterface $container;
     private StrategyInterface $strategy;
+    private SystemClockInterface $clock;
 
-    public function __construct(?DefinitionContainerInterface $container = null, ?StrategyInterface $strategy = null)
-    {
+    public function __construct(
+        ?DefinitionContainerInterface $container = null,
+        ?StrategyInterface $strategy = null,
+        ?SystemClockInterface $clock = null
+    ) {
         $this->container = $container ?: DefinitionContainerBuilder::base();
         $this->strategy = $strategy ?: new SimpleStrategy();
+        $this->clock = $clock ?: new SystemClock();
     }
 
     /**
@@ -37,6 +45,16 @@ class DummyGenerator
     public function usedStrategy(string $strategy): bool
     {
         return $this->strategy instanceof $strategy;
+    }
+
+    public function withClock(SystemClockInterface $clock): self
+    {
+        return new self($this->container, $this->strategy, $clock);
+    }
+
+    public function clock(): SystemClockInterface
+    {
+        return $this->clock;
     }
 
     /**
@@ -131,6 +149,10 @@ class DummyGenerator
     {
         if ($extension instanceof GeneratorAwareExtensionInterface) {
             $extension = $extension->withGenerator($this);
+        }
+
+        if ($extension instanceof ClockAwareExtensionInterface) {
+            $extension = $extension->withClock($this->clock());
         }
 
         return $extension;

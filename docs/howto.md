@@ -103,8 +103,8 @@ One notice - there is also `TransliteratorAwareReplacerInterface` and `Translite
 ### How can I use EnumExtension
 
 Enum extension allows you to get random element or value from selected Enum object. It has two methods:
- * value(), that will get value from backed enums
- * element(), that will get element from enum, it will be UnitEnum object
+ * enumValue(), that will get value from backed enums
+ * enumElement(), that will get element from enum, it will be UnitEnum object
 
 For following enum:
 
@@ -123,9 +123,9 @@ You can do following:
 ```php
 $container = DefinitionContainerBuilder::base(); // base extensions 
 $generator = new DummyGenerator($container);
-$generator->enum(SuitBackedIntEnum::class)->element(); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
+$generator->enumElement(SuitBackedIntEnum::class); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
 // or
-$generator->enum(SuitBackedIntEnum::class)->value(); // it will get random value, i.e. "Spades"
+$generator->enumValue(SuitBackedIntEnum::class); // it will get random value, i.e. "Spades"
 ```
 
 ### How can I use StringsExtension

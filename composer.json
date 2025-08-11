@@ -16,7 +16,8 @@
     }
   ],
   "require": {
-    "php": "^8.3"
+    "php": "^8.3",
+    "psr/clock": "^1.0"
   },
   "require-dev": {
     "phpstan/extension-installer": "^1.4.3",
