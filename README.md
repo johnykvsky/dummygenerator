@@ -33,6 +33,7 @@ I needed simple dummy data generator for PHP 8.3 and with modern architecture in
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
+* added support for `SystemClock`, PSR-20 implementation of Clock (see [QuickStart](docs/quick_start.md) for more)
 
 This package also fixes problem with FakerPHP `__destruct()` messing up with `seed`, plus various other issues.
 

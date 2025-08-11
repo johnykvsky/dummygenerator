@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Generator;
 
+use DummyGenerator\Clock\SystemClock;
 use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\UniqueStrategy;
+use DummyGenerator\Test\Clock\FrozenClock;
 use DummyGenerator\Test\Fixtures\BarProvider;
 use DummyGenerator\Test\Fixtures\BazProvider;
 use DummyGenerator\Test\Fixtures\FooProvider;
@@ -69,6 +71,17 @@ class DummyGeneratorTest extends TestCase
 
         self::assertTrue($generator->usedStrategy(SimpleStrategy::class));
         self::assertTrue($uniqueGenerator->usedStrategy(UniqueStrategy::class));
+    }
+
+    public function testClockChange(): void
+    {
+        $generator = new DummyGenerator(new DefinitionContainer([]), new SimpleStrategy(), new SystemClock());
+
+        self::assertInstanceOf(systemClock::class, $generator->clock());
+
+        $generatorNew = $generator->withClock(new FrozenClock(new \DateTimeImmutable()));
+
+        self::assertInstanceOf(FrozenClock::class, $generatorNew->clock());
     }
 
     public function testExtensionProcessing(): void
