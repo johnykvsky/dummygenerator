@@ -37,9 +37,9 @@ Apart from different initialization and providers removed from core it should be
 * added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
 * added support for `SystemClock`, PSR-20 implementation of Clock (see [QuickStart](docs/quick_start.md) for more)
 
-This package also fixes problem with FakerPHP `__destruct()` messing up with `seed`, plus various other issues.
+This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
 
-There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (see [HowTo](docs/howto.md) for more).
+There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed()` for testing purposes (see [HowTo](docs/howto.md) for more).
 
 Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
 
@@ -49,7 +49,7 @@ Because introduced in this version:
 
 * `Randomizer::getFloat()`
 * `Randomizer::getBytesFromString()`
-* Typed class constants
+* and not so important but nice: typed class constants
 
 # What is this fake / dummy data
 

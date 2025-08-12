@@ -17,36 +17,36 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
     use RandomizerAwareExtensionTrait;
 
     /**
-     * @param class-string<UnitEnum> $enumClassname
+     * @param class-string<UnitEnum> $enum
      * @throws ExtensionArgumentException
      */
-    public function enumValue(string $enumClassname): string|int
+    public function enumValue(string $enum): string|int
     {
         try {
-            $enum = new ReflectionEnum($enumClassname);
+            $enumItem = new ReflectionEnum($enum);
         } catch (ReflectionException $e) {
             throw new ExtensionArgumentException('Invalid PHP Enum', $e->getCode(), $e);
         }
 
-        if (!$enum->isBacked()) {
+        if (!$enumItem->isBacked()) {
             throw new ExtensionArgumentException('Argument should be backed PHP Enum');
         }
 
-        return $this->randomizer->randomElement($enumClassname::cases())->value;
+        return $this->randomizer->randomElement($enum::cases())->value;
     }
 
     /**
-     * @param class-string<UnitEnum> $enumClassname
+     * @param class-string<UnitEnum> $enum
      * @throws ExtensionArgumentException
      */
-    public function enumElement(string $enumClassname): UnitEnum
+    public function enumElement(string $enum): UnitEnum
     {
         try {
-            new ReflectionEnum($enumClassname);
+            new ReflectionEnum($enum);
         } catch (ReflectionException $e) {
             throw new ExtensionArgumentException('Invalid PHP Enum', $e->getCode(), $e);
         }
 
-        return $this->randomizer->randomElement($enumClassname::cases());
+        return $this->randomizer->randomElement($enum::cases());
     }
 }
