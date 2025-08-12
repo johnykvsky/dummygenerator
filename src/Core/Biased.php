@@ -32,13 +32,13 @@ class Biased implements BiasedExtensionInterface, RandomizerAwareExtensionInterf
         return 1;
     }
 
-    public function linearLow(float $x): float
+    public function linearLow(float $number): float
     {
-        return 1 - $x;
+        return 1 - $number;
     }
 
-    public function linearHigh(float $x): float
+    public function linearHigh(float $number): float
     {
-        return $x;
+        return $number;
     }
 }

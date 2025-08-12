@@ -37,12 +37,12 @@ interface BiasedExtensionInterface extends ExtensionInterface
      *
      * @example 0.19434
      */
-    public function linearLow(float $x): float;
+    public function linearLow(float $number): float;
 
     /**
      * 'linearHigh' favors higher numbers. The probability increases in a linear fashion.
      *
      * @example 0.234344
      */
-    public function linearHigh(float $x): float;
+    public function linearHigh(float $number): float;
 }

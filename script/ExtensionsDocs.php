@@ -109,7 +109,7 @@ class ExtensionsDocs
         }
 
         // it might be easier to go with this, instead of returning
-        // file_put_contents('./docs/extensions_spec_'.date('Ymd').'.txt', print_r($extensions, true));
+        file_put_contents('./docs/extensions_list.md', $this->toMarkdown($extensions));
         // var_export($errors);
 
         return $extensions;
@@ -160,5 +160,43 @@ class ExtensionsDocs
         }
 
         return $result;
+    }
+
+    private function toMarkdown(array $data): string
+    {
+        $markdown = '';
+
+        $sortedData = $this->sortExtensions($data);
+
+        foreach ($sortedData as $shortName => $info) {
+            $markdown .= "## {$shortName}\n\n";
+            ksort($info['methods'], SORT_NATURAL | SORT_FLAG_CASE);
+            foreach ($info['methods'] as $method => $value) {
+                $methodName = preg_replace('/\s*\(/', '(', $method);
+                $markdown .= "- `{$methodName}`: {$value}\n";
+            }
+            $markdown .= "\n";
+        }
+
+        return $markdown;
+    }
+
+    private function sortExtensions(array $data): array
+    {
+        $sortedData = [];
+        foreach ($data as $interface => $methods) {
+            if (preg_match('/\\\\(\w+)ExtensionInterface$/', $interface, $matches)) {
+                $shortName = $matches[1];
+            } else {
+                $shortName = $interface;
+            }
+            $sortedData[$shortName] = [
+                'full' => $interface,
+                'methods' => $methods
+            ];
+        }
+        ksort($sortedData, SORT_NATURAL | SORT_FLAG_CASE);
+
+        return $sortedData;
     }
 }

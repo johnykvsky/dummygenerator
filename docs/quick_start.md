@@ -19,7 +19,7 @@ And now we can see that `DummyGenerator` nas 3 parameters:
 
 * DefinitionContainer
 * Strategy
-* Clock
+* SystemClock
 
 First one holds definitions - by definition I mean classes that can be used for generation stuff you need. Each item you can generate has own interface and implementation, that you can change to your own if needed.
 
