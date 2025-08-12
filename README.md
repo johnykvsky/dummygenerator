@@ -11,7 +11,7 @@ $generator = new DummyGenerator(DefinitionContainerBuilder::all());
 echo $generator->firstName();
 ```
 
-Full list of stuff you can generate is available [here](docs/extensions.md).
+Full list of stuff you can generate is available [here](docs/extensions_list.md).
 
 Faker died ~~for our~~ because of being hard to maintain - more on that [here](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html) and Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
 
@@ -42,6 +42,14 @@ This package also fixes problem with FakerPHP `__destruct()` messing up with `se
 There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed` for testing purposes (see [HowTo](docs/howto.md) for more).
 
 Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
+
+# Why PHP >= 8.3
+
+Because introduced in this version:
+
+* `Randomizer::getFloat()`
+* `Randomizer::getBytesFromString()`
+* Typed class constants
 
 # What is this fake / dummy data
 

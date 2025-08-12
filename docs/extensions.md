@@ -42,4 +42,4 @@ And 3 internal "helpers":
 
 ## Available methods
 
-You can find the list of all available extensions, with their methods, params and sample result [here](extensions_spec.txt).
+You can find the list of all available extensions, with their methods, params and sample result [here](extensions_list.md).

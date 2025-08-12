@@ -61,7 +61,7 @@ class BiasedTest extends TestCase
     {
         /** @var Biased $biasedExtension */
         $biasedExtension = $this->generator->ext(BiasedExtensionInterface::class);
-        $this->perform(fn(float $x): float => $biasedExtension->linearHigh($x));
+        $this->perform(fn(float $number): float => $biasedExtension->linearHigh($number));
 
         foreach ($this->results as $number => $amount) {
             // integral
@@ -78,7 +78,7 @@ class BiasedTest extends TestCase
     {
         /** @var Biased $biasedExtension */
         $biasedExtension = $this->generator->ext(BiasedExtensionInterface::class);
-        $this->perform(fn(float $x): float => $biasedExtension->linearLow($x));
+        $this->perform(fn(float $number): float => $biasedExtension->linearLow($number));
 
         foreach ($this->results as $number => $amount) {
             // integral
