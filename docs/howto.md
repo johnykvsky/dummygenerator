@@ -103,8 +103,10 @@ One notice - there is also `TransliteratorAwareReplacerInterface` and `Translite
 ### How can I use EnumExtension
 
 Enum extension allows you to get random element or value from selected Enum object. It has two methods:
- * enumValue(), that will get value from backed enums
- * enumElement(), that will get element from enum, it will be UnitEnum object
+ * enumValue(), that will get value from backed enums (which has to be string or int)
+ * enumElement(), that will get one of `cases()` element from enum (it will be `UnitEnum` object) 
+
+`enumValue()` has to be used on backed enums, but `enumElement()` works for backed and non-backed enums.
 
 For following enum:
 

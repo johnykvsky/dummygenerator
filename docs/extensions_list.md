@@ -86,8 +86,8 @@
 
 ## Enum
 
-- `enumElement($enumClassname)`: (UnitEnum) ''
-- `enumValue($enumClassname)`: (string|int) ''
+- `enumElement($enum)`: (UnitEnum) ''
+- `enumValue($enum)`: (string|int) ''
 
 ## File
 
