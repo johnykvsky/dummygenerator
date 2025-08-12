@@ -61,6 +61,11 @@ class EnumTest extends TestCase
         self::assertInstanceOf(UnitEnum::class, $this->generator->enumElement(SuitEnum::class));
     }
 
+    public function testBackedElement(): void
+    {
+        self::assertInstanceOf(UnitEnum::class, $this->generator->enumElement(SuitBackedStringEnum::class));
+    }
+
     public function testElementForInvalidClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
