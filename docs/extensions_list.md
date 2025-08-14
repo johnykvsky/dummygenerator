@@ -176,10 +176,6 @@
 
 - `string($min = 3, $max = 8, $pool)`: (string) 'fyx'
 
-## Text
-
-- `realText($min = 160, $max = 200, $indexSize = 2)`: (string) 'I should be profoundly astonished at this, one of his counterfeiting operations. His agitation is represented as so excessive that the MS. so inconsiderately published, was merely a rough note-book.'
-
 ## UserAgent
 
 - `androidMobileToken()`: (string) 'Linux; Android 9'

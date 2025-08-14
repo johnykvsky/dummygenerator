@@ -9,6 +9,8 @@ use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Container\NotInContainerException;
 use DummyGenerator\Container\ResolvedDefinition;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
+use DummyGenerator\Test\Fixtures\BarProvider;
+use DummyGenerator\Test\Fixtures\FooProvider;
 use DummyGenerator\Test\Fixtures\InvalidExtensionInterfaceClass;
 use PHPUnit\Framework\TestCase;
 
@@ -65,6 +67,20 @@ class DefinitionContainerTest extends TestCase
         });
 
         self::assertTrue($container->has('some_name'));
+    }
+
+    public function testCanGetAllDefinitions(): void
+    {
+        $container = new DefinitionContainer([]);
+        $container->add('some_name', new FooProvider());
+
+        self::assertInstanceOf(FooProvider::class, $container->get('some_name'));
+        self::assertEquals(['some_name' => new FooProvider()], $container->definitions());
+
+        $container->add('some_name', new BarProvider());
+
+        self::assertInstanceOf(BarProvider::class, $container->get('some_name'));
+        self::assertEquals(['some_name' => new BarProvider()], $container->definitions());
     }
 
     public function testCanFindProcessorForMethod(): void

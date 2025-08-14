@@ -33,7 +33,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
      * Create a container object with a set of definitions.
      * The array value MUST produce an object that implements DefinitionInterface.
      *
-     * @param array<string, callable(): DefinitionInterface|class-string<DefinitionInterface>> $definitions
+     * @param array<string, callable|DefinitionInterface|class-string<DefinitionInterface>> $definitions
      */
     public function __construct(array $definitions = [])
     {
@@ -75,6 +75,16 @@ final class DefinitionContainer implements DefinitionContainerInterface
     }
 
     /**
+     * Return all definitions
+     *
+     * @return array<string, callable|DefinitionInterface|class-string<DefinitionInterface>>
+     */
+    public function definitions(): array
+    {
+        return $this->definitions;
+    }
+
+    /**
      * Add new definition
      *
      * @param DefinitionInterface|class-string<DefinitionInterface>|callable(): DefinitionInterface $value
@@ -82,6 +92,10 @@ final class DefinitionContainer implements DefinitionContainerInterface
     public function add(string $name, callable|DefinitionInterface|string $value): void
     {
         $this->definitions[$name] = $value;
+
+        if (isset($this->services[$name])) {
+            unset($this->services[$name]);
+        }
     }
 
     /**
@@ -93,7 +107,6 @@ final class DefinitionContainer implements DefinitionContainerInterface
             $service = $this->getService($id, $definition);
 
             if (method_exists($service, $name)) {
-                //return $service;
                 return new ResolvedDefinition($name, $id, $service);
             }
         }
@@ -108,6 +121,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
      */
     private function getService(string $id, callable|object|string $definition): DefinitionInterface
     {
+        // TODO refactor for more readability and case for object not implementing DefinitionInterface
         if (is_callable($definition)) {
             try {
                 return $this->handleAwareness($definition());

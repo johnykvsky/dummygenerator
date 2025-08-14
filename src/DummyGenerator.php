@@ -6,6 +6,7 @@ namespace DummyGenerator;
 
 use DummyGenerator\Clock\SystemClock;
 use DummyGenerator\Clock\SystemClockInterface;
+use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Container\DefinitionContainerBuilder;
 use DummyGenerator\Container\DefinitionContainerInterface;
 use DummyGenerator\Container\ResolvedDefinition;
@@ -13,6 +14,7 @@ use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
 use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
 use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
+use DummyGenerator\ProviderPack\ProviderPackInterface;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\StrategyInterface;
 
@@ -50,6 +52,17 @@ class DummyGenerator
     public function withClock(SystemClockInterface $clock): self
     {
         return new self($this->container, $this->strategy, $clock);
+    }
+
+    public function withProvider(ProviderPackInterface $providerPack): self
+    {
+        $container = new DefinitionContainer($this->container->definitions());
+
+        foreach ($providerPack->all() as $id => $class) {
+            $container->add($id, $class);
+        }
+
+        return new self($container, $this->strategy, $this->clock);
     }
 
     public function clock(): SystemClockInterface

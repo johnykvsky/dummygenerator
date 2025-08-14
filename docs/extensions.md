@@ -22,7 +22,6 @@ Here is list of extensions available in the `DummyGenerator`, all those are inte
 * `PersonExtensionInterface`
 * `PhoneNumberExtensionInterface`
 * `StringsExtensionInterface`
-* `TextExtensionInterface`
 * `UserAgentExtensionInterface`
 * `UuidExtensionInterface`
 * `VersionExtensionInterface`

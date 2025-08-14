@@ -6,8 +6,12 @@ namespace DummyGenerator\Test\Generator;
 
 use DummyGenerator\Clock\SystemClock;
 use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Core\Color;
+use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
+use DummyGenerator\Definitions\Extension\ColorExtensionInterface;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\UniqueStrategy;
@@ -15,6 +19,8 @@ use DummyGenerator\Test\Clock\FrozenClock;
 use DummyGenerator\Test\Fixtures\BarProvider;
 use DummyGenerator\Test\Fixtures\BazProvider;
 use DummyGenerator\Test\Fixtures\FooProvider;
+use DummyGenerator\Test\Fixtures\ProviderColor;
+use DummyGenerator\Test\Fixtures\ProviderDefinitionPack;
 use PHPUnit\Framework\TestCase;
 
 class DummyGeneratorTest extends TestCase
@@ -82,6 +88,19 @@ class DummyGeneratorTest extends TestCase
         $generatorNew = $generator->withClock(new FrozenClock(new \DateTimeImmutable()));
 
         self::assertInstanceOf(FrozenClock::class, $generatorNew->clock());
+    }
+
+    public function testProviderChange(): void
+    {
+        $container = new DefinitionContainer([]);
+        $container->add(RandomizerInterface::class, new Randomizer());
+        $container->add(ColorExtensionInterface::class, new Color());
+
+        $generator = new DummyGenerator($container);
+
+        self::assertInstanceOf(Color::class, $generator->ext(ColorExtensionInterface::class));
+        self::assertInstanceOf(ProviderColor::class, $generator->withProvider(new ProviderDefinitionPack())->ext(ColorExtensionInterface::class));
+        self::assertInstanceOf(Color::class, $generator->ext(ColorExtensionInterface::class));
     }
 
     public function testExtensionProcessing(): void

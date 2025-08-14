@@ -28,7 +28,7 @@ Apart from different initialization and providers removed from core it should be
 * no static methods, only one magic method (`__call()` in generator)
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `addDefinition()`
-* language providers removed from core (that makes it ~9.5Mb smaller)
+* language providers removed from core, that makes generator ~9.5Mb smaller
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
@@ -37,11 +37,11 @@ Apart from different initialization and providers removed from core it should be
 * added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
 * added support for `SystemClock`, PSR-20 implementation of Clock (see [QuickStart](docs/quick_start.md) for more)
 
+Providers are gone, but [here](https://github.com/johnykvsky/dummyproviders) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
+
 This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
 
 There are two Randomizer implementations, default `Randomizer` and if someone need it there is `XoshiroRandomizer` that allows to use `seed()` for testing purposes (see [HowTo](docs/howto.md) for more).
-
-Providers are gone, but [here](https://github.com/johnykvsky/dummy-providers) are sample providers `en_US`,`en_GB` and `pl_PL` to show how to make them / convert from old Faker.
 
 # Why PHP >= 8.3
 
@@ -89,7 +89,7 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 
 # TODO (ideas, not promises)
 
-* add more providers?
+* improve documentation
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
