@@ -134,7 +134,7 @@ $generator->enumValue(SuitBackedIntEnum::class); // it will get random value, i.
 
 With `LoremExtension` you can generate `words()` or `text()`. You can generate single word too - with `word()`, it will give you random words from Lorem Ipsum sample.
 
-There is also `TextExtension` that allows you to generate random text with given length with `realText()`.
+In [dummyproviders](https://github.com/johnykvsky/dummyproviders) there is also `TextExtension` that allows you to generate random text with given length with `realText()`.
 
 But sometimes you want just a simple random string, with given length or given structure: only letters, with some numbers, with capital letters. This is where `StringsExtension` can help you:
 
@@ -170,3 +170,9 @@ You have to change default randomizer to `XoshiroRandomizer` with desired seed n
         new \DummyGenerator\Core\Randomizer\XoshiroRandomizer(seed: 123)
     );
 ```
+
+### How can I use providers
+
+Please look at [readme](https://github.com/johnykvsky/dummyproviders) in providers repository.
+
+In same way you can create and use your own language providers.
