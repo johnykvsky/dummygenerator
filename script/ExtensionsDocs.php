@@ -70,29 +70,24 @@ class ExtensionsDocs
 
 
                     if ($reflparameter->isDefaultValueAvailable()) {
-                        $parameter['default'] = $reflparameter->getDefaultValue();
+                        $defaultValue = $reflparameter->getDefaultValue();
+                        if (is_string($defaultValue)) {
+                            $defaultValue = '"' . $defaultValue . '"';
+                        }
+
+                        if (is_null($defaultValue)) {
+                            $defaultValue = 'null';
+                        }
+
+                        if (is_bool($defaultValue)) {
+                            $defaultValue = $defaultValue ? 'true' : 'false';
+                        }
+
+                        $parameter['default'] = $defaultValue;
                     }
 
                     $parameters[] = $parameter;
                 }
-
-                $parametersJoined = [];
-
-                foreach ($parameters as $parameter) {
-                    if ($this->withParamTypes && !empty($parameter['type'])) {
-                        $parametersString = $parameter['type'] . ' ' . $parameter['name'];
-                    } else {
-                        $parametersString = $parameter['name'];
-                    }
-
-                    if (!empty($parameter['default'])) {
-                        $parametersString .= ' = ' . $parameter['default'];
-                    }
-
-                    $parametersJoined[] = $parametersString;
-                }
-
-                $parametersString = implode(', ', $parametersJoined);
 
                 try {
                     $example = $generator->$methodName();
@@ -104,11 +99,15 @@ class ExtensionsDocs
                 $example = $this->formatExample($example);
                 $returnTypes = $this->getTypes($reflmethod->getReturnType());
 
-                $extensions[$id][$methodName . ' (' . $parametersString . ')'] = '(' . $returnTypes . ') ' . $example;
+                $extensions[$id][$methodName] = [
+                    'methodName' => $methodName,
+                    'parameters' => $parameters,
+                    'returnType' => $returnTypes,
+                    'example' => $example,
+                ];
             }
         }
 
-        // it might be easier to go with this, instead of returning
         file_put_contents('./docs/extensions_list.md', $this->toMarkdown($extensions));
         // var_export($errors);
 
@@ -134,6 +133,9 @@ class ExtensionsDocs
         $result = null;
 
         if ($type instanceof \ReflectionNamedType) {
+            if (!in_array($type->getName(), ['array','string','bool','int','float'])) {
+                return '\\'.$type->getName();
+            }
             return $type->getName();
         }
 
@@ -172,9 +174,11 @@ class ExtensionsDocs
             $markdown .= "## {$shortName}\n\n";
             ksort($info['methods'], SORT_NATURAL | SORT_FLAG_CASE);
             foreach ($info['methods'] as $method => $value) {
-                $methodName = preg_replace('/\s*\(/', '(', $method);
-                $markdown .= "- `{$methodName}`: {$value}\n";
+                $methodName = $value['methodName'] . '('.$this->getParametersString($value['parameters'], $this->withParamTypes).')';
+                $returnData = '('.$value['returnType'].') ' . $value['example'];
+                $markdown .= "- `{$methodName}`: {$returnData}\n";
             }
+
             $markdown .= "\n";
         }
 
@@ -198,5 +202,30 @@ class ExtensionsDocs
         ksort($sortedData, SORT_NATURAL | SORT_FLAG_CASE);
 
         return $sortedData;
+    }
+
+    private function getParametersString(array $parameters, $withParamTypes = false): string
+    {
+        $parametersJoined = [];
+
+        foreach ($parameters as $parameter) {
+            if ($withParamTypes && !empty($parameter['type'])) {
+                if (!in_array($parameter['type'], ['array','string','bool','int','float'])) {
+                    $parameter['type'] = '\\'.$parameter['type'];
+                }
+
+                $parametersString = $parameter['type'] . ' ' . $parameter['name'];
+            } else {
+                $parametersString = $parameter['name'];
+            }
+
+            if (isset($parameter['default'])) {
+                $parametersString .= ' = ' . $parameter['default'];
+            }
+
+            $parametersJoined[] = $parametersString;
+        }
+
+        return implode(', ', $parametersJoined);
     }
 }
