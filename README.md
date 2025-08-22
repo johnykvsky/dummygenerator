@@ -11,13 +11,20 @@ $generator = new DummyGenerator(DefinitionContainerBuilder::all());
 echo $generator->firstName();
 ```
 
+To make it even easier you can do:
+
+```php
+// this will create generator with all extensions in core package
+$generator = DummyGeneratorFactory::create();
+```
+
 Full list of stuff you can generate is available [here](docs/extensions_list.md).
 
 Faker died ~~for our~~ because of being hard to maintain - more on that [here](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html) and Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
 
-I needed simple dummy data generator for PHP 8.3 and with modern architecture in mind, so DummyGenerator came to life.
+I needed simple dummy data generator for PHP 8.3, with modern architecture in mind. This is how DummyGenerator came to life.
 
-Apart from different initialization and providers removed from core it should be in general a drop-in replacement for Faker. Some small differences are mentioned below.
+Apart from different initialization and providers removed from core it should same easy to use as Faker. Some small differences are mentioned below.
 
 # Changes in compare to Faker
 
@@ -29,6 +36,7 @@ Apart from different initialization and providers removed from core it should be
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `addDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
+* changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
@@ -90,6 +98,7 @@ Since `--repeat` is still missing in PHPUnit [here](https://github.com/johnykvsk
 # TODO (ideas, not promises)
 
 * improve documentation
+* add GeneratorFactory
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

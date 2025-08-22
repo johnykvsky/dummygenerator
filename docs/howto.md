@@ -104,9 +104,9 @@ One notice - there is also `TransliteratorAwareReplacerInterface` and `Translite
 
 Enum extension allows you to get random element or value from selected Enum object. It has two methods:
  * enumValue(), that will get value from backed enums (which has to be string or int)
- * enumElement(), that will get one of `cases()` element from enum (it will be `UnitEnum` object) 
+ * enumCase(), that will get one of `cases()` element from enum (it will be `UnitEnum` object) 
 
-`enumValue()` has to be used on backed enums, but `enumElement()` works for backed and non-backed enums.
+`enumValue()` has to be used on backed enums, but `enumCase()` works for backed and non-backed enums.
 
 For following enum:
 
@@ -125,7 +125,7 @@ You can do following:
 ```php
 $container = DefinitionContainerBuilder::base(); // base extensions 
 $generator = new DummyGenerator($container);
-$generator->enumElement(SuitBackedIntEnum::class); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
+$generator->enumCase(SuitBackedIntEnum::class); // it will get random element, i.e. SuitBackedIntEnum::Diamonds
 // or
 $generator->enumValue(SuitBackedIntEnum::class); // it will get random value, i.e. "Spades"
 ```

@@ -58,25 +58,25 @@ class EnumTest extends TestCase
 
     public function testElement(): void
     {
-        self::assertInstanceOf(UnitEnum::class, $this->generator->enumElement(SuitEnum::class));
+        self::assertInstanceOf(UnitEnum::class, $this->generator->enumCase(SuitEnum::class));
     }
 
     public function testBackedElement(): void
     {
-        self::assertInstanceOf(UnitEnum::class, $this->generator->enumElement(SuitBackedStringEnum::class));
+        self::assertInstanceOf(UnitEnum::class, $this->generator->enumCase(SuitBackedStringEnum::class));
     }
 
     public function testElementForInvalidClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
-        $this->generator->enumElement('none_enum_string');
+        $this->generator->enumCase('none_enum_string');
     }
 
     public function testElementForNonEnumClass(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
-        $this->generator->enumElement(BarProvider::class);
+        $this->generator->enumCase(BarProvider::class);
     }
 }

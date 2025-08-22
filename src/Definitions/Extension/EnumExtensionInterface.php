@@ -20,5 +20,5 @@ interface EnumExtensionInterface extends ExtensionInterface
      *
      * @example Suit::Diamonds
      */
-    public function enumElement(string $enum): UnitEnum;
+    public function enumCase(string $enum): UnitEnum;
 }

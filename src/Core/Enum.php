@@ -39,7 +39,7 @@ class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
      * @param class-string<UnitEnum> $enum
      * @throws ExtensionArgumentException
      */
-    public function enumElement(string $enum): UnitEnum
+    public function enumCase(string $enum): UnitEnum
     {
         try {
             new ReflectionEnum($enum);
