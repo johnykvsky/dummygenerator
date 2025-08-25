@@ -35,6 +35,11 @@ class AddressTest extends TestCase
         $this->generator = new DummyGenerator($container);
     }
 
+    public function testCityPrefix(): void
+    {
+        self::assertNotEmpty($this->generator->cityPrefix());
+    }
+
     public function testCitySuffix(): void
     {
         self::assertNotEmpty($this->generator->citySuffix());

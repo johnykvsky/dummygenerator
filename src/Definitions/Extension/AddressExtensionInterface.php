@@ -12,6 +12,9 @@ interface AddressExtensionInterface extends ExtensionInterface
     /** @example 'Sashabury' */
     public function city(): string;
 
+    /** @example 'Lake' */
+    public function cityPrefix(): string;
+
     /** @example 'town' */
     public function citySuffix(): string;
 
