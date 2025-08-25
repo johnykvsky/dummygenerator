@@ -23,22 +23,29 @@ class Address implements
     use ReplacerAwareExtensionTrait;
 
     /** @var string[] */
+    protected array $cityPrefix = ['North', 'East', 'West', 'South', 'New', 'Lake', 'Port'];
+
+    /** @var string[] */
     protected array $citySuffix = [
-        'Ville',
+        'town', 'ton', 'land', 'ville', 'berg', 'burgh', 'borough', 'bury', 'view', 'port', 'mouth', 'stad', 'furt', 'chester', 'mouth', 'fort', 'haven', 'side', 'shire',
     ];
 
     /** @var string[] */
     protected array $streetSuffix = [
-        'Street',
+        'Street', 'Avenue', 'Alley', 'Park', 'Drive', 'Lane', 'Square', 'Hill',
     ];
 
     /** @var string[] */
     protected array $cityFormats = [
+        '{{cityPrefix}} {{firstName}}{{citySuffix}}',
+        '{{cityPrefix}} {{firstName}}',
         '{{firstName}}{{citySuffix}}',
+        '{{lastName}}{{citySuffix}}',
     ];
 
     /** @var string[] */
     protected array $streetNameFormats = [
+        '{{firstName}} {{streetSuffix}}',
         '{{lastName}} {{streetSuffix}}',
     ];
 
@@ -53,13 +60,18 @@ class Address implements
     ];
 
     /** @var string[] */
-    protected array $buildingNumber = ['%#'];
+    protected array $buildingNumber = ['%####', '%###', '%##', '%#'];
 
     /** @var string[] */
     protected array $postcode = ['#####', '##-###'];
 
     /** @var string[] */
     protected array $country = ['England', 'France'];
+
+    public function cityPrefix(): string
+    {
+        return $this->randomizer->randomElement($this->cityPrefix);
+    }
 
     public function citySuffix(): string
     {

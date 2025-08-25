@@ -39,16 +39,18 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
 
     /** @var string[] */
     protected array $firstNameMale = [
-        'John', 'Harry', 'Olivier', 'Garett', 'Hank', 'Paul', 'Vernon', 'Fred', 'James', 'David', 'Michael',
+        'John', 'Harry', 'Olivier', 'Garett', 'Hank', 'Paul', 'Vernon', 'Fred', 'James', 'David', 'Michael', 'Ian', 'Vincent', 'Edmund', 'Bill', 'Kevin',
     ];
 
     /** @var string[] */
     protected array $firstNameFemale = [
-        'Jane', 'Katy', 'Anna', 'Patricia', 'Daisy', 'Wendy', 'Heather', 'Emily', 'Julia', 'Mary', 'Victoria',
+        'Jane', 'Katy', 'Anna', 'Patricia', 'Daisy', 'Wendy', 'Heather', 'Emily', 'Julia', 'Mary', 'Victoria', 'Abby', 'Jackie', 'Hannah', 'Susan', 'Wilma',
     ];
 
     /** @var string[] */
-    protected array $lastName = ['Doe', 'Smith', 'White', 'Adams', 'Carter', 'Morgan', 'Robinson', 'Thompson', 'Walker', 'Harris', 'McKenzie'];
+    protected array $lastName = [
+        'Doe', 'Smith', 'White', 'Adams', 'Carter', 'Morgan', 'Robinson', 'Thompson', 'Walker', 'Harris', 'McKenzie', 'Anderson', 'Spencer', 'Fisher', 'Green', 'Murphy',
+    ];
 
     /** @var string[] */
     protected array $titleMale = ['Mr.', 'Dr.', 'Prof.'];
