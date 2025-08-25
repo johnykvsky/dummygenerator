@@ -7,7 +7,10 @@ namespace DummyGenerator\Test\Container;
 use DummyGenerator\Container\DefinitionContainerBuilder;
 use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
 use DummyGenerator\Definitions\Extension\CoordinatesExtensionInterface;
+use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
+use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
+use DummyGenerator\Definitions\Extension\StringsExtensionInterface;
 use PHPUnit\Framework\TestCase;
 
 class ContainerBuilderTest extends TestCase
@@ -16,9 +19,11 @@ class ContainerBuilderTest extends TestCase
     {
         $container = DefinitionContainerBuilder::base();
 
-        self::assertTrue($container->has(CoordinatesExtensionInterface::class));
+        self::assertTrue($container->has(DateTimeExtensionInterface::class));
+        self::assertTrue($container->has(EnumExtensionInterface::class));
+        self::assertTrue($container->has(StringsExtensionInterface::class));
+        self::assertFalse($container->has(CoordinatesExtensionInterface::class));
         self::assertFalse($container->has(PersonExtensionInterface::class));
-        self::assertFalse($container->has(AddressExtensionInterface::class));
     }
 
     public function testCanGetDefaultDefinitions(): void

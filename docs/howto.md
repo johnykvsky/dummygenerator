@@ -1,4 +1,4 @@
-### How can I add my own localised definitions
+### How can I add my own localised definitions (languages)
 
 ```php
 $container = DefinitionContainerBuilder::default();
@@ -11,7 +11,7 @@ In this example two things happened:
 * `Address` extension will be overwritten with our custom `Address` made for `pl_PL` language
 * new extensions `LicensePlate` is added, so we can now use `$generator->licensePlate()` as it is defined in given class
 
-### How can I use language-based definitions
+### How can I use localised definitions
 
 Other way to work with localised extensions is to load them all and use by hand-picking:
 
@@ -28,6 +28,10 @@ echo $generator->ext(AddressDE::class)->firstName(); // German first name
 but this way we skip `__call` in `DummyGenerator` so it won't work with any other strategy than `Simple`. It's not bad, just keep that in mind.
 
 **Beware**, you need to pay attention to one thing: naming. Magic method `__call` checks if requested method (like `firstName`) exists in any extension. It checks them one by one, in order of adding. So if you have by some reason 2 extensions that has same method (like `getName()` in both of them) and you run `$generator->getName()` it will execute `getName()` in extension that was added earlier to container.
+
+### How can I use providers with language pack
+
+Please look at [readme](https://github.com/johnykvsky/dummyproviders) in providers repository. In same way you can create and use your own language providers.
 
 ### How can I change definition on the fly
 
@@ -170,9 +174,3 @@ You have to change default randomizer to `XoshiroRandomizer` with desired seed n
         new \DummyGenerator\Core\Randomizer\XoshiroRandomizer(seed: 123)
     );
 ```
-
-### How can I use providers
-
-Please look at [readme](https://github.com/johnykvsky/dummyproviders) in providers repository.
-
-In same way you can create and use your own language providers.
