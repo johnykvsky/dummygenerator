@@ -12,20 +12,21 @@ composer require johnykvsky/dummygenerator --dev
 
 # About
 
-DummyGenerator is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
+**DummyGenerator** is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
 $generator = DummyGeneratorFactory::create(); // all extensions are loaded
 echo $generator->firstName();
 ```
 
-You can also look at [here](docs/quick_start.md) and [HowTo](docs/howto.md). Full list of stuff you can generate is available [here](docs/extensions_list.md).
+You can also look at [QuickStart](docs/quick_start.md) and [HowTo](docs/howto.md). Full list of stuff you can generate is available [here](docs/extensions_list.md).
 
 # But why...?
 
-Faker died ~~for our~~ because of being hard to maintain - more on that [here](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html) and Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
+Faker died ~~for our~~ because of being hard to maintain as mentioned in [sunsetting-faker](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html).
+Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
 
-I needed simple dummy data generator for PHP 8.3, with modern architecture in mind. This is how DummyGenerator came to life.
+I needed simple dummy data generator for PHP 8.3, with modern architecture in mind. This is how **DummyGenerator** came to life.
 
 # Changes in compare to Faker
 
@@ -54,9 +55,9 @@ There are two Randomizer implementations available:
 
 # Languages
 
-One of main points of DummyGenerator is to keep core language agnostic. This is why **all** languages has been removed from core. 
+One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core. 
 
-`Person` extension provides only ~15 names than can be used as first name, last name, part of email etc. If you want more, [here](https://github.com/johnykvsky/dummyproviders) are full providers for `en_US`,`en_GB` and `pl_PL`.
+`Person` extension provides only ~15 names than can be used as first name, last name, part of email etc. If you want more, check [dummyproviders](https://github.com/johnykvsky/dummyproviders) to get full providers for `en_US`,`en_GB` and `pl_PL`.
 I have created them to show how to make them / convert from old Faker, to allow anyone to work on other languages.
 
 Keep in mind:
@@ -94,7 +95,7 @@ I leave answer to you. And yes, there might be cases when data should not be ran
 
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 
-Since PHPUnit is still missing `--repeat`, [here](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
+Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
 
 # TODO (ideas, not promises)
 
