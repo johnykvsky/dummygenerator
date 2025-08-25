@@ -97,12 +97,8 @@ readonly class DefinitionPack implements DefinitionPackInterface
         ];
 
         $this->baseExtensions = [
-            CoordinatesExtensionInterface::class => Coordinates::class,
-            CountryExtensionInterface::class => Country::class,
             DateTimeExtensionInterface::class => DateTime::class,
             EnumExtensionInterface::class => Enum::class,
-            HashExtensionInterface::class => Hash::class,
-            LanguageExtensionInterface::class => Language::class,
             LoremExtensionInterface::class => Lorem::class,
             NumberExtensionInterface::class => Number::class,
             StringsExtensionInterface::class => Strings::class,
@@ -110,8 +106,12 @@ readonly class DefinitionPack implements DefinitionPackInterface
             ];
 
         $this->defaultExtensions = [
-            PersonExtensionInterface::class => Person::class,
+            CoordinatesExtensionInterface::class => Coordinates::class,
+            CountryExtensionInterface::class => Country::class,
+            HashExtensionInterface::class => Hash::class,
             InternetExtensionInterface::class => Internet::class,
+            LanguageExtensionInterface::class => Language::class,
+            PersonExtensionInterface::class => Person::class,
         ];
 
         $this->complementaryExtensions = [
