@@ -39,17 +39,17 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
 
     /** @var string[] */
     protected array $firstNameMale = [
-        'John', 'Harry', 'Olivier', 'Garett', 'Hank', 'Paul', 'Vernon', 'Fred', 'James', 'David', 'Michael', 'Ian', 'Vincent', 'Edmund', 'Bill', 'Kevin'
+        'John', 'Harry', 'Olivier', 'Garett', 'Hank', 'Paul', 'Vernon', 'Fred', 'James', 'David', 'Michael', 'Ian', 'Vincent', 'Edmund', 'Bill', 'Kevin',
     ];
 
     /** @var string[] */
     protected array $firstNameFemale = [
-        'Jane', 'Katy', 'Anna', 'Patricia', 'Daisy', 'Wendy', 'Heather', 'Emily', 'Julia', 'Mary', 'Victoria', 'Abby', 'Jackie', 'Hannah', 'Susan', 'Wilma'
+        'Jane', 'Katy', 'Anna', 'Patricia', 'Daisy', 'Wendy', 'Heather', 'Emily', 'Julia', 'Mary', 'Victoria', 'Abby', 'Jackie', 'Hannah', 'Susan', 'Wilma',
     ];
 
     /** @var string[] */
     protected array $lastName = [
-        'Doe', 'Smith', 'White', 'Adams', 'Carter', 'Morgan', 'Robinson', 'Thompson', 'Walker', 'Harris', 'McKenzie', 'Anderson', 'Spencer', 'Fisher', 'Green', 'Murphy'
+        'Doe', 'Smith', 'White', 'Adams', 'Carter', 'Morgan', 'Robinson', 'Thompson', 'Walker', 'Harris', 'McKenzie', 'Anderson', 'Spencer', 'Fisher', 'Green', 'Murphy',
     ];
 
     /** @var string[] */
