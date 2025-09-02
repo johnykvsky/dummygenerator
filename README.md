@@ -19,7 +19,9 @@ $generator = DummyGeneratorFactory::create(); // all extensions are loaded
 echo $generator->firstName();
 ```
 
-You can also look at [QuickStart](docs/quick_start.md) and [HowTo](docs/howto.md). Full list of stuff you can generate is available [here](docs/extensions_list.md).
+# Documentation
+
+Documentation is available under [https://johnykvsky.github.io/dummydocs/][link-docs]
 
 # But why...?
 
@@ -44,14 +46,14 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 * added `Enum`, to get random values from PHP enums
-* added `String`, to generate random string from given pool (see [HowTo](docs/howto.md) for more)
-* added support for `SystemClock`, PSR-20 implementation of Clock (see [QuickStart](docs/quick_start.md) for more)
+* added `String`, to generate random string from given pool
+* added support for `SystemClock`, PSR-20 implementation of Clock
 
 This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
 
 There are two Randomizer implementations available: 
 * default `Randomizer` 
-* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests (see [HowTo](docs/howto.md) for more).
+* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
 
 # Languages
 
@@ -107,3 +109,4 @@ Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https:
 
 [link-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml
 [link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator
+[link-docs]: https://johnykvsky.github.io/dummydocs/
