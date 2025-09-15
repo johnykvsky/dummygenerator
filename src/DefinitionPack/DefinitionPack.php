@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace DummyGenerator\DefinitionPack;
 
 use DummyGenerator\Core\Address;
+use DummyGenerator\Core\AnyDateTime;
 use DummyGenerator\Core\Barcode;
 use DummyGenerator\Core\Biased;
 use DummyGenerator\Core\Blood;
@@ -41,6 +42,7 @@ use DummyGenerator\Definitions\Calculator\IsbnCalculatorInterface;
 use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
+use DummyGenerator\Definitions\Extension\AnyDateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
 use DummyGenerator\Definitions\Extension\BiasedExtensionInterface;
 use DummyGenerator\Definitions\Extension\BloodExtensionInterface;
@@ -97,7 +99,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
         ];
 
         $this->baseExtensions = [
-            DateTimeExtensionInterface::class => DateTime::class,
+            AnyDateTimeExtensionInterface::class => AnyDateTime::class,
             EnumExtensionInterface::class => Enum::class,
             LoremExtensionInterface::class => Lorem::class,
             NumberExtensionInterface::class => Number::class,
@@ -121,6 +123,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
             BloodExtensionInterface::class => Blood::class,
             ColorExtensionInterface::class => Color::class,
             CompanyExtensionInterface::class => Company::class,
+            DateTimeExtensionInterface::class => DateTime::class,
             FileExtensionInterface::class => File::class,
             PaymentExtensionInterface::class => Payment::class,
             PhoneNumberExtensionInterface::class => PhoneNumber::class,

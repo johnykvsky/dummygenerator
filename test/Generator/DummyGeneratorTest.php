@@ -175,4 +175,20 @@ class DummyGeneratorTest extends TestCase
 
         self::assertEquals('baz', $generator->bax());
     }
+
+    public function testRemoveDefinition(): void
+    {
+        $container = new DefinitionContainer([]);
+        $container->add(FooProvider::class, new FooProvider());
+
+        $generator = new DummyGenerator($container);
+
+        $ext = $generator->ext(FooProvider::class);
+        self::assertNotEmpty($ext);
+
+        $generator->removeDefinition(FooProvider::class);
+
+        self::expectException(DefinitionNotFound::class);
+        $generator->ext(FooProvider::class);
+    }
 }

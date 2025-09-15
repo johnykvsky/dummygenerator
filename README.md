@@ -50,6 +50,7 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool
 * added support for `SystemClock`, PSR-20 implementation of Clock
+* added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more)
 
 This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
 
@@ -65,7 +66,7 @@ One of main points of **DummyGenerator** is to keep core language agnostic. This
 I have created them to show how to make them / convert from old Faker, to allow anyone to work on other languages.
 
 Keep in mind:
-* **core will stay language agnostic**
+* **core will stay language agnostic** with some small samples (i.e. mentioned names) in English 
 * I have **no** current plans to support any language
 * I have **no** current plans to work on extending/improving existing language providers.
 * if someone like to make a PR to improve/extend one of mentioned languages - I will gladly look at it.
@@ -103,7 +104,7 @@ Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https:
 
 # TODO (ideas, not promises)
 
-* alternative DateTimeExtension with support only for DateTimeImmutable params (without strings)?
+* nothing at the moment...
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

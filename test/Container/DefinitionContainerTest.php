@@ -69,6 +69,20 @@ class DefinitionContainerTest extends TestCase
         self::assertTrue($container->has('some_name'));
     }
 
+    public function testCanRemoveDefinitionFromContainer(): void
+    {
+        $container = new DefinitionContainer([]);
+
+        $container->add('some_name', new class implements ExtensionInterface {
+        });
+
+        self::assertTrue($container->has('some_name'));
+
+        $container->remove('some_name');
+
+        self::assertFalse($container->has('some_name'));
+    }
+
     public function testCanGetAllDefinitions(): void
     {
         $container = new DefinitionContainer([]);
