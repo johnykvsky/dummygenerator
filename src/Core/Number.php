@@ -53,7 +53,7 @@ class Number implements NumberExtensionInterface, RandomizerAwareExtensionInterf
         $float = $this->randomizer->getFloat($min, $max ?? PHP_FLOAT_MAX);
 
         if (null === $nbMaxDecimals) {
-            $nbMaxDecimals = $this->randomDigit();
+            $nbMaxDecimals = $this->randomDigitNot();
         }
 
         return round($float, $nbMaxDecimals);

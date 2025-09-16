@@ -20,10 +20,7 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
     use RandomizerAwareExtensionTrait;
     use ClockAwareExtensionTrait;
 
-    /**
-     * @var string[]
-     * TODO move to interface const
-     */
+    /** @var string[] */
     protected array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
 
     public function dateTime(DateTimeInterface|string $until = 'now', ?string $timezone = null): \DateTimeInterface

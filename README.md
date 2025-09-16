@@ -104,7 +104,7 @@ Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https:
 
 # TODO (ideas, not promises)
 
-* nothing at the moment...
+* nothing at the moment
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

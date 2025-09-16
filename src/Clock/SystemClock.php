@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Clock;
 
+use DateInvalidTimeZoneException;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -11,6 +12,7 @@ class SystemClock implements SystemClockInterface
 {
     private DateTimeZone $timezone;
 
+    /** @throws DateInvalidTimeZoneException */
     public function __construct(\DateTimeZone|string|null $timezone = null)
     {
         if ($timezone === null) {
@@ -18,7 +20,6 @@ class SystemClock implements SystemClockInterface
         }
 
         if (is_string($timezone)) {
-            // TODO check if passed string is valid timezone
             $timezone = new DateTimeZone($timezone);
         }
 

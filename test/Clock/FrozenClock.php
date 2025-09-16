@@ -2,6 +2,7 @@
 
 namespace DummyGenerator\Test\Clock;
 
+use DateInvalidTimeZoneException;
 use DateTimeImmutable;
 use DateTimeZone;
 use DummyGenerator\Clock\SystemClockInterface;
@@ -11,6 +12,9 @@ class FrozenClock implements SystemClockInterface
     private DateTimeImmutable $now;
     private DateTimeZone $timezone;
 
+    /**
+     * @throws DateInvalidTimeZoneException
+     */
     public function __construct(DateTimeImmutable $now, DateTimeZone|string|null $timezone = null)
     {
         if ($timezone === null) {
@@ -18,7 +22,6 @@ class FrozenClock implements SystemClockInterface
         }
 
         if (is_string($timezone)) {
-            // TODO check if passed string is valid timezone
             $timezone = new DateTimeZone($timezone);
         }
 

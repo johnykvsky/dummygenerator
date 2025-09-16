@@ -132,7 +132,10 @@ final class DefinitionContainer implements DefinitionContainerInterface
      */
     private function getService(string $id, callable|object|string $definition): DefinitionInterface
     {
-        // TODO refactor for more readability and case for object not implementing DefinitionInterface
+        if ($definition instanceof DefinitionInterface) {
+            return $this->handleAwareness($definition);
+        }
+
         if (is_callable($definition)) {
             try {
                 return $this->handleAwareness($definition());
@@ -143,29 +146,26 @@ final class DefinitionContainer implements DefinitionContainerInterface
                     $e,
                 );
             }
-        } elseif ($definition instanceof DefinitionInterface) {
-            return $this->handleAwareness($definition);
-        } elseif (is_string($definition)) {
-            if (class_exists($definition)) {
-                try {
-                    $class = new $definition();
-
-                    if ($class instanceof DefinitionInterface) {
-                        return $this->handleAwareness($class);
-                    }
-
-                    // @phpstan-ignore-next-line
-                    throw new ContainerException(sprintf('Class for "%s" is not implementing DefinitionInterface', $id));
-                } catch (\Throwable $e) {
-                    throw new ContainerException(sprintf('Could not instantiate class for "%s"', $id), 0, $e);
-                }
-            }
-
-            throw new ContainerException(sprintf(
-                'Could not instantiate class for "%s". Class was not found.',
-                $id,
-            ));
         }
+
+        if (is_string($definition) && class_exists($definition)) {
+            try {
+                $class = new $definition();
+
+                if ($class instanceof DefinitionInterface) {
+                    return $this->handleAwareness($class);
+                }
+
+                throw new ContainerException(sprintf('Class for "%s" is not implementing DefinitionInterface', $id));
+            } catch (\Throwable $e) {
+                throw new ContainerException(sprintf('Could not instantiate class for "%s"', $id), 0, $e);
+            }
+        }
+
+        throw new ContainerException(sprintf(
+            'Could not instantiate class for "%s". Class was not found or not implementing DefinitionInterface.',
+            $id,
+        ));
     }
 
     private function handleAwareness(DefinitionInterface $extension): DefinitionInterface
