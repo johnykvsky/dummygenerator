@@ -138,7 +138,7 @@ class DefinitionContainerTest extends TestCase
         $container = new DefinitionContainer($definitions);
 
         $this->expectException(ContainerException::class);
-        $this->expectExceptionMessage('Could not instantiate class for "some_name". Class was not found.');
+        $this->expectExceptionMessage('Could not instantiate class for "some_name". Class was not found or not implementing DefinitionInterface.');
         $container->get('some_name');
     }
 
