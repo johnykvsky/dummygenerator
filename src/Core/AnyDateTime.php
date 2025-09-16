@@ -21,6 +21,7 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
 
     public function anyDate(?DateTimeInterface $date = null, DateInterval $interval = new DateInterval('P10Y'), DatePeriodEnum $period = DatePeriodEnum::ANY_DATE): \DateTimeInterface
     {
+        /** @var \DateTimeImmutable|\DateTime|null $date */
         if ($date === null) {
             $date = $this->clock->now();
         }
