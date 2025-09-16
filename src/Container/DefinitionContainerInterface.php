@@ -17,5 +17,7 @@ interface DefinitionContainerInterface
 
     public function add(string $name, callable|DefinitionInterface|string $value): void;
 
+    public function remove(string $name): void;
+
     public function findProcessor(string $name): null|ResolvedDefinition;
 }

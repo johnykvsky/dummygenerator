@@ -104,6 +104,16 @@ class DummyGenerator
         );
     }
 
+    public function removeDefinition(string $name): void
+    {
+        $this->container->remove($name);
+
+        $this->extensions = array_filter(
+            $this->extensions,
+            static fn (ResolvedDefinition $definition) => $definition->definitionId !== $name,
+        );
+    }
+
     /**
      * Replaces tokens ('{{ tokenName }}') in given string with the result from the token method call
      */

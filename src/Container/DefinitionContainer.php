@@ -98,6 +98,17 @@ final class DefinitionContainer implements DefinitionContainerInterface
         }
     }
 
+    public function remove(string $name): void
+    {
+        if (isset($this->definitions[$name])) {
+            unset($this->definitions[$name]);
+        }
+
+        if (isset($this->services[$name])) {
+            unset($this->services[$name]);
+        }
+    }
+
     /**
      * Find proper Extension for given method
      */

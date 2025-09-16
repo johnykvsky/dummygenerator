@@ -108,8 +108,8 @@ class ExtensionsDocs
             }
         }
 
-        file_put_contents('./docs/extensions_list.md', $this->toMarkdown($extensions));
-        // var_export($errors);
+        file_put_contents('./extensions_list.md', $this->toMarkdown($extensions));
+        var_export($errors);
 
         return $extensions;
     }
@@ -156,7 +156,7 @@ class ExtensionsDocs
         if (is_array($example)) {
             $result = "['" . implode("', '", $example) . "']";
         } elseif ($example instanceof \DateTimeInterface) {
-            $result = "DateTimeImmutable('" . $example->format('Y-m-d H:i:s') . "')";
+            $result = "\DateTimeImmutable('" . $example->format('Y-m-d H:i:s') . "')";
         } else {
             $result = var_export($example, true);
         }
@@ -171,7 +171,7 @@ class ExtensionsDocs
         $sortedData = $this->sortExtensions($data);
 
         foreach ($sortedData as $shortName => $info) {
-            $markdown .= "## {$shortName}\n\n";
+            $markdown .= "# {$shortName}\n\n";
             ksort($info['methods'], SORT_NATURAL | SORT_FLAG_CASE);
             foreach ($info['methods'] as $method => $value) {
                 $methodName = $value['methodName'] . '('.$this->getParametersString($value['parameters'], $this->withParamTypes).')';
@@ -220,6 +220,9 @@ class ExtensionsDocs
             }
 
             if (isset($parameter['default'])) {
+                if (is_object($parameter['default'])) {
+                    $parameter['default'] = basename(str_replace('\\', '/', $parameter['default']::class));
+                }
                 $parametersString .= ' = ' . $parameter['default'];
             }
 
