@@ -43,6 +43,15 @@ class AnyDateTimeTest extends TestCase
         self::assertTrue($date > $dateFrom && $date < $dateTo);
     }
 
+    public function testAnyStringDate(): void
+    {
+        $date = $this->generator->anyDate(date: '2025-08-12', interval: 'P1D', period: DatePeriodEnum::ANY_DATE);
+        $dateFrom = (new DateTimeImmutable('2025-08-11', new DateTimeZone('UTC')))->setTime(0,0,1);
+        $dateTo = (new DateTimeImmutable('2025-08-13', new DateTimeZone('UTC')))->setTime(23,59,59);
+
+        self::assertTrue($date > $dateFrom && $date < $dateTo);
+    }
+
     public function testAnyPastDate(): void
     {
         $date = $this->generator->anyDate(interval: new DateInterval('P1D'), period: DatePeriodEnum::PAST_DATE);

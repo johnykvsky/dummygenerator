@@ -19,11 +19,23 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
     use RandomizerAwareExtensionTrait;
     use ClockAwareExtensionTrait;
 
-    public function anyDate(?DateTimeInterface $date = null, DateInterval $interval = new DateInterval('P10Y'), DatePeriodEnum $period = DatePeriodEnum::ANY_DATE): \DateTimeInterface
+    /**
+     * @throws \DateInvalidOperationException
+     * @throws \DateMalformedIntervalStringException
+     */
+    public function anyDate(DateTimeInterface|string|null $date = null, DateInterval|string $interval = 'P10Y', DatePeriodEnum $period = DatePeriodEnum::ANY_DATE): \DateTimeInterface
     {
         /** @var \DateTimeImmutable|\DateTime|null $date */
         if ($date === null) {
             $date = $this->clock->now();
+        }
+
+        if (is_string($date)) {
+            $date = new \DateTimeImmutable($date, $this->clock->timezone());
+        }
+
+        if (is_string($interval)) {
+            $interval = new DateInterval($interval);
         }
 
         if ($period === DatePeriodEnum::PAST_DATE) {
@@ -42,7 +54,7 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
 
     public function anyDateBetween(\DateTimeInterface $from, \DateTimeInterface $until): \DateTimeInterface
     {
-        // remember using same timezone for both, unless you want it different
+        // remember to use same timezone for both, unless you explicitly want it different
         $start = $from->getTimestamp();
         $end = $until->getTimestamp();
 
