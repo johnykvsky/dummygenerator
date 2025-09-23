@@ -20,12 +20,13 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
     use ClockAwareExtensionTrait;
 
     /**
+     * @param \DateTime|\DateTimeImmutable|string $date
      * @throws \DateInvalidOperationException
      * @throws \DateMalformedIntervalStringException
+     * @throws \DateMalformedStringException
      */
     public function anyDate(DateTimeInterface|string|null $date = null, DateInterval|string $interval = 'P10Y', DatePeriodEnum $period = DatePeriodEnum::ANY_DATE): \DateTimeInterface
     {
-        /** @var \DateTimeImmutable|\DateTime|null $date */
         if ($date === null) {
             $date = $this->clock->now();
         }
