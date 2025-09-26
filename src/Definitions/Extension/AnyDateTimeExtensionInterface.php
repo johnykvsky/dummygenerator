@@ -22,17 +22,19 @@ interface AnyDateTimeExtensionInterface extends ExtensionInterface
     /**
      * Get a DateTimeInterface object a random date between `$from` and `$until`.
      *
-     * @param \DateTimeInterface     $from     Start date for date generation
-     * @param \DateTimeInterface     $until    End date for date generation
+     * @param \DateTimeInterface|null     $from     Start date for date generation
+     * @param \DateTimeInterface|null     $until    End date for date generation
      *
      * @example DateTimeImmutable('2005-08-16 20:39:21')
      */
-    public function anyDateBetween(\DateTimeInterface $from, \DateTimeInterface $until): \DateTimeInterface;
+    public function anyDateBetween(?\DateTimeInterface $from = null, ?\DateTimeInterface $until = null): \DateTimeInterface;
 
     /**
      * Get a random timezone, uses `\DateTimeZone::listIdentifiers()` internally.
      *
+     * @param string|null $country Get timezone from given country
+     *
      * @example 'Europe/Rome'
      */
-    public function anyTimezone(): string;
+    public function anyTimezone(?string $country = null): string;
 }

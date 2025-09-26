@@ -17,10 +17,12 @@ use DummyGenerator\DummyGenerator;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Test\Clock\FrozenClock;
 use PHPUnit\Framework\TestCase;
+use Psr\Clock\ClockInterface;
 
 class AnyDateTimeTest extends TestCase
 {
     private DummyGenerator $generator;
+    private ClockInterface $clock;
 
     public function setUp(): void
     {
@@ -30,8 +32,8 @@ class AnyDateTimeTest extends TestCase
         $container->add(RandomizerInterface::class, Randomizer::class);
         $container->add(AnyDateTimeExtensionInterface::class, AnyDateTime::class);
         date_default_timezone_set('UTC');
-        $clock = new FrozenClock(new DateTimeImmutable('2025-08-12', new DateTimeZone('UTC')));
-        $this->generator = new DummyGenerator(container: $container, clock: $clock);
+        $this->clock = new FrozenClock(new DateTimeImmutable('2025-08-12', new DateTimeZone('UTC')));
+        $this->generator = new DummyGenerator(container: $container, clock: $this->clock);
     }
 
     public function testAnyDate(): void
@@ -79,6 +81,24 @@ class AnyDateTimeTest extends TestCase
         self::assertTrue($date > $dateFrom && $date < $dateTo);
     }
 
+    public function testAnyDateBetweenWithNoFrom(): void
+    {
+        $dateTo = (new DateTimeImmutable('2025-08-16', new DateTimeZone('UTC')))->setTime(23, 59, 59);
+        $date = $this->generator->anyDateBetween(until: $dateTo);
+        $dateFrom = $dateTo->sub(new DateInterval('P5Y'));
+
+        self::assertTrue($date > $dateFrom && $date < $dateTo);
+    }
+
+    public function testAnyDateBetweenWithNoUntil(): void
+    {
+        $dateFrom = (new DateTimeImmutable('2025-08-14', new DateTimeZone('UTC')))->setTime(0, 0, 1);
+        $date = $this->generator->anyDateBetween(from: $dateFrom);
+        $dateTo = $dateFrom->add(new DateInterval('P5Y'));
+
+        self::assertTrue($date > $dateFrom && $date < $dateTo);
+    }
+
     public function testAnyDateBetweenException(): void
     {
         $dateFrom = (new DateTimeImmutable('2025-08-14', new DateTimeZone('UTC')))->setTime(0, 0, 1);
@@ -90,5 +110,17 @@ class AnyDateTimeTest extends TestCase
     public function testAnyTimezone(): void
     {
         self::assertNotEmpty($this->generator->anyTimezone());
+    }
+
+    public function testAnyTimezoneForCountry(): void
+    {
+        self::assertEquals('Europe/Warsaw',$this->generator->anyTimezone('PL'));
+    }
+
+    public function testAnyTimezoneForInvalidCountry(): void
+    {
+        self::expectException(ExtensionArgumentException::class);
+        self::expectExceptionMessage('Invalid country code for timezone list: PLA');
+        $this->generator->anyTimezone('PLA');
     }
 }

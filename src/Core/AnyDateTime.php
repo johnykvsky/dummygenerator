@@ -53,8 +53,17 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
         return $this->anyDateBetween($from, $until);
     }
 
-    public function anyDateBetween(\DateTimeInterface $from, \DateTimeInterface $until): \DateTimeInterface
+    /** @param \DateTime|\DateTimeImmutable|null $from */
+    public function anyDateBetween(?\DateTimeInterface $from = null, ?\DateTimeInterface $until = null): \DateTimeInterface
     {
+        if ($from === null) {
+            $from = $this->clock->now()->sub(new DateInterval('P5Y'));
+        }
+
+        if ($until === null) {
+            $until = $from->add(new DateInterval('P5Y'));
+        }
+
         // remember to use same timezone for both, unless you explicitly want it different
         $start = $from->getTimestamp();
         $end = $until->getTimestamp();
@@ -68,9 +77,19 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
         return $this->getTimestampDateTime($timestamp);
     }
 
-    public function anyTimezone(): string
+    public function anyTimezone(?string $country = null): string
     {
-        return $this->randomizer->randomElement(\DateTimeZone::listIdentifiers());
+        if ($country === null) {
+            return $this->randomizer->randomElement(\DateTimeZone::listIdentifiers());
+        }
+
+        try {
+            $identifiers = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $country);
+        } catch (\Throwable $e) {
+            throw new ExtensionArgumentException(sprintf('Invalid country code for timezone list: %s', $country), $e->getCode(), $e);
+        }
+
+        return $this->randomizer->randomElement($identifiers);
     }
 
     /**
