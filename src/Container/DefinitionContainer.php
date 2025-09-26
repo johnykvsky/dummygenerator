@@ -142,7 +142,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
             } catch (\Throwable $e) {
                 throw new ContainerException(
                     sprintf('Error while invoking callable for "%s"', $id),
-                    0,
+                    $e->getCode(),
                     $e,
                 );
             }
@@ -158,7 +158,7 @@ final class DefinitionContainer implements DefinitionContainerInterface
 
                 throw new ContainerException(sprintf('Class for "%s" is not implementing DefinitionInterface', $id));
             } catch (\Throwable $e) {
-                throw new ContainerException(sprintf('Could not instantiate class for "%s"', $id), 0, $e);
+                throw new ContainerException(sprintf('Could not instantiate class for "%s"', $id), $e->getCode(), $e);
             }
         }
 
