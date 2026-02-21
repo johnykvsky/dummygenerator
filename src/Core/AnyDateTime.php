@@ -6,18 +6,19 @@ namespace DummyGenerator\Core;
 
 use DateInterval;
 use DateTimeInterface;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Definitions\Enum\DatePeriodEnum;
 use DummyGenerator\Definitions\Extension\AnyDateTimeExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExtensionInterface, ClockAwareExtensionInterface
+class AnyDateTime implements AnyDateTimeExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use ClockAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer,
+        private SystemClockInterface $clock
+    ) {
+    }
 
     /**
      * @param \DateTime|\DateTimeImmutable|string $date

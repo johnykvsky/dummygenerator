@@ -4,31 +4,23 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\IbanCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\IbanCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
+use DummyGenerator\Definitions\Calculator\IbanCalculatorInterface;
+use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Payment implements
-    PaymentExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    IbanCalculatorAwareExtensionInterface,
-    LuhnCalculatorAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Payment implements PaymentExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use IbanCalculatorAwareExtensionTrait;
-    use LuhnCalculatorAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer,
+        private ReplacerInterface $replacer,
+        private IbanCalculatorInterface $ibanCalculator,
+        private LuhnCalculatorInterface $luhnCalculator,
+        private GeneratorInterface $generator
+    ) {
+    }
 
     public string $expirationDateFormat = 'm/y';
 

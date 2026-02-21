@@ -8,17 +8,18 @@ use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionInterface, ClockAwareExtensionInterface
+class DateTime implements DateTimeExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use ClockAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer,
+        private SystemClockInterface $clock
+    ) {
+    }
 
     /** @var string[] */
     protected array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];

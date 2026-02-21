@@ -4,17 +4,19 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use ReflectionEnum;
 use ReflectionException;
 use UnitEnum;
 
-class Enum implements EnumExtensionInterface, RandomizerAwareExtensionInterface
+class Enum implements EnumExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     /**
      * @param class-string<UnitEnum> $enum

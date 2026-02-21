@@ -6,7 +6,7 @@ namespace DummyGenerator\Strategy;
 
 use Closure;
 
-class ValidStrategy implements StrategyInterface
+class ValidStrategy implements ShortCircuitStrategyInterface
 {
     private Closure $validator;
 
@@ -21,8 +21,10 @@ class ValidStrategy implements StrategyInterface
      * $evenValidator = function (int $digit): bool {
      *   return $digit % 2 === 0;
      * };
+     * $container->set(StrategyInterface::class, new ValidStrategy($evenValidator));
+     * $generator = new DummyGenerator($container);
      * for ($i=0; $i < 10; $i++) {
-     *   $values []= $generator->withStrategy(new ValidStrategy($evenValidator))->randomDigit();
+     *   $values []= $generator->randomDigit();
      * }
      * print_r($values); // [0, 4, 8, 4, 2, 6, 0, 8, 8, 6]
      * </code>a
@@ -45,10 +47,14 @@ class ValidStrategy implements StrategyInterface
 
             ++$tries;
 
+            if ($response instanceof ShortCircuitResult) {
+                return $response;
+            }
+
             if ($tries > $this->retries) {
                 throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a valid value', $this->retries));
             }
-        } while (!$this->validator->call($this, $response));
+        } while (!($this->validator)($response));
 
         return $response;
     }

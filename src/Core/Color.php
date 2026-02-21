@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\ColorExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Color implements ColorExtensionInterface, RandomizerAwareExtensionInterface
+class Color implements ColorExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     /** @var string[] */
     protected array $safeColorNames = [

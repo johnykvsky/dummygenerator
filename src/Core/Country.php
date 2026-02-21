@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\CountryExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Country implements CountryExtensionInterface, RandomizerAwareExtensionInterface
+class Country implements CountryExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     /**
      * @var string[]

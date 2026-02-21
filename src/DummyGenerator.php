@@ -4,70 +4,85 @@ declare(strict_types = 1);
 
 namespace DummyGenerator;
 
-use DummyGenerator\Clock\SystemClock;
 use DummyGenerator\Clock\SystemClockInterface;
-use DummyGenerator\Container\DefinitionContainer;
-use DummyGenerator\Container\DefinitionContainerBuilder;
-use DummyGenerator\Container\DefinitionContainerInterface;
-use DummyGenerator\Container\ResolvedDefinition;
+use DummyGenerator\Container\DefinitionMap;
+use DummyGenerator\Container\DiContainerFactory;
+use DummyGenerator\Container\DummyContainerInterface;
+use DummyGenerator\Container\ExtensionRegistry;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
+use DummyGenerator\Exception\MissingDependencyException;
 use DummyGenerator\ProviderPack\ProviderPackInterface;
 use DummyGenerator\Strategy\SimpleStrategy;
 use DummyGenerator\Strategy\StrategyInterface;
+use DummyGenerator\Template\TemplateParserInterface;
 
-class DummyGenerator
+class DummyGenerator implements GeneratorInterface
 {
-    /** @var array<string, ResolvedDefinition> */
+    /** @var array<string, DefinitionInterface> */
     protected array $extensions = [];
-    private DefinitionContainerInterface $container;
+    private DummyContainerInterface $container;
     private StrategyInterface $strategy;
-    private SystemClockInterface $clock;
+    private ExtensionRegistry $registry;
 
-    public function __construct(
-        ?DefinitionContainerInterface $container = null,
-        ?StrategyInterface $strategy = null,
-        ?SystemClockInterface $clock = null
-    ) {
-        $this->container = $container ?: DefinitionContainerBuilder::base();
-        $this->strategy = $strategy ?: new SimpleStrategy();
-        $this->clock = $clock ?: new SystemClock();
+    public function __construct(DummyContainerInterface $container)
+    {
+        if (!$container->has(StrategyInterface::class)) {
+            throw new MissingDependencyException(
+                'Container is missing StrategyInterface. ' .
+                'Use DiContainerFactory or register one in the container.',
+            );
+        }
+
+        if (!$container->has(SystemClockInterface::class)) {
+            throw new MissingDependencyException(
+                'Container is missing SystemClockInterface. ' .
+                'Use DiContainerFactory or register one in the container.',
+            );
+        }
+
+        $container->set(GeneratorInterface::class, $this);
+
+        $this->container = $container;
+
+        if (!$container->has(ExtensionRegistry::class)) {
+            throw new MissingDependencyException(
+                'Container is missing ExtensionRegistry. ' .
+                'Use DiContainerFactory or register one in the container.',
+            );
+        }
+
+        $registry = $this->container->get(ExtensionRegistry::class);
+        if (!$registry instanceof ExtensionRegistry) {
+            throw new MissingDependencyException('Container entry for ExtensionRegistry must be ExtensionRegistry.');
+        }
+
+        $this->registry = $registry;
+
+        $strategy = $this->container->get(StrategyInterface::class);
+        if (!$strategy instanceof StrategyInterface) {
+            throw new MissingDependencyException('Container entry for StrategyInterface must implement StrategyInterface.');
+        }
+
+        $clock = $this->container->get(SystemClockInterface::class);
+        if (!$clock instanceof SystemClockInterface) {
+            throw new MissingDependencyException('Container entry for SystemClockInterface must implement SystemClockInterface.');
+        }
+
+        $this->strategy = $strategy;
     }
 
-    /**
-     * Returns new Generator with given strategy and same extensions
-     */
-    public function withStrategy(StrategyInterface $strategy): self
+    public static function create(): self
     {
-        return new self($this->container, $strategy);
-    }
-
-    public function usedStrategy(string $strategy): bool
-    {
-        return $this->strategy instanceof $strategy;
-    }
-
-    public function withClock(SystemClockInterface $clock): self
-    {
-        return new self($this->container, $this->strategy, $clock);
+        return new self(DiContainerFactory::all());
     }
 
     public function withProvider(ProviderPackInterface $providerPack): self
     {
-        $container = new DefinitionContainer($this->container->definitions());
+        $map = $this->getDefinitionMap()->withMany($providerPack->all());
+        $container = DiContainerFactory::fromDefinitionMap($map);
 
-        foreach ($providerPack->all() as $id => $class) {
-            $container->add($id, $class);
-        }
-
-        return new self($container, $this->strategy, $this->clock);
-    }
-
-    public function clock(): SystemClockInterface
-    {
-        return $this->clock;
+        return new self($container);
     }
 
     /**
@@ -86,44 +101,53 @@ class DummyGenerator
 
         $extension = $this->container->get($id);
 
-        return $this->handleAwareness($extension);
+        if (!$extension instanceof DefinitionInterface) {
+            throw new DefinitionNotFound(sprintf(
+                'Definition with id "%s" is not a DefinitionInterface.',
+                $id,
+            ));
+        }
+
+        return $extension;
     }
 
     /**
-     * Add new definition
+     * Returns a new Generator with an additional definition.
      *
      * @param DefinitionInterface|class-string<DefinitionInterface>|callable():DefinitionInterface $value
      */
-    public function addDefinition(string $name, callable|DefinitionInterface|string $value): void
+    public function withDefinition(string $name, callable|DefinitionInterface|string $value): self
     {
-        $this->container->add($name, $value);
+        $map = $this->getDefinitionMap()->with($name, $value);
+        $container = DiContainerFactory::fromDefinitionMap($map);
 
-        $this->extensions = array_filter(
-            $this->extensions,
-            static fn (ResolvedDefinition $definition) => $definition->definitionId !== $name,
-        );
-    }
-
-    public function removeDefinition(string $name): void
-    {
-        $this->container->remove($name);
-
-        $this->extensions = array_filter(
-            $this->extensions,
-            static fn (ResolvedDefinition $definition) => $definition->definitionId !== $name,
-        );
+        return new self($container);
     }
 
     /**
-     * Replaces tokens ('{{ tokenName }}') in given string with the result from the token method call
+     * Replaces tokens ('{{ tokenName }}') in given string with the result from the token method call.
+     *
+     * Supports:
+     * - Simple tokens: {{ firstName }}
+     * - Method calls with positional arguments: {{ numberBetween(1, 100) }}
+     * - Method calls with named arguments: {{ sentence(wordCount: 10) }}
+     * - String arguments: {{ dateTimeBetween('-1 year', 'now') }}
      */
     public function parse(string $string): string
     {
-        $callback = fn ($matches) => $this->process($matches[1]);
+        if (!$this->container->has(TemplateParserInterface::class)) {
+            throw new MissingDependencyException('Container is missing TemplateParserInterface.');
+        }
 
-        $replaced = preg_replace_callback('/{{\s?(\w+|[\w\\\]+->\w+?)\s?}}/u', $callback, $string);
+        $parser = $this->container->get(TemplateParserInterface::class);
 
-        return !empty($replaced) ? $replaced : '';
+        if (!$parser instanceof TemplateParserInterface) {
+            throw new MissingDependencyException(
+                'Container entry for TemplateParserInterface must implement TemplateParserInterface.',
+            );
+        }
+
+        return $parser->parse($string, fn (string $method, array $args) => $this->__call($method, $args));
     }
 
     /**
@@ -133,6 +157,10 @@ class DummyGenerator
      */
     public function __call(string $name, array $arguments): mixed
     {
+        if ($this->strategy instanceof SimpleStrategy) {
+            return $this->process($name, $arguments);
+        }
+
         return $this->strategy->generate($name, fn () => $this->process($name, $arguments));
     }
 
@@ -152,32 +180,46 @@ class DummyGenerator
     protected function findProcessor(string $method): DefinitionInterface
     {
         if (isset($this->extensions[$method])) {
-            return $this->extensions[$method]->service;
+            return $this->extensions[$method];
         }
 
-        $resolvedDefinition = $this->container->findProcessor($method);
+        foreach ($this->registry->registry() as $id) {
+            if (!$this->container->has($id)) {
+                continue;
+            }
 
-        if ($resolvedDefinition !== null) {
-            $extension = $this->handleAwareness($resolvedDefinition->service);
+            $service = $this->container->get($id);
 
-            $this->extensions[$method] = $resolvedDefinition->withService($extension);
+            if (!$service instanceof DefinitionInterface) {
+                continue;
+            }
 
-            return $extension;
+            if (!method_exists($service, $method)) {
+                continue;
+            }
+
+            $this->extensions[$method] = $service;
+
+            return $service;
         }
 
         throw new \InvalidArgumentException(sprintf('Unknown method "%s"', $method));
     }
 
-    private function handleAwareness(DefinitionInterface $extension): DefinitionInterface
+    private function getDefinitionMap(): DefinitionMap
     {
-        if ($extension instanceof GeneratorAwareExtensionInterface) {
-            $extension = $extension->withGenerator($this);
+        if (!$this->container->has(DefinitionMap::class)) {
+            throw new MissingDependencyException(
+                'Container is missing DefinitionMap. ' .
+                'Use DiContainerFactory or register one in the container.',
+            );
         }
 
-        if ($extension instanceof ClockAwareExtensionInterface) {
-            $extension = $extension->withClock($this->clock());
+        $map = $this->container->get(DefinitionMap::class);
+        if (!$map instanceof DefinitionMap) {
+            throw new MissingDependencyException('Container entry for DefinitionMap must be DefinitionMap.');
         }
 
-        return $extension;
+        return $map;
     }
 }

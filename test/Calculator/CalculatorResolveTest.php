@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Calculator;
 
-use DummyGenerator\Container\DefinitionContainer;
 use DummyGenerator\Definitions\Calculator\EanCalculatorInterface;
 use DummyGenerator\Definitions\Calculator\IsbnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
@@ -18,15 +17,15 @@ use DummyGenerator\Core\Calculator\IsbnCalculator;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
 use DummyGenerator\Core\Transliterator\Transliterator;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use PHPUnit\Framework\TestCase;
 
 class CalculatorResolveTest extends TestCase
 {
     public function testResolveCalculator(): void
     {
-        $container = new DefinitionContainer([
-            EanCalculatorInterface::class => EanCalculator::class,
-        ]);
+        $container = TestContainerFactory::empty();
+        $container->set(EanCalculatorInterface::class, EanCalculator::class);
 
         $generator = new DummyGenerator($container);
 
@@ -35,14 +34,13 @@ class CalculatorResolveTest extends TestCase
 
     public function testResolveExtensionUsingCalculator(): void
     {
-        $container = new DefinitionContainer([
-            RandomizerInterface::class => Randomizer::class,
-            TransliteratorInterface::class => Transliterator::class,
-            ReplacerInterface::class => Replacer::class,
-            EanCalculatorInterface::class => EanCalculator::class,
-            IsbnCalculatorInterface::class => IsbnCalculator::class,
-            BarcodeExtensionInterface::class => Barcode::class,
-        ]);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(TransliteratorInterface::class, Transliterator::class);
+        $container->set(ReplacerInterface::class, Replacer::class);
+        $container->set(EanCalculatorInterface::class, EanCalculator::class);
+        $container->set(IsbnCalculatorInterface::class, IsbnCalculator::class);
+        $container->set(BarcodeExtensionInterface::class, Barcode::class);
 
         $generator = new DummyGenerator($container);
 

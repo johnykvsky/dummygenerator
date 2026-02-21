@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Extension;
 
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\Enum;
 use DummyGenerator\Definitions\Extension\EnumExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
@@ -26,9 +26,9 @@ class EnumTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(EnumExtensionInterface::class, Enum::class);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(EnumExtensionInterface::class, Enum::class);
         $this->generator = new DummyGenerator($container);
     }
 
@@ -78,5 +78,91 @@ class EnumTest extends TestCase
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Invalid PHP Enum');
         $this->generator->enumCase(BarProvider::class);
+    }
+
+    /**
+     * Test that enumValue returns consistent types for string-backed enum.
+     *
+     * @group enum
+     * @group edge-case
+     */
+    public function testEnumValueReturnsConsistentTypeForStringBacked(): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $value = $this->generator->enumValue(SuitBackedStringEnum::class);
+            self::assertIsString($value);
+        }
+    }
+
+    /**
+     * Test that enumValue returns consistent types for int-backed enum.
+     *
+     * @group enum
+     * @group edge-case
+     */
+    public function testEnumValueReturnsConsistentTypeForIntBacked(): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $value = $this->generator->enumValue(SuitBackedIntEnum::class);
+            self::assertIsInt($value);
+        }
+    }
+
+    /**
+     * Test that enumCase returns valid enum instances.
+     *
+     * @group enum
+     */
+    public function testEnumCaseReturnsValidEnumInstance(): void
+    {
+        $case = $this->generator->enumCase(SuitEnum::class);
+
+        self::assertInstanceOf(SuitEnum::class, $case);
+        self::assertContains($case, SuitEnum::cases());
+    }
+
+    /**
+     * Test that enumCase for backed enum returns valid instance.
+     *
+     * @group enum
+     */
+    public function testEnumCaseForBackedEnumReturnsValidInstance(): void
+    {
+        $case = $this->generator->enumCase(SuitBackedStringEnum::class);
+
+        self::assertInstanceOf(SuitBackedStringEnum::class, $case);
+        self::assertContains($case, SuitBackedStringEnum::cases());
+    }
+
+    /**
+     * Test that multiple enum value calls produce variety.
+     *
+     * @group enum
+     */
+    public function testEnumValueProducesVariety(): void
+    {
+        $values = [];
+        for ($i = 0; $i < 20; $i++) {
+            $values[] = $this->generator->enumValue(SuitBackedStringEnum::class);
+        }
+
+        $unique = array_unique($values);
+        self::assertGreaterThan(1, count($unique), 'Should generate different enum values');
+    }
+
+    /**
+     * Test that multiple enum case calls produce variety.
+     *
+     * @group enum
+     */
+    public function testEnumCaseProducesVariety(): void
+    {
+        $cases = [];
+        for ($i = 0; $i < 20; $i++) {
+            $cases[] = $this->generator->enumCase(SuitEnum::class)->name;
+        }
+
+        $unique = array_unique($cases);
+        self::assertGreaterThan(1, count($unique), 'Should generate different enum cases');
     }
 }

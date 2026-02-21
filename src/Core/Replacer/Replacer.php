@@ -4,15 +4,17 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core\Replacer;
 
-use DummyGenerator\Definitions\Replacer\RandomizerAwareReplacerInterface;
-use DummyGenerator\Definitions\Replacer\RandomizerAwareReplacerTrait;
-use DummyGenerator\Definitions\Transliterator\TransliteratorAwareReplacerInterface;
-use DummyGenerator\Definitions\Transliterator\TransliteratorAwareReplacerTrait;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
-class Replacer implements RandomizerAwareReplacerInterface, TransliteratorAwareReplacerInterface
+class Replacer implements ReplacerInterface
 {
-    use RandomizerAwareReplacerTrait;
-    use TransliteratorAwareReplacerTrait;
+    public function __construct(
+        private readonly RandomizerInterface $randomizer,
+        private readonly TransliteratorInterface $transliterator,
+    ) {
+    }
 
     public const string ENCODING = 'UTF-8';
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Extension;
 
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\Biased;
 use DummyGenerator\Core\Randomizer\XoshiroRandomizer;
 use DummyGenerator\Definitions\Extension\BiasedExtensionInterface;
@@ -26,9 +26,9 @@ class BiasedTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, new XoshiroRandomizer(seed: 1));
-        $container->add(BiasedExtensionInterface::class, Biased::class);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, new XoshiroRandomizer(seed: 1));
+        $container->set(BiasedExtensionInterface::class, Biased::class);
         $this->generator = new DummyGenerator($container);
         $this->results = array_fill(1, self::MAX, 0);
     }

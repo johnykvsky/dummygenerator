@@ -25,7 +25,7 @@ echo $generator->firstName();
 
 # Documentation
 
-Documentation is available under [https://johnykvsky.github.io/dummydocs/][link-docs]
+Full documentation is available in [docs/index.md](docs/index.md) in this repository.
 
 # But why...?
 
@@ -52,9 +52,12 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool
 * added support for `SystemClock`, PSR-20 implementation of Clock
-* added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more)
+* added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
 
-This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
+This package also fixes problems with FakerPHP:
+* `__destruct()` messing up with `seed()`, plus various other issues.
+* bug with `unique()->optional()` causing massive memory usage
+* combining `valid1` and `uniqe` strategies (more about that in Chaining Strategies)
 
 There are two Randomizer implementations available: 
 * default `Randomizer` 
@@ -62,7 +65,9 @@ There are two Randomizer implementations available:
 
 # Languages
 
-One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core. 
+One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core.
+
+However, core use general English language for generating data.
 
 `Person` extension provides only ~15 names than can be used as first name, last name, part of email etc. If you want more, check [dummyproviders](https://github.com/johnykvsky/dummyproviders) to get full providers for `en_US`,`en_GB` and `pl_PL`.
 I have created them to show how to make them / convert from old Faker, to allow anyone to work on other languages.
@@ -103,10 +108,6 @@ I leave answer to you. And yes, there might be cases when data should not be ran
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 
 Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
-
-# TODO (ideas, not promises)
-
-* nothing at the moment
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

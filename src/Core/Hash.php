@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\HashExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Hash implements HashExtensionInterface, RandomizerAwareExtensionInterface
+class Hash implements HashExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     public function md5(): string
     {

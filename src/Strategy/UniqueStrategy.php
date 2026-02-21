@@ -42,6 +42,10 @@ class UniqueStrategy implements StrategyInterface
 
             ++$tries;
 
+            if ($response instanceof ShortCircuitResult) {
+                return $response;
+            }
+
             if ($tries > $this->retries) {
                 throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a unique value', $this->retries));
             }

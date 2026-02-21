@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\FileExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class File implements FileExtensionInterface, RandomizerAwareExtensionInterface
+class File implements FileExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     /**
      * MIME types from the apache.org file. Some types are truncated.

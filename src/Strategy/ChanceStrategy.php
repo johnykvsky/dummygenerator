@@ -7,7 +7,7 @@ namespace DummyGenerator\Strategy;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class ChanceStrategy implements StrategyInterface
+class ChanceStrategy implements ShortCircuitStrategyInterface
 {
     private RandomizerInterface $randomizer;
 
@@ -18,9 +18,7 @@ class ChanceStrategy implements StrategyInterface
      */
     public function __construct(private readonly float $weight, ?RandomizerInterface $randomizer = null, private readonly mixed $default = null)
     {
-        if ($randomizer === null) {
-            $this->randomizer = new Randomizer();
-        }
+        $this->randomizer = $randomizer ?? new Randomizer();
 
         if ($this->weight < 0 || $this->weight > 1) {
             throw new \InvalidArgumentException('Weight should be a float between 0 and 1');

@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class UserAgent implements UserAgentExtensionInterface, RandomizerAwareExtensionInterface
+class UserAgent implements UserAgentExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer
+    ) {
+    }
 
     /** @var string[] */
     protected array $userAgents = ['firefox', 'chrome', 'internetExplorer', 'opera', 'safari', 'edge'];

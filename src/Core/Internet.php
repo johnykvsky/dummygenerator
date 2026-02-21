@@ -4,24 +4,20 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
 use DummyGenerator\Definitions\Extension\InternetExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Internet implements
-    InternetExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Internet implements InternetExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        private RandomizerInterface $randomizer,
+        private ReplacerInterface $replacer,
+        private GeneratorInterface $generator
+    ) {
+    }
 
     /** @var string[] */
     protected array $freeEmailDomain = ['gmail.com', 'yahoo.com', 'hotmail.com'];
