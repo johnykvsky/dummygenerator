@@ -187,7 +187,8 @@ class DiContainerFactory
     {
         $ids = [];
 
-        foreach ($definitions as $id => $definition) {
+        $definitions = array_keys($definitions);
+        foreach ($definitions as $id) {
             if (in_array($id, self::SYSTEM_IDS, true)) {
                 continue;
             }
