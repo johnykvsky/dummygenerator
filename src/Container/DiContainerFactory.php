@@ -21,7 +21,7 @@ use function DI\autowire;
 use function DI\factory;
 use function DI\value;
 
-final class DiContainerFactory
+class DiContainerFactory
 {
     protected const array SYSTEM_IDS = [
         StrategyInterface::class,

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Strategy;
 
-final class CompositeStrategy implements StrategyInterface
+class CompositeStrategy implements StrategyInterface
 {
     /** @var StrategyInterface[] */
     protected array $strategies;

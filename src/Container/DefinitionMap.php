@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Container;
 
-final class DefinitionMap
+class DefinitionMap
 {
     /** @var array<string, mixed> */
     protected array $definitions;

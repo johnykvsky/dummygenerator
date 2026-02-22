@@ -19,7 +19,7 @@ namespace DummyGenerator\Template;
  * - {{ sentence(wordCount: 10) }}
  * - {{ dateTimeBetween('-1 year', 'now') }}
  */
-final class TemplateParser implements TemplateParserInterface
+class TemplateParser implements TemplateParserInterface
 {
     /**
      * Parse template with support for method arguments.

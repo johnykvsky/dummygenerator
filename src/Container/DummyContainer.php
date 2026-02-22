@@ -7,7 +7,7 @@ namespace DummyGenerator\Container;
 use DI\Container;
 use DummyGenerator\GeneratorInterface;
 
-final readonly class DummyContainer implements DummyContainerInterface
+readonly class DummyContainer implements DummyContainerInterface
 {
     public function __construct(
         protected Container $container,
