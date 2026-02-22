@@ -10,7 +10,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class Version implements VersionExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 
@@ -32,7 +32,7 @@ class Version implements VersionExtensionInterface
     /**
      * Common pre-release identifier
      */
-    private function semverPreReleaseIdentifier(bool $short = true): string
+    protected function semverPreReleaseIdentifier(bool $short = true): string
     {
         $ident = $this->randomizer->randomElement($this->semverCommonPreReleaseIdentifiers);
 
@@ -46,7 +46,7 @@ class Version implements VersionExtensionInterface
     /**
      * Common random build identifier
      */
-    private function semverBuildIdentifier(bool $shortSyntax = true): string
+    protected function semverBuildIdentifier(bool $shortSyntax = true): string
     {
         if ($shortSyntax) {
             // short git revision syntax: https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection

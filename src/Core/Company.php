@@ -11,8 +11,8 @@ use DummyGenerator\GeneratorInterface;
 class Company implements CompanyExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private GeneratorInterface $generator
+        protected RandomizerInterface $randomizer,
+        protected GeneratorInterface $generator
     ) {
     }
 

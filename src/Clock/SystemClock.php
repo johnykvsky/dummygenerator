@@ -10,7 +10,7 @@ use DateTimeZone;
 
 class SystemClock implements SystemClockInterface
 {
-    private DateTimeZone $timezone;
+    protected DateTimeZone $timezone;
 
     /** @throws DateInvalidTimeZoneException */
     public function __construct(\DateTimeZone|string|null $timezone = null)

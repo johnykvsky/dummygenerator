@@ -64,7 +64,7 @@ final class TemplateParser implements TemplateParserInterface
      * @param string $argsString Raw argument string from template
      * @return array<int|string, mixed> Parsed arguments (positional or named)
      */
-    private function parseArguments(string $argsString): array
+    protected function parseArguments(string $argsString): array
     {
         if (trim($argsString) === '') {
             return [];
@@ -94,7 +94,7 @@ final class TemplateParser implements TemplateParserInterface
      * @param string $input Argument string
      * @return array<int, string> Array of argument tokens
      */
-    private function tokenize(string $input): array
+    protected function tokenize(string $input): array
     {
         $tokens = [];
         $current = '';
@@ -144,7 +144,7 @@ final class TemplateParser implements TemplateParserInterface
      * @param string $value Raw value string
      * @return mixed Parsed value (string, int, float, bool, null)
      */
-    private function parseValue(string $value): mixed
+    protected function parseValue(string $value): mixed
     {
         $value = trim($value);
 
@@ -182,7 +182,7 @@ final class TemplateParser implements TemplateParserInterface
      * @param mixed $result Generator method result
      * @return string String representation
      */
-    private function convertToString(mixed $result): string
+    protected function convertToString(mixed $result): string
     {
         if ($result === null) {
             return '';

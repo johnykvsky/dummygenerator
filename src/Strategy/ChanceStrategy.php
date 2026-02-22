@@ -9,14 +9,14 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
 class ChanceStrategy implements ShortCircuitStrategyInterface
 {
-    private RandomizerInterface $randomizer;
+    protected RandomizerInterface $randomizer;
 
     /**
      * Get a value only some percentage of the time.
      *
      * @param float $weight A probability between 0 and 1, 0 means that we always get the default value.
      */
-    public function __construct(private readonly float $weight, ?RandomizerInterface $randomizer = null, private readonly mixed $default = null)
+    public function __construct(protected readonly float $weight, ?RandomizerInterface $randomizer = null, protected readonly mixed $default = null)
     {
         $this->randomizer = $randomizer ?? new Randomizer();
 

@@ -10,7 +10,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class Uuid implements UuidExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

@@ -11,8 +11,8 @@ use DummyGenerator\GeneratorInterface;
 class Person implements PersonExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private GeneratorInterface $generator
+        protected RandomizerInterface $randomizer,
+        protected GeneratorInterface $generator
     ) {
     }
 

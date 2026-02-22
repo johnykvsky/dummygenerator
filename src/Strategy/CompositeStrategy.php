@@ -7,7 +7,7 @@ namespace DummyGenerator\Strategy;
 final class CompositeStrategy implements StrategyInterface
 {
     /** @var StrategyInterface[] */
-    private array $strategies;
+    protected array $strategies;
 
     /** @param StrategyInterface[] $strategies */
     public function __construct(array $strategies)

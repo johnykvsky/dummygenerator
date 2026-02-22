@@ -8,7 +8,7 @@ use Closure;
 
 class ValidStrategy implements ShortCircuitStrategyInterface
 {
-    private Closure $validator;
+    protected Closure $validator;
 
     /**
      * To make sure the value meet some criteria, pass a callable that verifies the
@@ -33,7 +33,7 @@ class ValidStrategy implements ShortCircuitStrategyInterface
      * @param int $retries Maximum number of retries to find a valid value,
      *                              After which an OverflowException is thrown.
      */
-    public function __construct(callable $validator, private readonly int $retries = 10000)
+    public function __construct(callable $validator, protected readonly int $retries = 10000)
     {
         $this->validator = $validator(...);
     }

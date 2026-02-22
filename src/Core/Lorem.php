@@ -12,8 +12,8 @@ use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 class Lorem implements LoremExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer
     ) {
     }
 
@@ -161,7 +161,7 @@ class Lorem implements LoremExtensionInterface
         return implode('', $text);
     }
 
-    private function randomizeNumberOfElements(int $number): int
+    protected function randomizeNumberOfElements(int $number): int
     {
         return (int) ($number * $this->randomizer->getInt(60, 140) / 100) + 1;
     }

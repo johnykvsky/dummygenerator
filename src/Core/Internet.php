@@ -13,9 +13,9 @@ use DummyGenerator\GeneratorInterface;
 class Internet implements InternetExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer,
-        private GeneratorInterface $generator
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected GeneratorInterface $generator
     ) {
     }
 

@@ -12,7 +12,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class Number implements NumberExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

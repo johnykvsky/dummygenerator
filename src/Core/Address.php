@@ -12,9 +12,9 @@ use DummyGenerator\GeneratorInterface;
 class Address implements AddressExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer,
-        private GeneratorInterface $generator
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected GeneratorInterface $generator
     ) {
     }
 

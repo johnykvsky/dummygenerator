@@ -10,7 +10,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class File implements FileExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

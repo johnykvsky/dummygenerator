@@ -11,8 +11,8 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 class Replacer implements ReplacerInterface
 {
     public function __construct(
-        private readonly RandomizerInterface $randomizer,
-        private readonly TransliteratorInterface $transliterator,
+        protected readonly RandomizerInterface $randomizer,
+        protected readonly TransliteratorInterface $transliterator,
     ) {
     }
 
@@ -109,7 +109,7 @@ class Replacer implements ReplacerInterface
     /**
      * Replace wildcard with given callback result
      */
-    private function replaceWildcard(string $string, string $wildcard, callable $callback): string
+    protected function replaceWildcard(string $string, string $wildcard, callable $callback): string
     {
         if (($pos = strpos($string, $wildcard)) === false) {
             return $string;

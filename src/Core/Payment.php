@@ -14,11 +14,11 @@ use DummyGenerator\GeneratorInterface;
 class Payment implements PaymentExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer,
-        private IbanCalculatorInterface $ibanCalculator,
-        private LuhnCalculatorInterface $luhnCalculator,
-        private GeneratorInterface $generator
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected IbanCalculatorInterface $ibanCalculator,
+        protected LuhnCalculatorInterface $luhnCalculator,
+        protected GeneratorInterface $generator
     ) {
     }
 

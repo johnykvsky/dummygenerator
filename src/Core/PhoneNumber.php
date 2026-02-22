@@ -12,9 +12,9 @@ use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 class PhoneNumber implements PhoneNumberExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer,
-        private LuhnCalculatorInterface $luhnCalculator
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected LuhnCalculatorInterface $luhnCalculator
     ) {
     }
 

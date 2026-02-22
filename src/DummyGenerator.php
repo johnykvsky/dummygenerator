@@ -21,9 +21,9 @@ class DummyGenerator implements GeneratorInterface
 {
     /** @var array<string, DefinitionInterface> */
     protected array $extensions = [];
-    private DummyContainerInterface $container;
-    private StrategyInterface $strategy;
-    private ExtensionRegistry $registry;
+    protected DummyContainerInterface $container;
+    protected StrategyInterface $strategy;
+    protected ExtensionRegistry $registry;
 
     public function __construct(DummyContainerInterface $container)
     {
@@ -217,7 +217,7 @@ class DummyGenerator implements GeneratorInterface
         throw new \InvalidArgumentException(sprintf('Unknown method "%s"', $method));
     }
 
-    private function getDefinitionMap(): DefinitionMap
+    protected function getDefinitionMap(): DefinitionMap
     {
         if (!$this->container->has(DefinitionMap::class)) {
             throw new MissingDependencyException(

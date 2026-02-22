@@ -10,9 +10,9 @@ use DummyGenerator\GeneratorInterface;
 final readonly class DummyContainer implements DummyContainerInterface
 {
     public function __construct(
-        private Container $container,
-        private DefinitionMap $definitionMap,
-        private ExtensionRegistry $registry
+        protected Container $container,
+        protected DefinitionMap $definitionMap,
+        protected ExtensionRegistry $registry
     ) {
     }
 

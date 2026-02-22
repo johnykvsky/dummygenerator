@@ -7,7 +7,7 @@ namespace DummyGenerator\Container;
 final class DefinitionMap
 {
     /** @var array<string, mixed> */
-    private array $definitions;
+    protected array $definitions;
 
     /** @param array<string, mixed> $definitions */
     public function __construct(array $definitions)

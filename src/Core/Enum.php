@@ -14,7 +14,7 @@ use UnitEnum;
 class Enum implements EnumExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

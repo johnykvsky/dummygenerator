@@ -11,7 +11,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class Coordinates implements CoordinatesExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

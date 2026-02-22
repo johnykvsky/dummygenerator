@@ -23,7 +23,7 @@ use function DI\value;
 
 final class DiContainerFactory
 {
-    private const array SYSTEM_IDS = [
+    protected const array SYSTEM_IDS = [
         StrategyInterface::class,
         SystemClockInterface::class,
         TemplateParserInterface::class,
@@ -122,7 +122,7 @@ final class DiContainerFactory
      * @param array<string, mixed> $definitions
      * @return array<string, mixed>
      */
-    private static function normalizeDefinitions(array $definitions): array
+    protected static function normalizeDefinitions(array $definitions): array
     {
         $normalized = [];
 
@@ -158,7 +158,7 @@ final class DiContainerFactory
      * @param array<string, mixed> $definitions
      * @return array<string, mixed>
      */
-    private static function withInfrastructure(array $definitions, bool $withTemplateParser): array
+    protected static function withInfrastructure(array $definitions, bool $withTemplateParser): array
     {
         if (!array_key_exists(StrategyInterface::class, $definitions)) {
             $definitions[StrategyInterface::class] = SimpleStrategy::class;
@@ -183,7 +183,7 @@ final class DiContainerFactory
      * @param array<string, mixed> $definitions
      * @return array<int, string>
      */
-    private static function resolveProcessorIds(array $definitions): array
+    protected static function resolveProcessorIds(array $definitions): array
     {
         $ids = [];
 

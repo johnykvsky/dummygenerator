@@ -11,7 +11,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class Strings implements StringsExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer
+        protected RandomizerInterface $randomizer
     ) {
     }
 

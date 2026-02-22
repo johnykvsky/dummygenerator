@@ -16,8 +16,8 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 class DateTime implements DateTimeExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private SystemClockInterface $clock
+        protected RandomizerInterface $randomizer,
+        protected SystemClockInterface $clock
     ) {
     }
 

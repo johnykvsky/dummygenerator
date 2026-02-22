@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 final readonly class GeneratorProxy implements GeneratorInterface
 {
     public function __construct(
-        private ContainerInterface $container
+        protected ContainerInterface $container
     ) {
     }
 
@@ -25,7 +25,7 @@ final readonly class GeneratorProxy implements GeneratorInterface
         return $this->requireGenerator()->__call($name, $arguments);
     }
 
-    private function requireGenerator(): GeneratorInterface
+    protected function requireGenerator(): GeneratorInterface
     {
         try {
             $generator = $this->container->get(GeneratorInterface::class);

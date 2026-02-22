@@ -13,14 +13,14 @@ use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 class Barcode implements BarcodeExtensionInterface
 {
     public function __construct(
-        private RandomizerInterface $randomizer,
-        private ReplacerInterface $replacer,
-        private EanCalculatorInterface $eanCalculator,
-        private IsbnCalculatorInterface $isbnCalculator
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected EanCalculatorInterface $eanCalculator,
+        protected IsbnCalculatorInterface $isbnCalculator
     ) {
     }
 
-    private function ean(int $length = 13): string
+    protected function ean(int $length = 13): string
     {
         $code = $this->replacer->numerify(str_repeat('#', $length - 1));
 

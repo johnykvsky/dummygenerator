@@ -8,7 +8,7 @@ final class ExtensionRegistry
 {
     /** @param string[] $ids */
     public function __construct(
-        private array $ids,
+        protected array $ids,
     ) {
     }
 
