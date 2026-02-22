@@ -23,6 +23,7 @@
 - `DummyGeneratorFactory`
 
 ### Dependencies
+* PHP is required => 8.4 to meet PHPUnit 13 expectations
 - Dev dependency updates in `composer.json` (PHPUnit 13, latest PHPStan and coding standards).
 - added dependency on PHP=SI
 
