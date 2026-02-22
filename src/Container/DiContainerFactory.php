@@ -35,7 +35,7 @@ final class DiContainerFactory
     public static function base(
         ?DefinitionPackInterface $definitionPack = null,
         bool $withTemplateParser = false
-    ): DummyContainer {
+    ): DummyContainerInterface {
         $definitionPack ??= new DefinitionPack();
 
         $definitions = array_merge(
@@ -49,7 +49,7 @@ final class DiContainerFactory
     public static function default(
         ?DefinitionPackInterface $definitionPack = null,
         bool $withTemplateParser = true
-    ): DummyContainer {
+    ): DummyContainerInterface {
         $definitionPack ??= new DefinitionPack();
 
         $definitions = array_merge(
@@ -64,7 +64,7 @@ final class DiContainerFactory
     public static function all(
         ?DefinitionPackInterface $definitionPack = null,
         bool $withTemplateParser = true
-    ): DummyContainer {
+    ): DummyContainerInterface {
         $definitionPack ??= new DefinitionPack();
 
         $definitions = array_merge(
@@ -83,7 +83,7 @@ final class DiContainerFactory
      *
      * @param array<string, mixed> $definitions
      */
-    public static function custom(array $definitions, bool $withTemplateParser = true): DummyContainer
+    public static function custom(array $definitions, bool $withTemplateParser = true): DummyContainerInterface
     {
         $definitions = self::withInfrastructure($definitions, $withTemplateParser);
 
@@ -92,7 +92,7 @@ final class DiContainerFactory
         return self::fromDefinitionMap($map);
     }
 
-    public static function fromDefinitionMap(DefinitionMap $map): DummyContainer
+    public static function fromDefinitionMap(DefinitionMap $map): DummyContainerInterface
     {
         $definitions = $map->all();
 

@@ -225,6 +225,25 @@ class DummyGeneratorTest extends TestCase
         self::assertEquals('baz', $generator->bax());
     }
 
+    public function testRemoveDefinition(): void
+    {
+        $container = TestContainerFactory::empty(true);
+        $container->set(FooProvider::class, new FooProvider());
+        $container->set(BarProvider::class, new BarProvider());
+
+        $generator = new DummyGenerator($container);
+
+        self::assertEquals('foo', $generator->bax());
+        self::assertEquals('bar', $generator->bars());
+
+        $generator = $generator->removeDefinition(FooProvider::class);
+
+        self::assertEquals('bar', $generator->bars());
+
+        $this->expectException(\InvalidArgumentException::class);
+        self::assertEquals('foobar', $generator->foo());
+    }
+
 }
 
 final class CounterProvider implements ExtensionInterface

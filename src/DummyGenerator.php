@@ -125,6 +125,17 @@ class DummyGenerator implements GeneratorInterface
     }
 
     /**
+     * Returns a new Generator without the given definition.
+     */
+    public function removeDefinition(string $id): self
+    {
+        $map = $this->getDefinitionMap()->without($id);
+        $container = DiContainerFactory::fromDefinitionMap($map);
+
+        return new self($container);
+    }
+
+    /**
      * Replaces tokens ('{{ tokenName }}') in given string with the result from the token method call.
      *
      * Supports:

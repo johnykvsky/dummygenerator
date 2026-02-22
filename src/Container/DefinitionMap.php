@@ -45,4 +45,12 @@ final class DefinitionMap
 
         return $clone;
     }
+
+    public function without(string $id): self
+    {
+        $clone = clone $this;
+        unset($clone->definitions[$id]);
+
+        return $clone;
+    }
 }

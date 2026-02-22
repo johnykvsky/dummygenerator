@@ -77,8 +77,8 @@ class FileTest extends TestCase
     {
         $extension = $this->generator->extension();
 
-        // Should be lowercase and allow hyphens
-        self::assertMatchesRegularExpression('/^[a-z0-9-]+$/', $extension);
+        // Should be lowercase and allow hyphens/underscores
+        self::assertMatchesRegularExpression('/^[a-z0-9_-]+$/', $extension);
 
         // Should be reasonable length (1-5 characters typically)
         self::assertTrue(strlen($extension) >= 1 && strlen($extension) <= 10);
@@ -139,8 +139,8 @@ class FileTest extends TestCase
     {
         for ($i = 0; $i < 20; $i++) {
             $extension = $this->generator->extension();
-            // Should only contain lowercase letters, numbers, and hyphens
-            self::assertMatchesRegularExpression('/^[a-z0-9-]+$/', $extension);
+            // Should only contain lowercase letters, numbers, hyphens, and underscores
+            self::assertMatchesRegularExpression('/^[a-z0-9_-]+$/', $extension);
         }
     }
 

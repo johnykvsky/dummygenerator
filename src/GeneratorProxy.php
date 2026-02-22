@@ -7,10 +7,10 @@ namespace DummyGenerator;
 use DummyGenerator\Exception\MissingDependencyException;
 use Psr\Container\ContainerInterface;
 
-final class GeneratorProxy implements GeneratorInterface
+final readonly class GeneratorProxy implements GeneratorInterface
 {
     public function __construct(
-        private readonly ContainerInterface $container
+        private ContainerInterface $container
     ) {
     }
 

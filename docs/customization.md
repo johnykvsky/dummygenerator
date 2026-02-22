@@ -1,105 +1,74 @@
 # Customization
 
+## The flow
+
+When you generate a name with `->firstName()` actual flow looks like this:
+
+* DummyGenerator method `__call()` is launched
+* generator is trying to find extension containing passed method name by reaching out to container `findProcessor()`
+* container is looping through all loaded definitions, checking if any of them has given method
+* if it's found, then definition instance is returned to generator
+* generator (with used strategy) is trying to get data from extension by running given method (in our example: `firstName()`)
+
+This has one thing worth notifying: you should not have multiple extensions with same method names. `__call()` checks them one by one, in order of adding. So if you have by some reason 2 extensions that has same method (like `getName()` in both of them) and you run `$generator->getName()` it will execute `getName()` in extension that was added earlier to container.
+
+There is a walkaround for that - instead of doing `$generator->firstName()` and using internally magic method `__call()` you can hand-pick the extension with `->ext()`:
+
+```php
+echo $generator->firstName(); // default first name
+echo $generator->ext(MyCustomNames::class)->firstName(); // will get custom name
+echo $generator->ext(MySpecialNames::class)->firstName(); // will get special name
+```
+
+In above example MyCustomNames and MySpecialNames has to be added to container after build in Person extension (as it will be resolved first when looking for `firstName()`).
+
+# The Clock
+
+Clock is simple implementation of PSR-20 Clock. It allows to set a clock with a timezone for generated dates.
+
+Clock has a param to set timezone:
+```php
+$clock = new SystemClock('Europe/London')
+```
+
+Thanks to Clock in your extension (look at `DateTime` for example) you will have access to `$this->clock->now()` that will return `\DateTimeImmutable` object with current date time.
+
+If no timezone param is passed it checks for `date_default_timezone_get()` and if it's missing then `UTC` timezone is used. But `date_default_timezone_get()` is returning `UTC` as default anyway.
+
+Generator itself can return clock so you can do this to get current time:
+```php
+$generator->clock->now();
+```
+
+There is also `FrozenClock` ready to be used in tests - you can set it with fixed date:
+
+```php
+$clock = new FrozenClock(new \DateTimeImmutable('2025-08-11'), new \DateTimeZone('UTC'));
+$container = DiContainerFactory::all();
+$container->set(SystemClockInterface::class, $clock);
+$generator =  DummyGenerator($container)
+// or
+$generator = DummyGenerator::create();
+$generator = $generator->withDefinition(SystemClockInterface::class, $clock);
+```
+
 You can replace any part of the package by swapping definitions in the container.
 
-## Replace the Randomizer
+# Seed
+
+DummyGenerator generate random data. Which is fine, but sometimes (i.e.: in tests) you want it to generate same data each time. This is where `seed()` comes to the rescue.
+
+Method `seed()` accepts param with a seed number. If you initialize generator with `seed(1434)`  it will always return same name for `->firstName()`, same address for `->buildingNumber()`, same color for `->hexColor()` and so on.
+
+### How can I use seed()
+
+You have to change default randomizer to `XoshiroRandomizer` with desired seed number, i.e. for `seed=123` it would be:
 
 ```php
-use DummyGenerator\Container\DiContainerFactory;
-use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
-use DummyGenerator\Core\Randomizer\Randomizer;
-use DummyGenerator\DummyGenerator;
-use DummyGenerator\Template\TemplateParser;
-use DummyGenerator\Template\TemplateParserInterface;
-
-$container = DiContainerFactory::base();
-$container->set(RandomizerInterface::class, Randomizer::class);
-$container->set(TemplateParserInterface::class, TemplateParser::class);
-
-$generator = new DummyGenerator($container);
-```
-
-### Seeded Randomizer
-
-If you need reproducible output, use the seeded `XoshiroRandomizer`:
-
-```php
-use DummyGenerator\Core\Randomizer\XoshiroRandomizer;
-use DummyGenerator\Container\DiContainerFactory;
-use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
-use DummyGenerator\Template\TemplateParser;
-use DummyGenerator\Template\TemplateParserInterface;
-
-$container = DiContainerFactory::base();
-$container->set(RandomizerInterface::class, new XoshiroRandomizer(12345));
-$container->set(TemplateParserInterface::class, TemplateParser::class);
-```
-
-## Replace an Extension
-
-```php
-use DummyGenerator\Container\DiContainerFactory;
-use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
-use DummyGenerator\DummyGenerator;
-use DummyGenerator\Template\TemplateParser;
-use DummyGenerator\Template\TemplateParserInterface;
-
-class MyPerson implements PersonExtensionInterface {
-    public function firstName(?string $gender = null): string { return 'Alex'; }
-    public function lastName(): string { return 'Doe'; }
-    public function name(?string $gender = null): string { return 'Alex Doe'; }
-    public function title(?string $gender = null): string { return 'Mx.'; }
-    public function firstNameMale(): string { return 'Alex'; }
-    public function firstNameFemale(): string { return 'Alex'; }
-    public function titleMale(): string { return 'Mx.'; }
-    public function titleFemale(): string { return 'Mx.'; }
-}
-
-$container = DiContainerFactory::base();
-$container->set(PersonExtensionInterface::class, MyPerson::class);
-$container->set(TemplateParserInterface::class, TemplateParser::class);
-
-$generator = new DummyGenerator($container);
-```
-
-## Definition Types (Class-String vs Callable vs Instance)
-
-When you add or replace definitions in the container (a `DummyContainerInterface`), you can use:
-
-- **Class-string** (`MyExtension::class`): Preferred. Allows PHP-DI to autowire the class without eager instantiation.
-- **Callable factory** (`fn () => new MyExtension(...)`): Use when you need custom construction or runtime configuration. It will be instantiated on first use.
-- **Prebuilt instance** (`new MyExtension(...)`): Useful when you already have a configured object, but it will be treated as a fixed singleton.
-
-Recommendation: use class-strings for extensions whenever possible, and reserve callables for cases where you must inject non-container configuration.
-
-### DummyContainerInterface API
-
-`DummyContainerInterface` exposes a small, explicit API:
-
-- `get(string $id): mixed`
-- `has(string $id): bool`
-- `set(string $id, mixed $value): void`
-
-## Add a Custom Extension
-
-```php
-use DummyGenerator\Definitions\Extension\ExtensionInterface;
-use DummyGenerator\Container\DiContainerFactory;
-use DummyGenerator\DummyGenerator;
-use DummyGenerator\Template\TemplateParser;
-use DummyGenerator\Template\TemplateParserInterface;
-
-class ProductExtension implements ExtensionInterface {
-    public function productName(): string { return 'Widget'; }
-}
-
-$container = DiContainerFactory::base();
-$container->set(ProductExtension::class, new ProductExtension());
-$container->set(TemplateParserInterface::class, TemplateParser::class);
-
-$generator = new DummyGenerator($container);
-
-$generator->productName();
+$container = DiContainerFactory::all();
+$container->set(RandomizerInterface::class, new \DummyGenerator\Core\Randomizer\XoshiroRandomizer(seed: 123));
+$generator = new \DummyGenerator\DummyGenerator($container);  
+// and from now on generator will use fixed seed to get data
 ```
 
 ## GeneratorProxy (How Generator Injection Works)
@@ -143,25 +112,4 @@ class CustomExtension implements ExtensionInterface {
         private RandomizerInterface $randomizer
     ) {}
 }
-```
-
-## Provider Packs
-
-Use a provider pack to swap multiple definitions at once - this is mainly to be used by language providers.
-
-```php
-use DummyGenerator\ProviderPack\ProviderPackInterface;
-use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
-use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
-
-class MyPack implements ProviderPackInterface {
-    public function all(): array {
-        return [
-            PersonExtensionInterface::class => MyPerson::class,
-            AddressExtensionInterface::class => MyAddress::class,
-        ];
-    }
-}
-
-$generator = $generator->withProvider(new MyPack());
 ```

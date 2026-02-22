@@ -1,7 +1,3 @@
-# Generators and Extensions
-
-This is the list of all available items to generate, grouped by extension interface.
-
 # Address
 
 - `address()`: (string) '1625 Robinson Lane 64675 Billshire'

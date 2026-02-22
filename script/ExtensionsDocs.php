@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Script;
 
-use DummyGenerator\Container\DefinitionContainer;
-use DummyGenerator\Container\DefinitionContainerBuilder;
-use DummyGenerator\Container\DefinitionContainerInterface;
+use DummyGenerator\Container\DiContainerFactory;
+use DummyGenerator\Container\DummyContainerInterface;
 use DummyGenerator\DefinitionPack\DefinitionPack;
 use DummyGenerator\Definitions\Extension\ExtensionInterface;
 use DummyGenerator\DummyGenerator;
@@ -14,12 +13,12 @@ use DummyGenerator\DummyGenerator;
 class ExtensionsDocs
 {
     private bool $withParamTypes = false;
-    private DefinitionContainerInterface $definitionContainer;
+    private DummyContainerInterface $definitionContainer;
 
-    public function __construct(?DefinitionContainer $definitionContainer = null)
+    public function __construct(?DummyContainerInterface $definitionContainer = null)
     {
         if ($definitionContainer === null) {
-            $this->definitionContainer = DefinitionContainerBuilder::all();
+            $this->definitionContainer = DiContainerFactory::all();
         }
     }
 

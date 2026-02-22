@@ -57,7 +57,7 @@ use DummyGenerator\DummyGenerator;
 use DummyGenerator\Strategy\CompositeStrategy;
 use DummyGenerator\Strategy\StrategyInterface;
 
-$container = DiContainerFactory::all(); // returns DummyContainer
+$container = DiContainerFactory::all();
 $container->set(StrategyInterface::class, new CompositeStrategy([
     new UniqueStrategy(1000),
     new ChanceStrategy(0.5, default: null),
