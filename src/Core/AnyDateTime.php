@@ -97,10 +97,9 @@ class AnyDateTime implements AnyDateTimeExtensionInterface
      * Get a DateTimeImmutable created based on a POSIX-timestamp.
      *
      * @param int $timestamp the UNIX / POSIX-compatible timestamp
-     * @throws \DateMalformedStringException
      */
     protected function getTimestampDateTime(int $timestamp): \DateTimeInterface
     {
-        return new \DateTimeImmutable('@' . $timestamp, $this->clock->timezone());
+        return \DateTimeImmutable::createFromTimestamp($timestamp)->setTimezone($this->clock->timezone());
     }
 }
