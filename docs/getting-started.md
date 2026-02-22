@@ -5,7 +5,7 @@ DummyGenerator is a modern PHP library for generating realistic fake data
 ## Install
 
 ```bash
-composer require johnykvsky/dummygenerator
+composer require johnykvsky/dummygenerator --dev
 ```
 
 ## Overview
