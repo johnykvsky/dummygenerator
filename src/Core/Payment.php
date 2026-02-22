@@ -243,9 +243,11 @@ class Payment implements PaymentExtensionInterface
 
     public function iban(?string $alpha2 = null, string $prefix = ''): string
     {
-        $countryCode = null === $alpha2 ? $this->randomizer->randomKey($this->ibanFormats) : $this->replacer->toUpper($alpha2);
+        $countryCode = $alpha2 === null
+            ? $this->randomizer->randomKey($this->ibanFormats)
+            : $this->replacer->toUpper($alpha2);
 
-        $format = $this->ibanFormats[$countryCode] ?? null;
+        $format = $countryCode === null ? null : $this->ibanFormats[$countryCode] ?? null;
 
         if ($format === null) {
             $length = 24;
