@@ -100,6 +100,6 @@ class AnyDateTime implements AnyDateTimeExtensionInterface
      */
     protected function getTimestampDateTime(int $timestamp): \DateTimeInterface
     {
-        return \DateTimeImmutable::createFromTimestamp($timestamp)->setTimezone($this->clock->timezone());
+        return new \DateTimeImmutable('@' . $timestamp, $this->clock->timezone());
     }
 }

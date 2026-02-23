@@ -176,6 +176,7 @@ class Internet implements InternetExtensionInterface
 
     public function ipv4(): string
     {
+        // @phpstan-ignore-next-line
         return long2ip($this->randomizer->getBool() ? $this->randomizer->getInt(-2147483648, -2) : $this->randomizer->getInt(16777216, 2147483647));
     }
 
@@ -194,6 +195,7 @@ class Internet implements InternetExtensionInterface
     {
         $ipBlock = $this->randomizer->randomElement($this->localIpBlocks);
 
+        // @phpstan-ignore-next-line
         return long2ip($this->randomizer->getInt((int) ip2long($ipBlock[0]), (int) ip2long($ipBlock[1])));
     }
 

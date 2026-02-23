@@ -32,11 +32,11 @@ Full documentation is available in [docs/index.md](docs/index.md) in this reposi
 Faker died ~~for our~~ because of being hard to maintain as mentioned in [sunsetting-faker](https://marmelab.com/blog/2020/10/21/sunsetting-faker.html).
 Faker 2.0 seems to be dead because of ["death by committee"](https://github.com/FakerPHP/Faker/discussions/15#discussioncomment-7787434) kind of stuff.
 
-I needed simple dummy data generator for PHP 8.4, with modern architecture in mind. This is how **DummyGenerator** came to life.
+I needed simple dummy data generator for PHP 8.3, with modern architecture in mind. This is how **DummyGenerator** came to life.
 
 # Changes in compare to Faker
 
-* required PHP >= 8.4
+* required PHP >= 8.3
 * PHPStan level 8 friendly
 * PHPUnit tests for core and extensions (yep, some just check for not empty, but hey, it's random data)
 * all `mt_rand` / `array_rand` replaced with `\Random\Randomizer`
@@ -79,13 +79,12 @@ Keep in mind:
 * if someone like to make a PR to improve/extend one of mentioned languages - I will gladly look at it.
 * I will not accept PRs with other languages - but I will gladly link in this readme to repositories with them.
 
-# Why PHP >= 8.4
+# Why PHP >= 8.3
 
-Because of introduced in PHP 8.3/8.4:
+Because of introduced in PHP 8.3:
 
 * `Randomizer::getFloat()`
 * `Randomizer::getBytesFromString()`
-* `DateTimeImmutable::createFromTimestamp()`
 * and not so important but nice: typed class constants
 
 # What is this fake / dummy data
