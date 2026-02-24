@@ -5,10 +5,10 @@ declare(strict_types = 1);
 namespace DummyGenerator;
 
 use DummyGenerator\Clock\SystemClockInterface;
-use DummyGenerator\Container\DefinitionMap;
+use DummyGenerator\Container\DefinitionMapInterface;
 use DummyGenerator\Container\DiContainerFactory;
 use DummyGenerator\Container\DummyContainerInterface;
-use DummyGenerator\Container\ExtensionRegistry;
+use DummyGenerator\Container\ExtensionRegistryInterface;
 use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
 use DummyGenerator\Exception\MissingDependencyException;
@@ -23,7 +23,7 @@ class DummyGenerator implements GeneratorInterface
     protected array $extensions = [];
     protected DummyContainerInterface $container;
     protected StrategyInterface $strategy;
-    protected ExtensionRegistry $registry;
+    protected ExtensionRegistryInterface $registry;
 
     public function __construct(DummyContainerInterface $container)
     {
@@ -45,16 +45,18 @@ class DummyGenerator implements GeneratorInterface
 
         $this->container = $container;
 
-        if (!$container->has(ExtensionRegistry::class)) {
+        if (!$container->has(ExtensionRegistryInterface::class)) {
             throw new MissingDependencyException(
-                'Container is missing ExtensionRegistry. ' .
+                'Container is missing ExtensionRegistryInterface. ' .
                 'Use DiContainerFactory or register one in the container.',
             );
         }
 
-        $registry = $this->container->get(ExtensionRegistry::class);
-        if (!$registry instanceof ExtensionRegistry) {
-            throw new MissingDependencyException('Container entry for ExtensionRegistry must be ExtensionRegistry.');
+        $registry = $this->container->get(ExtensionRegistryInterface::class);
+        if (!$registry instanceof ExtensionRegistryInterface) {
+            throw new MissingDependencyException(
+                'Container entry for ExtensionRegistryInterface must implement ExtensionRegistryInterface.',
+            );
         }
 
         $this->registry = $registry;
@@ -222,18 +224,20 @@ class DummyGenerator implements GeneratorInterface
         throw new \InvalidArgumentException(sprintf('Unknown method "%s"', $method));
     }
 
-    protected function getDefinitionMap(): DefinitionMap
+    protected function getDefinitionMap(): DefinitionMapInterface
     {
-        if (!$this->container->has(DefinitionMap::class)) {
+        if (!$this->container->has(DefinitionMapInterface::class)) {
             throw new MissingDependencyException(
-                'Container is missing DefinitionMap. ' .
+                'Container is missing DefinitionMapInterface. ' .
                 'Use DiContainerFactory or register one in the container.',
             );
         }
 
-        $map = $this->container->get(DefinitionMap::class);
-        if (!$map instanceof DefinitionMap) {
-            throw new MissingDependencyException('Container entry for DefinitionMap must be DefinitionMap.');
+        $map = $this->container->get(DefinitionMapInterface::class);
+        if (!$map instanceof DefinitionMapInterface) {
+            throw new MissingDependencyException(
+                'Container entry for DefinitionMapInterface must implement DefinitionMapInterface.',
+            );
         }
 
         return $map;

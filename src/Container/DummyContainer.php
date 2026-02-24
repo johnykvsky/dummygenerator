@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace DummyGenerator\Container;
 
 use DI\Container;
-use DummyGenerator\DummyGenerator;
 use DummyGenerator\GeneratorInterface;
 use DummyGenerator\GeneratorProxy;
 
@@ -13,8 +12,8 @@ class DummyContainer implements DummyContainerInterface
 {
     public function __construct(
         protected Container $container,
-        protected DefinitionMap $definitionMap,
-        protected ExtensionRegistry $registry
+        protected DefinitionMapInterface $definitionMap,
+        protected ExtensionRegistryInterface $registry
     ) {
     }
 
@@ -61,10 +60,6 @@ class DummyContainer implements DummyContainerInterface
 
     protected function resetGeneratorCache(GeneratorInterface $generator): void
     {
-        if (!$generator instanceof DummyGenerator) {
-            return;
-        }
-
         $generator->resetExtensionCache();
     }
 }

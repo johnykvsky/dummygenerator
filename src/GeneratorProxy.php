@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator;
 
+use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Exception\MissingDependencyException;
 use Psr\Container\ContainerInterface;
 
@@ -42,5 +43,20 @@ readonly class GeneratorProxy implements GeneratorInterface
         }
 
         return $generator;
+    }
+
+    public function withDefinition(string $name, callable|DefinitionInterface|string $value): GeneratorInterface
+    {
+        return $this->requireGenerator()->withDefinition($name, $value);
+    }
+
+    public function removeDefinition(string $id): GeneratorInterface
+    {
+        return $this->requireGenerator()->removeDefinition($id);
+    }
+
+    public function resetExtensionCache(): void
+    {
+        $this->requireGenerator()->resetExtensionCache();
     }
 }

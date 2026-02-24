@@ -25,7 +25,7 @@ echo $generator->firstName();
 
 # Documentation
 
-Full documentation is available in [docs/index.md](docs/index.md) in this repository.
+Full documentation is available in [docs/index.md](docs/index.md)
 
 # But why...?
 
@@ -42,7 +42,7 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * all `mt_rand` / `array_rand` replaced with `\Random\Randomizer`
 * no static methods, only one magic method (`__call()` in generator)
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
-* implementations can be changed on the fly with `addDefinition()`
+* implementations can be changed on the fly with `withDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
 * changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
@@ -57,7 +57,10 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 This package also fixes following problems with FakerPHP:
 * `__destruct()` messing up with `seed()`, plus various other issues.
 * bug with `unique()->optional()` causing massive memory usage
-* combining `valid` and `unique` strategies (more about chaining in [strategies](./docs/strategies.md))
+* allow combining `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+
+But most of all: generation is done through extensions with use of randomizer. Core itself knows nothing about it, does not have any methods to do any generation.
+Everything is injected into core and can be replaced with other implementations. More info about application architecture in [overview](docs/overview.md)
 
 # Languages
 

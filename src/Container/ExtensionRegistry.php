@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Container;
 
-class ExtensionRegistry
+class ExtensionRegistry implements ExtensionRegistryInterface
 {
     /** @param string[] $ids */
     public function __construct(

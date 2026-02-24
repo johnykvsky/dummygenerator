@@ -20,8 +20,9 @@ DummyGenerator is a powerful, modern PHP library for generating realistic fake d
 ### Documentation overview
 
 1. [getting-started.md](getting-started.md) - Install, create a generator, and see the basic API in action.
-2. [strategies.md](strategies.md) - Unique/valid/chance strategies, chaining rules, and short-circuit behavior.
-3. [customization.md](customization.md) - Swap randomizers, replace extensions, add custom extensions, and provider packs.
-4. [migration-faker.md](migration-faker.md) - Mapping guide for moving from FakerPHP/Faker.
-5. [generators.md](generators.md) - The list of generator methods grouped by extension.
-5. [extensions-howto.md](extensions-howto.md) - Some more info for few extensions
+2. [overview.md](overview.md) - General overview of application architecture
+3. [strategies.md](strategies.md) - Unique/valid/chance strategies, chaining rules, and short-circuit behavior.
+4. [customization.md](customization.md) - Swap randomizers, replace extensions, add custom extensions, and provider packs.
+5. [migration-faker.md](migration-faker.md) - Mapping guide for moving from FakerPHP/Faker.
+6. [generators.md](generators.md) - The list of generator methods grouped by extension.
+7. [extensions-howto.md](extensions-howto.md) - Some more info for few extensions

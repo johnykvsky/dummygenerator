@@ -101,7 +101,6 @@ class PersonTest extends TestCase
         $person = $this->generator->ext(\DummyGenerator\Definitions\Extension\PersonExtensionInterface::class);
         $reflection = new \ReflectionClass($person);
         $property = $reflection->getProperty('firstNameMale');
-        $property->setAccessible(true);
         $maleNames = $property->getValue($person);
 
         // Generate multiple names and check they contain male first names
@@ -117,7 +116,6 @@ class PersonTest extends TestCase
         $person = $this->generator->ext(\DummyGenerator\Definitions\Extension\PersonExtensionInterface::class);
         $reflection = new \ReflectionClass($person);
         $property = $reflection->getProperty('firstNameFemale');
-        $property->setAccessible(true);
         $femaleNames = $property->getValue($person);
 
         // Generate multiple names and check they contain female first names
@@ -133,7 +131,6 @@ class PersonTest extends TestCase
         $person = $this->generator->ext(\DummyGenerator\Definitions\Extension\PersonExtensionInterface::class);
         $reflection = new \ReflectionClass($person);
         $property = $reflection->getProperty('titleMale');
-        $property->setAccessible(true);
         $maleTitles = $property->getValue($person);
 
         for ($i = 0; $i < 10; $i++) {
@@ -148,7 +145,6 @@ class PersonTest extends TestCase
         $person = $this->generator->ext(\DummyGenerator\Definitions\Extension\PersonExtensionInterface::class);
         $reflection = new \ReflectionClass($person);
         $property = $reflection->getProperty('titleFemale');
-        $property->setAccessible(true);
         $femaleTitles = $property->getValue($person);
 
         for ($i = 0; $i < 10; $i++) {
@@ -225,11 +221,9 @@ class PersonTest extends TestCase
         $reflection = new \ReflectionClass($person);
 
         $maleProp = $reflection->getProperty('firstNameMale');
-        $maleProp->setAccessible(true);
         $maleNames = $maleProp->getValue($person);
 
         $femaleProp = $reflection->getProperty('firstNameFemale');
-        $femaleProp->setAccessible(true);
         $femaleNames = $femaleProp->getValue($person);
 
         for ($i = 0; $i < 100; $i++) {
