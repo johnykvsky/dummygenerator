@@ -54,14 +54,10 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * added support for `SystemClock`, PSR-20 implementation of Clock
 * added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
 
-This package also fixes problems with FakerPHP:
+This package also fixes following problems with FakerPHP:
 * `__destruct()` messing up with `seed()`, plus various other issues.
 * bug with `unique()->optional()` causing massive memory usage
-* combining `valid1` and `uniqe` strategies (more about that in Chaining Strategies)
-
-There are two Randomizer implementations available: 
-* default `Randomizer` 
-* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
+* combining `valid` and `unique` strategies (more about chaining in [strategies](./docs/strategies.md))
 
 # Languages
 
@@ -104,6 +100,10 @@ Last but not least - it make sure your tests will get random data on each run, n
 I leave answer to you. And yes, there might be cases when data should not be random, but usually it's not that case ;)
 
 # Other stuff
+
+There are two Randomizer implementations available:
+* default `Randomizer`
+* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
 
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 

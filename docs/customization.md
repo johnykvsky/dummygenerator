@@ -52,7 +52,7 @@ $generator = DummyGenerator::create();
 $generator = $generator->withDefinition(SystemClockInterface::class, $clock);
 ```
 
-You can replace any part of the package by swapping definitions in the container.
+You can replace any part of the package by swapping definitions in the container. Remember: `withDefinition()` is immutable!
 
 # Seed
 
@@ -60,7 +60,7 @@ DummyGenerator generate random data. Which is fine, but sometimes (i.e.: in test
 
 Method `seed()` accepts param with a seed number. If you initialize generator with `seed(1434)`  it will always return same name for `->firstName()`, same address for `->buildingNumber()`, same color for `->hexColor()` and so on.
 
-### How can I use seed()
+### How can I use Randomizer with seed()
 
 You have to change default randomizer to `XoshiroRandomizer` with desired seed number, i.e. for `seed=123` it would be:
 

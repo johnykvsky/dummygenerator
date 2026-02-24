@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace DummyGenerator\Container;
 
 use DI\Container;
+use DummyGenerator\DummyGenerator;
 use DummyGenerator\GeneratorInterface;
+use DummyGenerator\GeneratorProxy;
 
 class DummyContainer implements DummyContainerInterface
 {
@@ -44,7 +46,7 @@ class DummyContainer implements DummyContainerInterface
 
         if ($this->container->has(GeneratorInterface::class)) {
             $existing = $this->container->get(GeneratorInterface::class);
-            if ($existing instanceof GeneratorInterface && !$existing instanceof \DummyGenerator\GeneratorProxy) {
+            if ($existing instanceof GeneratorInterface && !$existing instanceof GeneratorProxy) {
                 $generator = $existing;
             }
         }
@@ -59,7 +61,7 @@ class DummyContainer implements DummyContainerInterface
 
     protected function resetGeneratorCache(GeneratorInterface $generator): void
     {
-        if (!$generator instanceof \DummyGenerator\DummyGenerator) {
+        if (!$generator instanceof DummyGenerator) {
             return;
         }
 

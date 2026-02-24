@@ -61,7 +61,7 @@ $dummy = new DummyGenerator($container);
 
 What is happening there - we have just replaced 3 implementations with our own. From now `$dummy->firstName()` will run `firstName()` from `MyPerson` class. Same for other two replacements, default classes will not be used anymore.
 
-Other way to add custom extension or replace default one is to use `withDefinition()`, but keep in mind that **generator is immutable**:
+Other way to add custom extension or replace default one is to use `withDefinition()`, but keep in mind that it's **immutable**:
 
 ```php
 $generator = DummyGenerator::create();
