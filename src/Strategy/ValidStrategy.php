@@ -6,9 +6,9 @@ namespace DummyGenerator\Strategy;
 
 use Closure;
 
-class ValidStrategy implements StrategyInterface
+class ValidStrategy implements ShortCircuitStrategyInterface
 {
-    private Closure $validator;
+    protected Closure $validator;
 
     /**
      * To make sure the value meet some criteria, pass a callable that verifies the
@@ -21,8 +21,10 @@ class ValidStrategy implements StrategyInterface
      * $evenValidator = function (int $digit): bool {
      *   return $digit % 2 === 0;
      * };
+     * $container->set(StrategyInterface::class, new ValidStrategy($evenValidator));
+     * $generator = new DummyGenerator($container);
      * for ($i=0; $i < 10; $i++) {
-     *   $values []= $generator->withStrategy(new ValidStrategy($evenValidator))->randomDigit();
+     *   $values []= $generator->randomDigit();
      * }
      * print_r($values); // [0, 4, 8, 4, 2, 6, 0, 8, 8, 6]
      * </code>a
@@ -31,7 +33,7 @@ class ValidStrategy implements StrategyInterface
      * @param int $retries Maximum number of retries to find a valid value,
      *                              After which an OverflowException is thrown.
      */
-    public function __construct(callable $validator, private readonly int $retries = 10000)
+    public function __construct(callable $validator, protected readonly int $retries = 10000)
     {
         $this->validator = $validator(...);
     }
@@ -45,10 +47,14 @@ class ValidStrategy implements StrategyInterface
 
             ++$tries;
 
+            if ($response instanceof ShortCircuitResult) {
+                return $response;
+            }
+
             if ($tries > $this->retries) {
                 throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a valid value', $this->retries));
             }
-        } while (!$this->validator->call($this, $response));
+        } while (!($this->validator)($response));
 
         return $response;
     }

@@ -4,24 +4,20 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
 use DummyGenerator\Definitions\Extension\InternetExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Internet implements
-    InternetExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Internet implements InternetExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected GeneratorInterface $generator
+    ) {
+    }
 
     /** @var string[] */
     protected array $freeEmailDomain = ['gmail.com', 'yahoo.com', 'hotmail.com'];
@@ -180,6 +176,7 @@ class Internet implements
 
     public function ipv4(): string
     {
+        // @phpstan-ignore-next-line
         return long2ip($this->randomizer->getBool() ? $this->randomizer->getInt(-2147483648, -2) : $this->randomizer->getInt(16777216, 2147483647));
     }
 
@@ -198,6 +195,7 @@ class Internet implements
     {
         $ipBlock = $this->randomizer->randomElement($this->localIpBlocks);
 
+        // @phpstan-ignore-next-line
         return long2ip($this->randomizer->getInt((int) ip2long($ipBlock[0]), (int) ip2long($ipBlock[1])));
     }
 

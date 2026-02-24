@@ -4,29 +4,23 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\EanCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\EanCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\IsbnCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\IsbnCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
+use DummyGenerator\Definitions\Calculator\EanCalculatorInterface;
+use DummyGenerator\Definitions\Calculator\IsbnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 
-class Barcode implements
-    BarcodeExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    EanCalculatorAwareExtensionInterface,
-    IsbnCalculatorAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Barcode implements BarcodeExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use EanCalculatorAwareExtensionTrait;
-    use IsbnCalculatorAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected EanCalculatorInterface $eanCalculator,
+        protected IsbnCalculatorInterface $isbnCalculator
+    ) {
+    }
 
-    private function ean(int $length = 13): string
+    protected function ean(int $length = 13): string
     {
         $code = $this->replacer->numerify(str_repeat('#', $length - 1));
 

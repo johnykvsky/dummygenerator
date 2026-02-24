@@ -73,15 +73,15 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 readonly class DefinitionPack implements DefinitionPackInterface
 {
     /** @var array<string, class-string<DefinitionInterface>> */
-    private array $coreDefinitions;
+    protected array $coreDefinitions;
     /** @var array<string, class-string<CalculatorInterface>> */
-    private array $calculators;
+    protected array $calculators;
     /** @var array<string, class-string<ExtensionInterface>> */
-    private array $baseExtensions;
+    protected array $baseExtensions;
     /** @var array<string, class-string<ExtensionInterface>> */
-    private array $defaultExtensions;
+    protected array $defaultExtensions;
     /** @var array<string, class-string<ExtensionInterface>> */
-    private array $complementaryExtensions;
+    protected array $complementaryExtensions;
 
     public function __construct()
     {

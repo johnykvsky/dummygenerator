@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Extension;
 
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\UserAgent;
 use DummyGenerator\Definitions\Extension\UserAgentExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
@@ -20,9 +20,9 @@ class UserAgentTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(UserAgentExtensionInterface::class, UserAgent::class);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(UserAgentExtensionInterface::class, UserAgent::class);
         $this->generator = new DummyGenerator($container);
     }
 

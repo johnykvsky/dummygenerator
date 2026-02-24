@@ -4,31 +4,23 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\IbanCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\IbanCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
+use DummyGenerator\Definitions\Calculator\IbanCalculatorInterface;
+use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Payment implements
-    PaymentExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    IbanCalculatorAwareExtensionInterface,
-    LuhnCalculatorAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Payment implements PaymentExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use IbanCalculatorAwareExtensionTrait;
-    use LuhnCalculatorAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected IbanCalculatorInterface $ibanCalculator,
+        protected LuhnCalculatorInterface $luhnCalculator,
+        protected GeneratorInterface $generator
+    ) {
+    }
 
     public string $expirationDateFormat = 'm/y';
 
@@ -251,9 +243,11 @@ class Payment implements
 
     public function iban(?string $alpha2 = null, string $prefix = ''): string
     {
-        $countryCode = null === $alpha2 ? $this->randomizer->randomKey($this->ibanFormats) : $this->replacer->toUpper($alpha2);
+        $countryCode = $alpha2 === null
+            ? $this->randomizer->randomKey($this->ibanFormats)
+            : $this->replacer->toUpper($alpha2);
 
-        $format = $this->ibanFormats[$countryCode] ?? null;
+        $format = $countryCode === null ? null : $this->ibanFormats[$countryCode] ?? null;
 
         if ($format === null) {
             $length = 24;

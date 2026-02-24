@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\UuidExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Uuid implements UuidExtensionInterface, RandomizerAwareExtensionInterface
+class Uuid implements UuidExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer
+    ) {
+    }
 
     public function uuid4(): string
     {

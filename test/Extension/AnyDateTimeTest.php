@@ -7,7 +7,7 @@ namespace DummyGenerator\Test\Extension;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\AnyDateTime;
 use DummyGenerator\Definitions\Enum\DatePeriodEnum;
 use DummyGenerator\Definitions\Extension\AnyDateTimeExtensionInterface;
@@ -28,12 +28,13 @@ class AnyDateTimeTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(AnyDateTimeExtensionInterface::class, AnyDateTime::class);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(AnyDateTimeExtensionInterface::class, AnyDateTime::class);
         date_default_timezone_set('UTC');
         $this->clock = new FrozenClock(new DateTimeImmutable('2025-08-12', new DateTimeZone('UTC')));
-        $this->generator = new DummyGenerator(container: $container, clock: $this->clock);
+        $container->set(\DummyGenerator\Clock\SystemClockInterface::class, $this->clock);
+        $this->generator = new DummyGenerator($container);
     }
 
     public function testAnyDate(): void
@@ -83,7 +84,7 @@ class AnyDateTimeTest extends TestCase
 
     public function testAnyDateBetweenWithNoFrom(): void
     {
-        $dateTo = (new DateTimeImmutable('2025-08-16', new DateTimeZone('UTC')))->setTime(23, 59, 59);
+        $dateTo = $this->clock->now();
         $date = $this->generator->anyDateBetween(until: $dateTo);
         $dateFrom = $dateTo->sub(new DateInterval('P5Y'));
 

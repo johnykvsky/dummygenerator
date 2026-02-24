@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\BloodExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Blood implements BloodExtensionInterface, RandomizerAwareExtensionInterface
+class Blood implements BloodExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer
+    ) {
+    }
 
     /** @var string[] */
     protected array $bloodTypes = ['A', 'AB', 'B', 'O'];

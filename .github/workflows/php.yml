@@ -13,6 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.3', '8.4', '8.5']
 
     steps:
     - name: Checkout
@@ -21,6 +24,7 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
+        php-version: ${{ matrix.php-version }}
         coverage: xdebug
 
     - name: Validate composer.json and composer.lock
@@ -56,6 +60,8 @@ jobs:
     - name: Upload coverage results to Coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_PARALLEL: true
+        COVERALLS_FLAG_NAME: php-${{ matrix.php-version }}
       run: |
         composer require php-coveralls/php-coveralls -n -W
         composer run-script test-clover

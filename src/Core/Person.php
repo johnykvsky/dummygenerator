@@ -4,16 +4,17 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterface, RandomizerAwareExtensionInterface
+class Person implements PersonExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected GeneratorInterface $generator
+    ) {
+    }
 
     /** @var string[] */
     protected array $titleFormat = [
@@ -65,7 +66,10 @@ class Person implements PersonExtensionInterface, GeneratorAwareExtensionInterfa
         } elseif ($gender === static::GENDER_FEMALE) {
             $format = $this->randomizer->randomElement($this->femaleNameFormats);
         } else {
-            $format = $this->randomizer->randomElement(array_merge($this->maleNameFormats, $this->femaleNameFormats));
+            $format = $this->randomizer->randomElement(array_merge(
+                $this->maleNameFormats,
+                $this->femaleNameFormats,
+            ));
         }
 
         return $this->generator->parse($format);

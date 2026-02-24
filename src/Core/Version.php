@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\VersionExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Version implements VersionExtensionInterface, RandomizerAwareExtensionInterface
+class Version implements VersionExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer
+    ) {
+    }
 
     /** @var string[] */
     protected array $semverCommonPreReleaseIdentifiers = ['alpha', 'beta', 'rc'];
@@ -30,7 +32,7 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
     /**
      * Common pre-release identifier
      */
-    private function semverPreReleaseIdentifier(bool $short = true): string
+    protected function semverPreReleaseIdentifier(bool $short = true): string
     {
         $ident = $this->randomizer->randomElement($this->semverCommonPreReleaseIdentifiers);
 
@@ -44,7 +46,7 @@ class Version implements VersionExtensionInterface, RandomizerAwareExtensionInte
     /**
      * Common random build identifier
      */
-    private function semverBuildIdentifier(bool $shortSyntax = true): string
+    protected function semverBuildIdentifier(bool $shortSyntax = true): string
     {
         if ($shortSyntax) {
             // short git revision syntax: https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection

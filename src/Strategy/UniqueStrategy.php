@@ -11,7 +11,7 @@ class UniqueStrategy implements StrategyInterface
      *
      * @var array<string, array<string, null>>
      */
-    private array $previous = [];
+    protected array $previous = [];
 
     /**
      * With the unique generator you are guaranteed to never get the same two
@@ -25,7 +25,7 @@ class UniqueStrategy implements StrategyInterface
      * @param int $retries Maximum number of retries to find a unique value,
      *                         After which an OverflowException is thrown.
      */
-    public function __construct(private readonly int $retries)
+    public function __construct(protected readonly int $retries)
     {
     }
 
@@ -41,6 +41,10 @@ class UniqueStrategy implements StrategyInterface
             $response = $callback();
 
             ++$tries;
+
+            if ($response instanceof ShortCircuitResult) {
+                return $response;
+            }
 
             if ($tries > $this->retries) {
                 throw new \OverflowException(sprintf('Maximum retries of %d reached without finding a unique value', $this->retries));

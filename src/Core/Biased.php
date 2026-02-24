@@ -4,14 +4,16 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\BiasedExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class Biased implements BiasedExtensionInterface, RandomizerAwareExtensionInterface
+class Biased implements BiasedExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer
+    ) {
+    }
 
     public function biasedNumberBetween(int $min = 0, int $max = 100, callable|string $function = 'sqrt'): int
     {

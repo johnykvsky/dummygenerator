@@ -5,22 +5,18 @@ declare(strict_types = 1);
 namespace DummyGenerator\Core;
 
 use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
+use DummyGenerator\GeneratorInterface;
 
-class Address implements
-    AddressExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Address implements AddressExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected GeneratorInterface $generator
+    ) {
+    }
 
     /** @var string[] */
     protected array $cityPrefix = ['North', 'East', 'West', 'South', 'New', 'Lake', 'Port'];

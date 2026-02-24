@@ -4,24 +4,18 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\GeneratorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\LoremExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 
-class Lorem implements
-    LoremExtensionInterface,
-    GeneratorAwareExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class Lorem implements LoremExtensionInterface
 {
-    use GeneratorAwareExtensionTrait;
-    use RandomizerAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer
+    ) {
+    }
 
     /** @var string[] */
     protected array $wordList = [
@@ -167,7 +161,7 @@ class Lorem implements
         return implode('', $text);
     }
 
-    private function randomizeNumberOfElements(int $number): int
+    protected function randomizeNumberOfElements(int $number): int
     {
         return (int) ($number * $this->randomizer->getInt(60, 140) / 100) + 1;
     }

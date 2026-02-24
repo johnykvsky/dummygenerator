@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Extension;
 
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\Calculator\IbanCalculator;
 use DummyGenerator\Core\Calculator\LuhnCalculator;
 use DummyGenerator\Core\DateTime;
@@ -33,16 +33,16 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
+        $container = TestContainerFactory::empty();
 
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(TransliteratorInterface::class, Transliterator::class);
-        $container->add(ReplacerInterface::class, Replacer::class);
-        $container->add(IbanCalculatorInterface::class, IbanCalculator::class);
-        $container->add(LuhnCalculatorInterface::class, LuhnCalculator::class);
-        $container->add(DateTimeExtensionInterface::class, DateTime::class);
-        $container->add(PersonExtensionInterface::class, Person::class);
-        $container->add(PaymentExtensionInterface::class, Payment::class);
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(TransliteratorInterface::class, Transliterator::class);
+        $container->set(ReplacerInterface::class, Replacer::class);
+        $container->set(IbanCalculatorInterface::class, IbanCalculator::class);
+        $container->set(LuhnCalculatorInterface::class, LuhnCalculator::class);
+        $container->set(DateTimeExtensionInterface::class, DateTime::class);
+        $container->set(PersonExtensionInterface::class, Person::class);
+        $container->set(PaymentExtensionInterface::class, Payment::class);
 
         $this->generator = new DummyGenerator($container);
     }
@@ -94,8 +94,8 @@ class PaymentTest extends TestCase
 
     public function testIbanA(): void
     {
-        $this->generator->addDefinition(RandomizerInterface::class, new XoshiroRandomizer(seed: 8));
-        $iban = $this->generator->iban(alpha2: 'AZ', prefix: 'RR');
+        $generator = $this->generator->withDefinition(RandomizerInterface::class, new XoshiroRandomizer(seed: 8));
+        $iban = $generator->iban(alpha2: 'AZ', prefix: 'RR');
 
         self::assertTrue(str_contains($iban, 'RR'));
         self::assertTrue(strlen($iban) > 10);

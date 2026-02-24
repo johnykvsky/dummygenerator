@@ -5,36 +5,41 @@ declare(strict_types=1);
 namespace DummyGenerator\Test\Extension;
 
 use DateTimeImmutable;
-use DummyGenerator\Container\DefinitionContainer;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\DateTime;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\DummyGenerator;
 use DummyGenerator\Core\Randomizer\Randomizer;
+use DummyGenerator\Clock\SystemClock;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Test\Clock\FrozenClock;
 use PHPUnit\Framework\TestCase;
 
 class DateTimeTest extends TestCase
 {
     private DummyGenerator $generator;
+    private SystemClockInterface $clock;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $container = new DefinitionContainer([]);
-        $container->add(RandomizerInterface::class, Randomizer::class);
-        $container->add(DateTimeExtensionInterface::class, DateTime::class);
+        $container = TestContainerFactory::empty();
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(DateTimeExtensionInterface::class, DateTime::class);
+        $this->clock = new SystemClock();
+        $container->set(SystemClockInterface::class, $this->clock);
         date_default_timezone_set('UTC');
-        $this->generator = new DummyGenerator(container: $container);
+        $this->generator = new DummyGenerator($container);
     }
 
     public function testDateTime(): void
     {
         $date = $this->generator->dateTime(until: 'yesterday', timezone: 'UTC');
 
-        self::assertTrue($date <= $this->generator->clock()->now()->sub(new \DateInterval('P1D')));
+        self::assertTrue($date <= $this->clock->now()->sub(new \DateInterval('P1D')));
     }
 
     public function testDateTimeAD(): void
@@ -42,7 +47,7 @@ class DateTimeTest extends TestCase
         $adDate = new \DateTimeImmutable('0000-01-01 00:00:01', new \DateTimeZone('UTC'));
         $date = $this->generator->dateTimeAD(until: 'yesterday', timezone: 'UTC');
 
-        self::assertTrue($date >= $adDate && $date <= $this->generator->clock()->now()->sub(new \DateInterval('P1D')));
+        self::assertTrue($date >= $adDate && $date <= $this->clock->now()->sub(new \DateInterval('P1D')));
     }
 
     public function testDateTimeBetween(): void
@@ -90,7 +95,10 @@ class DateTimeTest extends TestCase
         $date2 = new \DateTimeImmutable('2025-08-17', new \DateTimeZone('UTC'));
 
         $clock = new FrozenClock(new \DateTimeImmutable('2025-08-11'), new \DateTimeZone('UTC'));
-        $generator = $this->generator->withClock($clock);
+        $container = TestContainerFactory::withClock($clock);
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(DateTimeExtensionInterface::class, DateTime::class);
+        $generator = new DummyGenerator($container);
         $date = $generator->dateTimeThisWeek(until: $date2, timezone: 'UTC');
 
         self::assertTrue($date >= $date1 && $date <= $date2);
@@ -102,7 +110,10 @@ class DateTimeTest extends TestCase
         $date2 = new \DateTimeImmutable('2025-08-17', new \DateTimeZone('UTC'));
 
         $clock = new FrozenClock(new \DateTimeImmutable('2025-08-14'), new \DateTimeZone('UTC'));
-        $generator = $this->generator->withClock($clock);
+        $container = TestContainerFactory::withClock($clock);
+        $container->set(RandomizerInterface::class, Randomizer::class);
+        $container->set(DateTimeExtensionInterface::class, DateTime::class);
+        $generator = new DummyGenerator($container);
         $date = $generator->dateTimeThisWeek(until: $date2, timezone: 'UTC');
 
         self::assertTrue($date >= $date1 && $date <= $date2);
@@ -114,8 +125,8 @@ class DateTimeTest extends TestCase
 
     public function testDateTimeThisMonth(): void
     {
-        $date1 = new \DateTimeImmutable($this->generator->clock()->now()->format('Y-m') . '-01', new \DateTimeZone('UTC'));
-        $date2 = new \DateTimeImmutable($this->generator->clock()->now()->format('Y-m-t'), new \DateTimeZone('UTC'));
+        $date1 = new \DateTimeImmutable($this->clock->now()->format('Y-m') . '-01', new \DateTimeZone('UTC'));
+        $date2 = new \DateTimeImmutable($this->clock->now()->format('Y-m-t'), new \DateTimeZone('UTC'));
 
         $date = $this->generator->dateTimeThisMonth(until: $date2, timezone: 'UTC');
 
@@ -124,8 +135,8 @@ class DateTimeTest extends TestCase
 
     public function testDateTimeThisYear(): void
     {
-        $date1 = new \DateTimeImmutable($this->generator->clock()->now()->format('Y') . '-01-01', new \DateTimeZone('UTC'));
-        $date2 = new \DateTimeImmutable($this->generator->clock()->now()->format('Y' . '-12-31'), new \DateTimeZone('UTC'));
+        $date1 = new \DateTimeImmutable($this->clock->now()->format('Y') . '-01-01', new \DateTimeZone('UTC'));
+        $date2 = new \DateTimeImmutable($this->clock->now()->format('Y' . '-12-31'), new \DateTimeZone('UTC'));
 
         $date = $this->generator->dateTimeThisYear(until: $date2, timezone: 'UTC');
 
@@ -156,50 +167,50 @@ class DateTimeTest extends TestCase
 
     public function testDate(): void
     {
-        $date = $this->generator->date(format: 'Y-m-d H:i:s', until: $this->generator->clock()->now());
+        $date = $this->generator->date(format: 'Y-m-d H:i:s', until: $this->clock->now());
         $date2 = new \DateTimeImmutable($date, new \DateTimeZone('UTC'));
 
-        self::assertTrue($date2 <= $this->generator->clock()->now());
+        self::assertTrue($date2 <= $this->clock->now());
     }
 
     public function testTime(): void
     {
-        $date = $this->generator->time(format: 'Y-m-d H:i:s', until: $this->generator->clock()->now());
+        $date = $this->generator->time(format: 'Y-m-d H:i:s', until: $this->clock->now());
         $date2 = new \DateTimeImmutable($date, new \DateTimeZone('UTC'));
 
-        self::assertTrue($date2 <= $this->generator->clock()->now());
+        self::assertTrue($date2 <= $this->clock->now());
     }
 
     public function testUnixTime(): void
     {
-        $time = $this->generator->unixTime(until: $this->generator->clock()->now());
+        $time = $this->generator->unixTime(until: $this->clock->now());
 
-        self::assertTrue($time <= $this->generator->clock()->now()->getTimestamp());
+        self::assertTrue($time <= $this->clock->now()->getTimestamp());
     }
 
     public function testTimestamp()
     {
-        $time = $this->generator->clock()->now()->getTimestamp() - 3600;
+        $time = $this->clock->now()->getTimestamp() - 3600;
 
         self::assertTrue($time <= $this->generator->dateTimeBetween(from: (string) $time, timezone: 'UTC')->format('U'));
     }
 
     public function testIso8601(): void
     {
-        $date = $this->generator->iso8601(until: $this->generator->clock()->now());
+        $date = $this->generator->iso8601(until: $this->clock->now());
         $date2 = new \DateTimeImmutable($date, new \DateTimeZone('UTC'));
 
-        self::assertTrue($date2 <= $this->generator->clock()->now());
+        self::assertTrue($date2 <= $this->clock->now());
     }
 
     public function testAmPm(): void
     {
-        self::assertContains($this->generator->amPm($this->generator->clock()->now()), ['am', 'pm']);
+        self::assertContains($this->generator->amPm($this->clock->now()), ['am', 'pm']);
     }
 
     public function testDayOfMonth(): void
     {
-        $day = $this->generator->dayOfMonth($this->generator->clock()->now());
+        $day = $this->generator->dayOfMonth($this->clock->now());
 
         self::assertIsNumeric($day);
         self::assertTrue((int) $day >= 1 && (int) $day <= 31);
@@ -207,14 +218,14 @@ class DateTimeTest extends TestCase
 
     public function testDayOfWeek(): void
     {
-        $day = $this->generator->dayOfWeek($this->generator->clock()->now());
+        $day = $this->generator->dayOfWeek($this->clock->now());
 
         self::assertContains($day, ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
     }
 
     public function testMonth(): void
     {
-        $month = $this->generator->month($this->generator->clock()->now());
+        $month = $this->generator->month($this->clock->now());
 
         self::assertIsNumeric($month);
         self::assertTrue((int) $month >= 1 && (int) $month <= 12);
@@ -222,7 +233,7 @@ class DateTimeTest extends TestCase
 
     public function testMonthName(): void
     {
-        $month = $this->generator->monthName($this->generator->clock()->now());
+        $month = $this->generator->monthName($this->clock->now());
 
         self::assertContains($month, [
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
@@ -231,10 +242,10 @@ class DateTimeTest extends TestCase
 
     public function testYear(): void
     {
-        $year = $this->generator->year($this->generator->clock()->now());
+        $year = $this->generator->year($this->clock->now());
 
         self::assertIsNumeric($year);
-        self::assertTrue((int) $year <= (int) $this->generator->clock()->now()->format('Y'));
+        self::assertTrue((int) $year <= (int) $this->clock->now()->format('Y'));
     }
 
     public function testCentury(): void

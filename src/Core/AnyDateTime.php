@@ -6,18 +6,19 @@ namespace DummyGenerator\Core;
 
 use DateInterval;
 use DateTimeInterface;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Definitions\Enum\DatePeriodEnum;
 use DummyGenerator\Definitions\Extension\AnyDateTimeExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExtensionInterface, ClockAwareExtensionInterface
+class AnyDateTime implements AnyDateTimeExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use ClockAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected SystemClockInterface $clock
+    ) {
+    }
 
     /**
      * @param \DateTime|\DateTimeImmutable|string $date
@@ -96,7 +97,6 @@ class AnyDateTime implements AnyDateTimeExtensionInterface, RandomizerAwareExten
      * Get a DateTimeImmutable created based on a POSIX-timestamp.
      *
      * @param int $timestamp the UNIX / POSIX-compatible timestamp
-     * @throws \DateMalformedStringException
      */
     protected function getTimestampDateTime(int $timestamp): \DateTimeInterface
     {

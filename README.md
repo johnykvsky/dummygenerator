@@ -19,13 +19,13 @@ composer require johnykvsky/dummygenerator --dev
 **DummyGenerator** is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
-$generator = DummyGeneratorFactory::create(); // all extensions are loaded
+$generator = DummyGenerator::create(); // all extensions are loaded
 echo $generator->firstName();
 ```
 
 # Documentation
 
-Documentation is available under [https://johnykvsky.github.io/dummydocs/][link-docs]
+Full documentation is available in [docs/index.md](docs/index.md)
 
 # But why...?
 
@@ -42,7 +42,7 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * all `mt_rand` / `array_rand` replaced with `\Random\Randomizer`
 * no static methods, only one magic method (`__call()` in generator)
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
-* implementations can be changed on the fly with `addDefinition()`
+* implementations can be changed on the fly with `withDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
 * changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
@@ -52,17 +52,28 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool
 * added support for `SystemClock`, PSR-20 implementation of Clock
-* added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more)
+* added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
 
-This package also fixes problem with FakerPHP `__destruct()` messing up with `seed()`, plus various other issues.
+This package also fixes following problems with FakerPHP:
+* `__destruct()` messing up with `seed()`, plus various other issues.
+* bug with `unique()->optional()` causing massive memory usage
+* allow combining `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
 
-There are two Randomizer implementations available: 
-* default `Randomizer` 
-* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
+But most of all: this is written from scratch, no looking back at old Fake architecture. Core is just an organizer (knows nothing about extensions or clock), depends on Container, which holds everything:
+* Strategy (unique, valid, chance...)
+* Extensions (Person, Address, Internet...)
+* Calculators (Iban, Ean)
+* Randomizer
+* Clock
+* Replacer
+
+And all that can be replaced with your own implementation. Check [overview](docs/overview.md) for more info.
 
 # Languages
 
-One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core. 
+One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core.
+
+However, core use general English language for generating data.
 
 `Person` extension provides only ~15 names than can be used as first name, last name, part of email etc. If you want more, check [dummyproviders](https://github.com/johnykvsky/dummyproviders) to get full providers for `en_US`,`en_GB` and `pl_PL`.
 I have created them to show how to make them / convert from old Faker, to allow anyone to work on other languages.
@@ -100,13 +111,13 @@ I leave answer to you. And yes, there might be cases when data should not be ran
 
 # Other stuff
 
+There are two Randomizer implementations available:
+* default `Randomizer`
+* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
+
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 
 Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
-
-# TODO (ideas, not promises)
-
-* nothing at the moment
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

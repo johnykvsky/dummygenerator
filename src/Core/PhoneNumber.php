@@ -4,23 +4,19 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\LuhnCalculatorAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ReplacerAwareExtensionTrait;
+use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\PhoneNumberExtensionInterface;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
+use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 
-class PhoneNumber implements
-    PhoneNumberExtensionInterface,
-    RandomizerAwareExtensionInterface,
-    LuhnCalculatorAwareExtensionInterface,
-    ReplacerAwareExtensionInterface
+class PhoneNumber implements PhoneNumberExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use LuhnCalculatorAwareExtensionTrait;
-    use ReplacerAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected ReplacerInterface $replacer,
+        protected LuhnCalculatorInterface $luhnCalculator
+    ) {
+    }
 
     /** @var string[] */
     protected array $formats = ['###-###-###'];

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DummyGenerator\Test\Container;
 
-use DummyGenerator\Container\DefinitionContainerBuilder;
+use DummyGenerator\Container\DiContainerFactory;
 use DummyGenerator\Definitions\Extension\AddressExtensionInterface;
 use DummyGenerator\Definitions\Extension\AnyDateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
@@ -20,7 +20,7 @@ class ContainerBuilderTest extends TestCase
 {
     public function testCanGetBaseDefinitions(): void
     {
-        $container = DefinitionContainerBuilder::base();
+        $container = DiContainerFactory::base();
 
         self::assertTrue($container->has(AnyDateTimeExtensionInterface::class));
         self::assertTrue($container->has(EnumExtensionInterface::class));
@@ -31,7 +31,7 @@ class ContainerBuilderTest extends TestCase
 
     public function testCanGetDefaultDefinitions(): void
     {
-        $container = DefinitionContainerBuilder::default();
+        $container = DiContainerFactory::default();
 
         self::assertTrue($container->has(CoordinatesExtensionInterface::class));
         self::assertTrue($container->has(PersonExtensionInterface::class));
@@ -40,7 +40,7 @@ class ContainerBuilderTest extends TestCase
 
     public function testCanGetAllDefinitions(): void
     {
-        $container = DefinitionContainerBuilder::all();
+        $container = DiContainerFactory::all();
 
         self::assertTrue($container->has(AddressExtensionInterface::class));
         self::assertTrue($container->has(BarcodeExtensionInterface::class));

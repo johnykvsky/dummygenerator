@@ -8,17 +8,18 @@ use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\ClockAwareExtensionTrait;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionInterface;
-use DummyGenerator\Definitions\Extension\Awareness\RandomizerAwareExtensionTrait;
+use DummyGenerator\Clock\SystemClockInterface;
 use DummyGenerator\Definitions\Extension\DateTimeExtensionInterface;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
-class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionInterface, ClockAwareExtensionInterface
+class DateTime implements DateTimeExtensionInterface
 {
-    use RandomizerAwareExtensionTrait;
-    use ClockAwareExtensionTrait;
+    public function __construct(
+        protected RandomizerInterface $randomizer,
+        protected SystemClockInterface $clock
+    ) {
+    }
 
     /** @var string[] */
     protected array $centuries = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
@@ -196,11 +197,10 @@ class DateTime implements DateTimeExtensionInterface, RandomizerAwareExtensionIn
      * Get a DateTimeImmutable created based on a POSIX-timestamp.
      *
      * @param int $timestamp the UNIX / POSIX-compatible timestamp
-     * @throws \DateMalformedStringException
      */
     protected function getTimestampDateTime(int $timestamp): \DateTimeInterface
     {
-        return new \DateTimeImmutable('@' . $timestamp);
+        return new \DateTimeImmutable('@' . $timestamp, $this->clock->timezone());
     }
 
     protected function resolveTimezone(?string $timezone): string

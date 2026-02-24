@@ -9,7 +9,7 @@ use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 class Transliterator implements TransliteratorInterface
 {
-    private const string TRANSLITERATOR_PATTERN = 'Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;';
+    protected const string TRANSLITERATOR_PATTERN = 'Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;';
 
     public function transliterate(string $string, ?string $pattern = null): string
     {
