@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Container;
 
+use DI\Container;
 use DI\ContainerBuilder;
 use DI\Definition\Helper\DefinitionHelper;
 use DummyGenerator\Clock\SystemClock;
@@ -95,12 +96,6 @@ class DiContainerFactory
     public static function fromDefinitionMap(DefinitionMap $map): DummyContainerInterface
     {
         $definitions = $map->all();
-
-        $containerBuilder = new ContainerBuilder();
-        $containerBuilder->useAutowiring(true);
-        $containerBuilder->useAttributes(true);
-
-        $normalized = self::normalizeDefinitions($definitions);
         $registry = new ExtensionRegistry(
             array_merge(
                 self::resolveProcessorIds($definitions),
@@ -108,14 +103,26 @@ class DiContainerFactory
             ),
         );
 
+        $container = self::buildContainer($map, $registry);
+
+        return new DummyContainer($container, $map, $registry);
+    }
+
+    public static function buildContainer(DefinitionMap $map, ExtensionRegistry $registry): Container
+    {
+        $definitions = $map->all();
+
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->useAutowiring(true);
+        $containerBuilder->useAttributes(true);
+
+        $normalized = self::normalizeDefinitions($definitions);
         $normalized[DefinitionMap::class] = value($map);
         $normalized[ExtensionRegistry::class] = value($registry);
 
         $containerBuilder->addDefinitions($normalized);
 
-        $container = $containerBuilder->build();
-
-        return new DummyContainer($container, $map, $registry);
+        return $containerBuilder->build();
     }
 
     /**

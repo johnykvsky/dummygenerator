@@ -7,7 +7,7 @@ namespace DummyGenerator\Container;
 use DI\Container;
 use DummyGenerator\GeneratorInterface;
 
-readonly class DummyContainer implements DummyContainerInterface
+class DummyContainer implements DummyContainerInterface
 {
     public function __construct(
         protected Container $container,
@@ -28,12 +28,41 @@ readonly class DummyContainer implements DummyContainerInterface
 
     public function set(string $id, mixed $value): void
     {
-        $this->container->set($id, DiContainerFactory::normalizeDefinition($value));
         if ($id === GeneratorInterface::class) {
+            $this->container->set($id, DiContainerFactory::normalizeDefinition($value));
             return;
         }
 
         $this->definitionMap->set($id, $value);
         $this->registry->register($id);
+        $this->rebuildContainer();
+    }
+
+    protected function rebuildContainer(): void
+    {
+        $generator = null;
+
+        if ($this->container->has(GeneratorInterface::class)) {
+            $existing = $this->container->get(GeneratorInterface::class);
+            if ($existing instanceof GeneratorInterface && !$existing instanceof \DummyGenerator\GeneratorProxy) {
+                $generator = $existing;
+            }
+        }
+
+        $this->container = DiContainerFactory::buildContainer($this->definitionMap, $this->registry);
+
+        if ($generator !== null) {
+            $this->container->set(GeneratorInterface::class, $generator);
+            $this->resetGeneratorCache($generator);
+        }
+    }
+
+    protected function resetGeneratorCache(GeneratorInterface $generator): void
+    {
+        if (!$generator instanceof \DummyGenerator\DummyGenerator) {
+            return;
+        }
+
+        $generator->resetExtensionCache();
     }
 }

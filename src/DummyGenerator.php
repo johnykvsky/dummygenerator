@@ -161,6 +161,11 @@ class DummyGenerator implements GeneratorInterface
         return $parser->parse($string, fn (string $method, array $args) => $this->__call($method, $args));
     }
 
+    public function resetExtensionCache(): void
+    {
+        $this->extensions = [];
+    }
+
     /**
      * @param array<int, mixed> $arguments
      *
