@@ -5,7 +5,7 @@
 When you generate a name with `->firstName()` actual flow looks like this:
 
 * DummyGenerator method `__call()` is launched
-* generator is trying to find extension containing passed method name by reaching out to container `findProcessor()`
+* generator is trying to find extension containing passed method name by reaching out to generator `findProcessor()`
 * container is looping through all loaded definitions, checking if any of them has given method
 * if it's found, then definition instance is returned to generator
 * generator (with used strategy) is trying to get data from extension by running given method (in our example: `firstName()`)
@@ -35,18 +35,13 @@ Thanks to Clock in your extension (look at `DateTime` for example) you will have
 
 If no timezone param is passed it checks for `date_default_timezone_get()` and if it's missing then `UTC` timezone is used. But `date_default_timezone_get()` is returning `UTC` as default anyway.
 
-Generator itself can return clock so you can do this to get current time:
-```php
-$generator->clock->now();
-```
-
 There is also `FrozenClock` ready to be used in tests - you can set it with fixed date:
 
 ```php
 $clock = new FrozenClock(new \DateTimeImmutable('2025-08-11'), new \DateTimeZone('UTC'));
 $container = DiContainerFactory::all();
 $container->set(SystemClockInterface::class, $clock);
-$generator =  DummyGenerator($container)
+$generator =  new DummyGenerator($container)
 // or
 $generator = DummyGenerator::create();
 $generator = $generator->withDefinition(SystemClockInterface::class, $clock);
@@ -56,9 +51,9 @@ You can replace any part of the package by swapping definitions in the container
 
 # Seed
 
-DummyGenerator generate random data. Which is fine, but sometimes (i.e.: in tests) you want it to generate same data each time. This is where `seed()` comes to the rescue.
+DummyGenerator generate random data. Which is fine, but sometimes (i.e.: in tests) you want it to generate same data each time. This is where `seed` comes to the rescue.
 
-Method `seed()` accepts param with a seed number. If you initialize generator with `seed(1434)`  it will always return same name for `->firstName()`, same address for `->buildingNumber()`, same color for `->hexColor()` and so on.
+Constructor of `XoshiroRandomizer` accepts `seed` param with a seed number. If you initialize generator with `seed(1434)`  it will always return same name for `->firstName()`, same address for `->buildingNumber()`, same color for `->hexColor()` and so on.
 
 ### How can I use Randomizer with seed()
 

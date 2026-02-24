@@ -19,7 +19,7 @@ composer require johnykvsky/dummygenerator --dev
 **DummyGenerator** is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
 
 ```php
-$generator = DummyGeneratorFactory::create(); // all extensions are loaded
+$generator = DummyGenerator::create(); // all extensions are loaded
 echo $generator->firstName();
 ```
 
