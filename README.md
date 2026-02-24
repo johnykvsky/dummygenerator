@@ -59,8 +59,15 @@ This package also fixes following problems with FakerPHP:
 * bug with `unique()->optional()` causing massive memory usage
 * allow combining `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
 
-But most of all: generation is done through extensions with use of randomizer. Core itself knows nothing about it, does not have any methods to do any generation.
-Everything is injected into core and can be replaced with other implementations. More info about application architecture in [overview](docs/overview.md)
+But most of all: this is written from scratch, no looking back at old Fake architecture. Core is just an organizer (knows nothing about extensions or clock), depends on Container, which holds everything:
+* Strategy (unique, valid, chance...)
+* Extensions (Person, Address, Internet...)
+* Calculators (Iban, Ean)
+* Randomizer
+* Clock
+* Replacer
+
+And all that can be replaced with your own implementation. Check [overview](docs/overview.md) for more info.
 
 # Languages
 

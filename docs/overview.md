@@ -25,12 +25,12 @@ The container is the dependency hub. It holds:
 Internally this is a PHP-DI container wrapped by `DummyContainer`, which also owns the definitions and registry and can
 return new containers when definitions change.
 
-## Definitions
+## Container $definitions
 
 The definitions list is an array of DI definitions (service entries) keyed by ID. It is the source of truth for what
 should be in the container when it is built or rebuilt.
 
-## Extension Registry
+## Container $registry
 
 The extension registry is a list of definition IDs that should be considered "extensions" (definitions that implement
 methods used by the generator).
@@ -38,6 +38,16 @@ methods used by the generator).
 `DummyGenerator` iterates this list to find a definition that implements a requested method name.
 
 `DummyContainer` maintains this registry internally.
+
+## Container $extensions
+
+The extensions cache is a runtime map of method name to resolved `DefinitionInterface` instance. It is **not** the DI
+definitions list and it is **not** the registry; it is a memoization layer used by `DummyGenerator` after it resolves
+the first matching extension for a method.
+
+The cache is populated in `DummyGenerator::findProcessor()` and avoids scanning the registry on subsequent calls to the
+same method. The cache is cleared whenever the container is rebuilt (for example when `set()` adds a definition) to
+ensure new or replaced definitions are picked up.
 
 ## Container Factory
 
