@@ -18,19 +18,17 @@ It does not define what data to generate by itself. It only orchestrates resolut
 The container is the dependency hub. It holds:
 
 - Core services (strategy, clock, template parser).
-- The definition map (the source of all DI definitions).
+- The definition list (the source of all DI definitions).
 - The extension registry (the list of registered definition IDs).
 - All definitions that can be called by `DummyGenerator`.
 
-Internally this is a PHP-DI container wrapped by `DummyContainer`, which also supports dynamically adding definitions.
+Internally this is a PHP-DI container wrapped by `DummyContainer`, which also owns the definitions and registry and can
+return new containers when definitions change.
 
-## Definition Map
+## Definitions
 
-The definition map is an object that stores all DI definitions (service entries) keyed by ID. It is the source of truth
-for what should be in the container when it is built or rebuilt.
-
-`DefinitionMapInterface` allows different implementations. `DefinitionMap` is the default implementation and stores the
-definitions in-memory.
+The definitions list is an array of DI definitions (service entries) keyed by ID. It is the source of truth for what
+should be in the container when it is built or rebuilt.
 
 ## Extension Registry
 
@@ -39,7 +37,7 @@ methods used by the generator).
 
 `DummyGenerator` iterates this list to find a definition that implements a requested method name.
 
-`ExtensionRegistryInterface` allows custom implementations. `ExtensionRegistry` is the default implementation.
+`DummyContainer` maintains this registry internally.
 
 ## Container Factory
 
@@ -47,9 +45,8 @@ methods used by the generator).
 
 - Build base/default/all containers using `DefinitionPack`.
 - Build a container from explicit definitions.
-- Build a container from a `DefinitionMapInterface`.
 
-It also handles the creation of the definition map and extension registry based on the definition entries.
+It also initializes the registry based on the definition entries.
 
 ## Strategy
 

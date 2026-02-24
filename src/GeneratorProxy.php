@@ -49,14 +49,4 @@ readonly class GeneratorProxy implements GeneratorInterface
     {
         return $this->requireGenerator()->withDefinition($name, $value);
     }
-
-    public function removeDefinition(string $id): GeneratorInterface
-    {
-        return $this->requireGenerator()->removeDefinition($id);
-    }
-
-    public function resetExtensionCache(): void
-    {
-        $this->requireGenerator()->resetExtensionCache();
-    }
 }

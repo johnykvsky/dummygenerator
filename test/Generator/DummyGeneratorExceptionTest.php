@@ -6,11 +6,6 @@ namespace DummyGenerator\Test\Generator;
 
 use DummyGenerator\Clock\SystemClock;
 use DummyGenerator\Clock\SystemClockInterface;
-use DummyGenerator\Container\DefinitionMap;
-use DummyGenerator\Container\DefinitionMapInterface;
-use DummyGenerator\Container\ExtensionRegistry;
-use DummyGenerator\Container\ExtensionRegistryInterface;
-use DummyGenerator\Definitions\DefinitionInterface;
 use DummyGenerator\Definitions\Exception\DefinitionNotFound;
 use DummyGenerator\Exception\MissingDependencyException;
 use DummyGenerator\GeneratorInterface;
@@ -30,8 +25,6 @@ final class DummyGeneratorExceptionTest extends TestCase
         return [
             StrategyInterface::class => new SimpleStrategy(),
             SystemClockInterface::class => new SystemClock(),
-            ExtensionRegistryInterface::class => new ExtensionRegistry([]),
-            DefinitionMapInterface::class => new DefinitionMap([]),
             TemplateParserInterface::class => new TemplateParser(),
         ];
     }
@@ -56,32 +49,6 @@ final class DummyGeneratorExceptionTest extends TestCase
 
         $this->expectException(MissingDependencyException::class);
         $this->expectExceptionMessage('Container is missing SystemClockInterface.');
-
-        new DummyGenerator($container);
-    }
-
-    public function testMissingExtensionRegistryThrows(): void
-    {
-        $container = new FakeContainer($this->baseServices(), [
-            ExtensionRegistryInterface::class => false,
-        ]);
-
-        $this->expectException(MissingDependencyException::class);
-        $this->expectExceptionMessage('Container is missing ExtensionRegistryInterface.');
-
-        new DummyGenerator($container);
-    }
-
-    public function testExtensionRegistryWrongTypeThrows(): void
-    {
-        $services = $this->baseServices();
-        $services[ExtensionRegistryInterface::class] = new \stdClass();
-        $container = new FakeContainer($services);
-
-        $this->expectException(MissingDependencyException::class);
-        $this->expectExceptionMessage(
-            'Container entry for ExtensionRegistryInterface must implement ExtensionRegistryInterface.',
-        );
 
         new DummyGenerator($container);
     }
@@ -162,36 +129,6 @@ final class DummyGeneratorExceptionTest extends TestCase
         $this->expectExceptionMessage('Definition with id "bad" is not a DefinitionInterface.');
 
         $generator->ext('bad');
-    }
-
-    public function testWithDefinitionMissingDefinitionMapThrows(): void
-    {
-        $services = $this->baseServices();
-        unset($services[DefinitionMapInterface::class]);
-        $container = new FakeContainer($services, [
-            DefinitionMapInterface::class => false,
-        ]);
-        $generator = new DummyGenerator($container);
-
-        $this->expectException(MissingDependencyException::class);
-        $this->expectExceptionMessage('Container is missing DefinitionMapInterface.');
-
-        $generator->withDefinition('foo', new class implements DefinitionInterface {});
-    }
-
-    public function testWithDefinitionWrongDefinitionMapTypeThrows(): void
-    {
-        $services = $this->baseServices();
-        $services[DefinitionMapInterface::class] = new \stdClass();
-        $container = new FakeContainer($services);
-        $generator = new DummyGenerator($container);
-
-        $this->expectException(MissingDependencyException::class);
-        $this->expectExceptionMessage(
-            'Container entry for DefinitionMapInterface must implement DefinitionMapInterface.',
-        );
-
-        $generator->withDefinition('foo', new class implements DefinitionInterface {});
     }
 
     public function testUnknownMethodThrowsInvalidArgument(): void

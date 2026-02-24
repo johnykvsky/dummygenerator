@@ -29,8 +29,6 @@ class DiContainerFactory
         SystemClockInterface::class,
         TemplateParserInterface::class,
         GeneratorInterface::class,
-        DefinitionMapInterface::class,
-        ExtensionRegistryInterface::class,
     ];
 
     public static function base(
@@ -88,32 +86,30 @@ class DiContainerFactory
     {
         $definitions = self::withInfrastructure($definitions, $withTemplateParser);
 
-        $map = self::buildDefinitionMap($definitions);
-
-        return self::fromDefinitionMap($map);
+        return self::fromDefinitions($definitions);
     }
 
-    public static function fromDefinitionMap(DefinitionMapInterface $map): DummyContainerInterface
+    /**
+     * Build a container from explicit definitions (no infrastructure injection).
+     *
+     * @param array<string, mixed> $definitions
+     */
+    public static function fromDefinitions(array $definitions): DummyContainerInterface
     {
-        $definitions = $map->all();
-        $registry = self::buildExtensionRegistry($definitions);
+        $registry = self::buildRegistry($definitions);
+        $container = self::buildContainer($definitions);
 
-        $container = self::buildContainer($map, $registry);
-
-        return new DummyContainer($container, $map, $registry);
+        return new DummyContainer($container, $definitions, $registry);
     }
 
-    public static function buildContainer(DefinitionMapInterface $map, ExtensionRegistryInterface $registry): Container
+    /** @param array<string, mixed> $definitions */
+    public static function buildContainer(array $definitions): Container
     {
-        $definitions = $map->all();
-
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->useAutowiring(true);
         $containerBuilder->useAttributes(true);
 
         $normalized = self::normalizeDefinitions($definitions);
-        $normalized[DefinitionMapInterface::class] = value($map);
-        $normalized[ExtensionRegistryInterface::class] = value($registry);
 
         $containerBuilder->addDefinitions($normalized);
 
@@ -126,8 +122,13 @@ class DiContainerFactory
      */
     protected static function normalizeDefinitions(array $definitions): array
     {
+        $normalized = [];
 
-        return array_map(static fn ($definition) => self::normalizeDefinition($definition), $definitions);
+        foreach ($definitions as $id => $definition) {
+            $normalized[$id] = self::normalizeDefinition($definition);
+        }
+
+        return $normalized;
     }
 
     public static function normalizeDefinition(mixed $definition): mixed
@@ -173,14 +174,6 @@ class DiContainerFactory
             $definitions[GeneratorInterface::class] = GeneratorProxy::class;
         }
 
-        if (!array_key_exists(DefinitionMapInterface::class, $definitions)) {
-            $definitions[DefinitionMapInterface::class] = DefinitionMap::class;
-        }
-
-        if (!array_key_exists(ExtensionRegistryInterface::class, $definitions)) {
-            $definitions[ExtensionRegistryInterface::class] = ExtensionRegistry::class;
-        }
-
         return $definitions;
     }
 
@@ -204,67 +197,15 @@ class DiContainerFactory
         return $ids;
     }
 
-    /** @param array<string, mixed> $definitions */
-    protected static function buildDefinitionMap(array $definitions): DefinitionMapInterface
+    /**
+     * @param array<string, mixed> $definitions
+     * @return array<int, string>
+     */
+    public static function buildRegistry(array $definitions): array
     {
-        $definition = $definitions[DefinitionMapInterface::class] ?? DefinitionMap::class;
-
-        if ($definition instanceof DefinitionMapInterface) {
-            return $definition;
-        }
-
-        if (is_string($definition) && class_exists($definition)) {
-            $map = new $definition($definitions);
-            if ($map instanceof DefinitionMapInterface) {
-                return $map;
-            }
-        }
-
-        if (is_callable($definition)) {
-            $map = $definition($definitions);
-            if ($map instanceof DefinitionMapInterface) {
-                return $map;
-            }
-        }
-
-        return new DefinitionMap($definitions);
-    }
-
-    /** @param array<string, mixed> $definitions */
-    protected static function buildExtensionRegistry(array $definitions): ExtensionRegistryInterface
-    {
-        $ids = array_merge(
+        return array_merge(
             self::resolveProcessorIds($definitions),
             self::SYSTEM_IDS,
         );
-
-        $definition = $definitions[ExtensionRegistryInterface::class] ?? ExtensionRegistry::class;
-
-        if ($definition instanceof ExtensionRegistryInterface) {
-            $existing = $definition->registry();
-            foreach ($ids as $id) {
-                if (!in_array($id, $existing, true)) {
-                    $definition->register($id);
-                }
-            }
-
-            return $definition;
-        }
-
-        if (is_string($definition) && class_exists($definition)) {
-            $registry = new $definition($ids);
-            if ($registry instanceof ExtensionRegistryInterface) {
-                return $registry;
-            }
-        }
-
-        if (is_callable($definition)) {
-            $registry = $definition($ids);
-            if ($registry instanceof ExtensionRegistryInterface) {
-                return $registry;
-            }
-        }
-
-        return new ExtensionRegistry($ids);
     }
 }

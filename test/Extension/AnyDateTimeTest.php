@@ -84,7 +84,7 @@ class AnyDateTimeTest extends TestCase
 
     public function testAnyDateBetweenWithNoFrom(): void
     {
-        $dateTo = (new DateTimeImmutable('2025-08-16', new DateTimeZone('UTC')))->setTime(23, 59, 59);
+        $dateTo = $this->clock->now();
         $date = $this->generator->anyDateBetween(until: $dateTo);
         $dateFrom = $dateTo->sub(new DateInterval('P5Y'));
 
