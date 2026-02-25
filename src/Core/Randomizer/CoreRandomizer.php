@@ -29,7 +29,7 @@ abstract class CoreRandomizer implements RandomizerInterface
             return $this->randomizer->getInt(1, 100) <= $chanceOfTrue;
         }
 
-        return $this->randomizer->nextFloat() <= $chanceOfTrue;
+        return $this->randomizer->nextFloat() < $chanceOfTrue;
     }
 
     public function getBytes(int $length = 16): string
