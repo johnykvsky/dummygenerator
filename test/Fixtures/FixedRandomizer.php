@@ -24,7 +24,7 @@ final class FixedRandomizer implements RandomizerInterface
         return (float) $this->int;
     }
 
-    public function getBool(int $chanceOfTrue = 50): bool
+    public function getBool(int|float $chanceOfTrue = 50): bool
     {
         return $this->int % 2 === 0;
     }

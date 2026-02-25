@@ -13,7 +13,7 @@ interface RandomizerInterface extends DefinitionInterface
 
     public function getFloat(float $min, float $max): float;
 
-    public function getBool(int $chanceOfTrue = 50): bool;
+    public function getBool(int|float $chanceOfTrue = 50): bool;
 
     public function getBytes(int $length = 16): string;
 

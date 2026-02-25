@@ -119,6 +119,10 @@ There is `script\ExtensionsDocs.php` that can be used to generate list of availa
 
 Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
 
+## TODO
+
+* cleanup tests
+
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
 [ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg

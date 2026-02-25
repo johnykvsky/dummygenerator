@@ -101,6 +101,51 @@ class XoshiroRandomizerTest extends TestCase
         }
     }
 
+    public function testGetBoolWithIntChanceUsesIntRange(): void
+    {
+        $seeds = [1, 2, 3, 4, 5, 42, 99, 1234];
+
+        foreach ($seeds as $seed) {
+            $expectedRandomizer = new XoshiroRandomizer(seed: $seed);
+            $actualRandomizer = new XoshiroRandomizer(seed: $seed);
+
+            $expected = $expectedRandomizer->getInt(1, 100) <= 50;
+
+            self::assertSame($expected, $actualRandomizer->getBool(50));
+        }
+    }
+
+    public function testGetBoolWithFloatZeroAlwaysFalse(): void
+    {
+        $randomizer = new XoshiroRandomizer(seed: 1);
+
+        for ($i = 0; $i < 20; $i++) {
+            self::assertFalse($randomizer->getBool(0.0));
+        }
+    }
+
+    public function testGetBoolWithFloatOneAlwaysTrue(): void
+    {
+        $randomizer = new XoshiroRandomizer(seed: 1);
+
+        for ($i = 0; $i < 20; $i++) {
+            self::assertTrue($randomizer->getBool(1.0));
+        }
+    }
+
+    public function testGetBoolWithFloatHalfProducesBothValues(): void
+    {
+        $randomizer = new XoshiroRandomizer(seed: 1);
+        $results = [];
+
+        for ($i = 0; $i < 100; $i++) {
+            $results[] = $randomizer->getBool(0.5);
+        }
+
+        self::assertGreaterThan(0, count(array_filter($results, fn($v) => $v === true)));
+        self::assertGreaterThan(0, count(array_filter($results, fn($v) => $v === false)));
+    }
+
     public function testGetBytes(): void
     {
         $randomizer = new XoshiroRandomizer(seed: 1);
