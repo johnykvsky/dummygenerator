@@ -83,8 +83,13 @@ class NumberTest extends TestCase
         $number = $this->generator->randomFloat(nbMaxDecimals: null, min: 12.83, max: 26.45);
 
         self::assertTrue($number >= 12.83 && $number <= 26.45);
-        $parts = explode('.', (string) $number);
-        self::assertTrue(strlen($parts[1]) !== 0);
+        $numberString = (string) $number;
+        if (str_contains($numberString, '.')) {
+            $parts = explode('.', $numberString);
+            self::assertTrue(strlen($parts[1]) !== 0);
+        } else {
+            self::assertTrue(is_numeric($numberString));
+        }
     }
 
     public function testRandomNumber(): void
