@@ -80,7 +80,7 @@ class Number implements NumberExtensionInterface
         return $this->randomizer->getInt(0, $max);
     }
 
-    public function boolean(int $chanceOfGettingTrue = 50): bool
+    public function boolean(int|float $chanceOfGettingTrue = 50): bool
     {
         return $this->randomizer->getBool($chanceOfGettingTrue);
     }

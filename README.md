@@ -46,6 +46,7 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * language providers removed from core, that makes generator ~9.5Mb smaller
 * changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
+* changed `boolean()`, it now supports also float values from range 0 to 1, i.e. `->boolean(0.001)` for 0.1% chance
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data

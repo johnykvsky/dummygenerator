@@ -107,6 +107,25 @@ class NumberTest extends TestCase
         self::assertFalse($this->generator->boolean(chanceOfGettingTrue: 0));
     }
 
+    public function testBooleanFloatProbabilities(): void
+    {
+        // Test 1% chance using float (should mostly be false)
+        $results = [];
+        for ($i = 0; $i < 200; $i++) {
+            $results[] = $this->generator->boolean(chanceOfGettingTrue: 0.01);
+        }
+        $trueCount = count(array_filter($results));
+        self::assertLessThan(25, $trueCount, 'With 1% chance (float), should rarely be true');
+
+        // Test 99% chance using float (should mostly be true)
+        $results = [];
+        for ($i = 0; $i < 200; $i++) {
+            $results[] = $this->generator->boolean(chanceOfGettingTrue: 0.99);
+        }
+        $trueCount = count(array_filter($results));
+        self::assertGreaterThan(175, $trueCount, 'With 99% chance (float), should usually be true');
+    }
+
     // Enhanced edge case tests
 
     public function testRandomDigitNotWithValueOutsideRange(): void
