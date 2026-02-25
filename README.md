@@ -58,12 +58,12 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 This package also fixes following problems with FakerPHP:
 * `__destruct()` messing up with `seed()`, plus various other issues.
 * bug with `unique()->optional()` causing massive memory usage
-* allow combining `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+* allow combining strategies, like `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
 
 But most of all: this is written from scratch, no looking back at old Fake architecture. Core is just an organizer (knows nothing about extensions or clock), depends on Container, which holds everything:
 * Strategy (unique, valid, chance...)
 * Extensions (Person, Address, Internet...)
-* Calculators (Iban, Ean)
+* Calculators (Iban, Ean...)
 * Randomizer
 * Clock
 * Replacer
@@ -114,7 +114,7 @@ I leave answer to you. And yes, there might be cases when data should not be ran
 
 There are two Randomizer implementations available:
 * default `Randomizer`
-* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
+* additional `XoshiroRandomizer`, which supports `seed` - to be used in tests
 
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 
