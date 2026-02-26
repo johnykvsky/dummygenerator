@@ -44,24 +44,28 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `withDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
-* changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
-* changed `boolean()`, it now supports also float values from range 0 to 1, i.e. `->boolean(0.001)` for 0.1% chance
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
 * added `Enum`, to get random values from PHP enums
-* added `String`, to generate random string from given pool
-* added support for `SystemClock`, PSR-20 implementation of Clock
+* added `String`, to generate random string from given pool (as `text()` is not that good for short lengths)
+* added support for `SystemClock`, PSR-20 implementation of Clock, used in date/time generation
 * added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
 
+Worth noticing:
+* `DateTime` extension now also supports `DateTimeInterface` for methods params (not only strings)
+* `boolean()` supports also float values from range 0 to 1, i.e. `->boolean(0.001)` for 0.1% chance
+
 This package also fixes following problems with FakerPHP:
-* `__destruct()` messing up with `seed()`, plus various other issues.
+* `__destruct()` messing up with `seed()`
 * bug with `unique()->optional()` causing massive memory usage
 * allow combining strategies, like `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+* `Factroy::create()` sharing state with other instances
+* and other various items, mostly fixed by with switching to `\Random\Randomizer` and making proper use of it
 
 But most of all: this is written from scratch, no looking back at old Fake architecture. Core is just an organizer (knows nothing about extensions or clock), depends on Container, which holds everything:
-* Strategy (unique, valid, chance...)
+* Strategy (Unique, Valid, Chance...)
 * Extensions (Person, Address, Internet...)
 * Calculators (Iban, Ean...)
 * Randomizer
