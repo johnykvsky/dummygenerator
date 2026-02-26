@@ -48,10 +48,12 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
+* `regexify` has been removed from core as it is not used any more, it's available in [dummyproviders](https://github.com/johnykvsky/dummyproviders) if needed
 * added `Enum`, to get random values from PHP enums
 * added `String`, to generate random string from given pool (as `text()` is not that good for short lengths)
 * added support for `SystemClock`, PSR-20 implementation of Clock, used in date/time generation
 * added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
+* some extensions have updated properties, i.e. list of available currencies
 
 Worth noticing:
 * `DateTime` extension now also supports `DateTimeInterface` for methods params (not only strings)
@@ -60,7 +62,7 @@ Worth noticing:
 This package also fixes following problems with FakerPHP:
 * `__destruct()` messing up with `seed()`
 * bug with `unique()->optional()` causing massive memory usage
-* allow combining strategies, like `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+* not allowing combination of `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
 * `Factroy::create()` sharing state with other instances
 * and other various items, mostly fixed by with switching to `\Random\Randomizer` and making proper use of it
 
