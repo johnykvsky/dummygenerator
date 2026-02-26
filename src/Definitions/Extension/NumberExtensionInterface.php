@@ -59,9 +59,10 @@ interface NumberExtensionInterface extends ExtensionInterface
     /**
      * Return a boolean, true or false.
      *
-     * @param int $chanceOfGettingTrue Between 0 (always get false) and 100 (always get true)
+     * @param int|float $chanceOfGettingTrue Between 0 (always get false) and 100 (always get true)
+     *                                       float value must be in range 0..1, i.e. 0.001 for 0.1% chance
      *
      * @example true
      */
-    public function boolean(int $chanceOfGettingTrue = 50): bool;
+    public function boolean(int|float $chanceOfGettingTrue = 50): bool;
 }

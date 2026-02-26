@@ -23,9 +23,13 @@ abstract class CoreRandomizer implements RandomizerInterface
         return $this->randomizer->getFloat($min, $max, IntervalBoundary::ClosedClosed);
     }
 
-    public function getBool(int $chanceOfTrue = 50): bool
+    public function getBool(int|float $chanceOfTrue = 50): bool
     {
-        return $this->randomizer->getInt(1, 100) <= $chanceOfTrue;
+        if (is_int($chanceOfTrue)) {
+            return $this->randomizer->getInt(1, 100) <= $chanceOfTrue;
+        }
+
+        return $this->randomizer->nextFloat() < $chanceOfTrue;
     }
 
     public function getBytes(int $length = 16): string

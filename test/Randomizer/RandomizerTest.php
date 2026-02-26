@@ -114,6 +114,39 @@ class RandomizerTest extends TestCase
         }
     }
 
+    public function testGetBoolWithFloatZeroAlwaysFalse(): void
+    {
+        $randomizer = new Randomizer();
+
+        for ($i = 0; $i < 20; $i++) {
+            self::assertFalse($randomizer->getBool(0.0));
+        }
+    }
+
+    public function testGetBoolWithFloatOneAlwaysTrue(): void
+    {
+        $randomizer = new Randomizer();
+
+        for ($i = 0; $i < 20; $i++) {
+            self::assertTrue($randomizer->getBool(1.0));
+        }
+    }
+
+    public function testGetBoolWithFloatHalfMixesResults(): void
+    {
+        $randomizer = new Randomizer();
+        $results = [];
+
+        for ($i = 0; $i < 100; $i++) {
+            $results[] = $randomizer->getBool(0.5);
+        }
+
+        $trueCount = count(array_filter($results));
+
+        self::assertGreaterThan(25, $trueCount);
+        self::assertLessThan(75, $trueCount);
+    }
+
     public function testGetBoolWithFiftyPercentage(): void
     {
         $randomizer = new Randomizer();

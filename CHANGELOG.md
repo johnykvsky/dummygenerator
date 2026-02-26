@@ -2,6 +2,10 @@
 
 ---
 
+## v0.2.1
+
+* `boolean()` now support also float values from range 0..1, i.e. 0.001 for 0.1% chance
+
 ## v0.2.0
 
 ### New / changed

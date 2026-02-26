@@ -44,25 +44,32 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `withDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
-* changed `DateTime` extension, it supports `DateTimeInterface` for methods params (not only strings)
 * changed `Uuid`, it supports `v4` only, use `uuid4()`
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
+* `regexify` has been removed from core as it is not used any more, it's available in [dummyproviders](https://github.com/johnykvsky/dummyproviders) if needed
 * added `Enum`, to get random values from PHP enums
-* added `String`, to generate random string from given pool
-* added support for `SystemClock`, PSR-20 implementation of Clock
+* added `String`, to generate random string from given pool (as `text()` is not that good for short lengths)
+* added support for `SystemClock`, PSR-20 implementation of Clock, used in date/time generation
 * added `AnyDateTime`, as alternative/replacement for `DateTime` extension (see docs for more info)
+* some extensions have updated properties, i.e. list of available currencies
+
+Worth noticing:
+* `DateTime` extension now also supports `DateTimeInterface` for methods params (not only strings)
+* `boolean()` supports also float values from range 0 to 1, i.e. `->boolean(0.001)` for 0.1% chance
 
 This package also fixes following problems with FakerPHP:
-* `__destruct()` messing up with `seed()`, plus various other issues.
+* `__destruct()` messing up with `seed()`
 * bug with `unique()->optional()` causing massive memory usage
-* allow combining `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+* not allowing combination of `valid` and `unique` (more about chaining in [strategies](./docs/strategies.md))
+* `Factroy::create()` sharing state with other instances
+* and other various items, mostly fixed by with switching to `\Random\Randomizer` and making proper use of it
 
 But most of all: this is written from scratch, no looking back at old Fake architecture. Core is just an organizer (knows nothing about extensions or clock), depends on Container, which holds everything:
-* Strategy (unique, valid, chance...)
+* Strategy (Unique, Valid, Chance...)
 * Extensions (Person, Address, Internet...)
-* Calculators (Iban, Ean)
+* Calculators (Iban, Ean...)
 * Randomizer
 * Clock
 * Replacer
@@ -113,11 +120,15 @@ I leave answer to you. And yes, there might be cases when data should not be ran
 
 There are two Randomizer implementations available:
 * default `Randomizer`
-* additional `XoshiroRandomizer`, which supports `seed()` - to be used in tests
+* additional `XoshiroRandomizer`, which supports `seed` - to be used in tests
 
 There is `script\ExtensionsDocs.php` that can be used to generate list of available extensions and their methods (look at `generate-spec.php`)
 
 Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
+
+## TODO
+
+* cleanup tests
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg

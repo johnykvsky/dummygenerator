@@ -83,8 +83,13 @@ class NumberTest extends TestCase
         $number = $this->generator->randomFloat(nbMaxDecimals: null, min: 12.83, max: 26.45);
 
         self::assertTrue($number >= 12.83 && $number <= 26.45);
-        $parts = explode('.', (string) $number);
-        self::assertTrue(strlen($parts[1]) !== 0);
+        $numberString = (string) $number;
+        if (str_contains($numberString, '.')) {
+            $parts = explode('.', $numberString);
+            self::assertTrue(strlen($parts[1]) !== 0);
+        } else {
+            self::assertTrue(is_numeric($numberString));
+        }
     }
 
     public function testRandomNumber(): void
@@ -105,6 +110,25 @@ class NumberTest extends TestCase
     {
         self::assertTrue($this->generator->boolean(chanceOfGettingTrue: 100));
         self::assertFalse($this->generator->boolean(chanceOfGettingTrue: 0));
+    }
+
+    public function testBooleanFloatProbabilities(): void
+    {
+        // Test 1% chance using float (should mostly be false)
+        $results = [];
+        for ($i = 0; $i < 200; $i++) {
+            $results[] = $this->generator->boolean(chanceOfGettingTrue: 0.01);
+        }
+        $trueCount = count(array_filter($results));
+        self::assertLessThan(25, $trueCount, 'With 1% chance (float), should rarely be true');
+
+        // Test 99% chance using float (should mostly be true)
+        $results = [];
+        for ($i = 0; $i < 200; $i++) {
+            $results[] = $this->generator->boolean(chanceOfGettingTrue: 0.99);
+        }
+        $trueCount = count(array_filter($results));
+        self::assertGreaterThan(175, $trueCount, 'With 99% chance (float), should usually be true');
     }
 
     // Enhanced edge case tests
