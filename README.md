@@ -1,12 +1,12 @@
 # DummyGenerator
 
+![logo][ico-logo]
+
 ## **Your Random Data Source**
 
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-build]][link-build]
 [![Coverage Status][ico-coveralls]][link-coveralls]
-
-![logo][ico-logo]
 
 # Installation
 
@@ -133,7 +133,7 @@ Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https:
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
 [ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg
-[ico-logo]: logo.png
+[ico-logo]: logo_d6.png
 
 [link-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml
 [link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator
