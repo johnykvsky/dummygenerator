@@ -70,8 +70,8 @@ But most of all: this is written from scratch, no looking back at old Fake archi
 * Strategy (Unique, Valid, Chance...)
 * Extensions (Person, Address, Internet...)
 * Calculators (Iban, Ean...)
-* Randomizer
-* Clock
+* Randomizer (\Random\Randomizer, Xoshiro256StarStar engine for seed...`)
+* Clock (PSR-20)
 * Replacer
 
 And all that can be replaced with your own implementation. Check [overview](docs/overview.md) for more info.

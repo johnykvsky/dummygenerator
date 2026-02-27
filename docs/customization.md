@@ -55,7 +55,7 @@ DummyGenerator generate random data. Which is fine, but sometimes (i.e.: in test
 
 Constructor of `XoshiroRandomizer` accepts `seed` param with a seed number. If you initialize generator with `seed(1434)`  it will always return same name for `->firstName()`, same address for `->buildingNumber()`, same color for `->hexColor()` and so on.
 
-### How can I use Randomizer with seed()
+### How can I use Randomizer with seed
 
 You have to change default randomizer to `XoshiroRandomizer` with desired seed number, i.e. for `seed=123` it would be:
 
