@@ -1,7 +1,5 @@
 # Getting Started
 
-DummyGenerator is a modern PHP library for generating realistic fake data
-
 ## Install
 
 ```bash
@@ -10,7 +8,7 @@ composer require johnykvsky/dummygenerator --dev
 
 ## Overview
 
-DummyGenerator is a tool for generating fake data. Let's do a quick overview of internal architecture:
+DummyGenerator internal architecture in a nutshell looks like this:
 
 * **DummyGenerator** core library. This is core, it's managing everything: Extensions, Strategies, Clock
 * **Extensions**. They contain actual code used to generate various data. You need email? Go to Internet extension. Need a first name? There is Person extension. And so on.
@@ -28,7 +26,7 @@ As DummyGenerator use PHP-DI we have access to autowire feature - it will try to
 
 ## Basic Usage
 
-DummyGenerator uses dependency injection container. There are two ways of creating generator, quick one:
+DummyGenerator uses dependency injection container. There are two ways of creating generator, quick one via factory method:
 
 ```php
 $generator = DummyGenerator::create();
