@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
 use DummyGenerator\Definitions\Extension\InternetExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
@@ -20,7 +21,7 @@ class Internet implements InternetExtensionInterface
     }
 
     /** @var string[] */
-    protected array $freeEmailDomain = ['gmail.com', 'yahoo.com', 'hotmail.com'];
+    protected array $freeEmailDomain = ['gmail.com', 'outlook.com', 'yahoo.com', 'hotmail.com'];
 
     /** @var string[] */
     protected array $tld = ['com', 'com', 'com', 'com', 'com', 'com', 'biz', 'info', 'net', 'org'];
@@ -208,5 +209,89 @@ class Internet implements InternetExtensionInterface
         }
 
         return implode(':', $mac);
+    }
+
+    public function port(int $min = 1024, int $max = 65535): int
+    {
+        if ($min < 1 || $max > 65535 || $min > $max) {
+            throw new ExtensionArgumentException('port() range must be within 1..65535 and min <= max');
+        }
+
+        return $this->randomizer->getInt($min, $max);
+    }
+
+    /** @var string[] */
+    protected array $httpMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
+
+    public function httpMethod(): string
+    {
+        return $this->randomizer->randomElement($this->httpMethods);
+    }
+
+    /** @var array<string, array<int, int>> */
+    protected array $httpStatusCodes = [
+        'informational' => [100, 101, 102, 103],
+        'success' => [200, 201, 202, 204, 206],
+        'redirection' => [301, 302, 304, 307, 308],
+        'clientError' => [400, 401, 403, 404, 405, 409, 410, 422, 429],
+        'serverError' => [500, 501, 502, 503, 504],
+    ];
+
+    public function httpStatusCode(?string $category = null): int
+    {
+        if ($category !== null) {
+            if (!isset($this->httpStatusCodes[$category])) {
+                throw new ExtensionArgumentException(sprintf('Unknown HTTP status category "%s"', $category));
+            }
+
+            return $this->randomizer->randomElement($this->httpStatusCodes[$category]);
+        }
+
+        $allCodes = array_merge(...array_values($this->httpStatusCodes));
+
+        return $this->randomizer->randomElement($allCodes);
+    }
+
+    public function publicIpv4(): string
+    {
+        do {
+            $ip = $this->ipv4();
+        } while (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE));
+
+        return $ip;
+    }
+
+    public function ipv4Cidr(): string
+    {
+        return sprintf('%s/%d', $this->ipv4(), $this->randomizer->getInt(0, 32));
+    }
+
+    public function urlPath(int $segments = 2): string
+    {
+        if ($segments < 1) {
+            throw new ExtensionArgumentException('urlPath() segments must be at least 1');
+        }
+
+        $parts = [];
+        for ($i = 0; $i < $segments; ++$i) {
+            $parts[] = $this->domainWord();
+        }
+
+        return '/' . implode('/', $parts);
+    }
+
+    public function jwt(): string
+    {
+        $header = rtrim(strtr(base64_encode('{"alg":"HS256","typ":"JWT"}'), '+/', '-_'), '=');
+        $payloadJson = json_encode([
+            'sub' => (string) $this->randomizer->getInt(1000, 999999),
+            'name' => $this->userName(),
+            'iat' => time(),
+            'exp' => time() + 3600,
+        ], JSON_THROW_ON_ERROR);
+        $payload = rtrim(strtr(base64_encode($payloadJson), '+/', '-_'), '=');
+        $signature = rtrim(strtr(base64_encode($this->randomizer->getBytes(32)), '+/', '-_'), '=');
+
+        return sprintf('%s.%s.%s', $header, $payload, $signature);
     }
 }

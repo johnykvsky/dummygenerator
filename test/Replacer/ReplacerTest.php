@@ -325,4 +325,21 @@ class ReplacerTest extends TestCase
         $result = $replacer->toUpper('abc-123!@#');
         self::assertEquals('ABC-123!@#', $result);
     }
+
+    public function testTransliterate(): void
+    {
+        $replacer = new Replacer(new Randomizer(), new SimpleTransliterator());
+        $result = $replacer->transliterate('Müller_François');
+        self::assertEquals('Muller_Francois', $result);
+    }
+
+    public function testShuffleStringWithMultibyteUtf8(): void
+    {
+        $replacer = new Replacer(new Randomizer(), new SimpleTransliterator());
+        $string = 'ąćęłńóśźż';
+        $shuffled = $replacer->shuffleString($string);
+
+        self::assertEquals(mb_strlen($string), mb_strlen($shuffled));
+        self::assertTrue(mb_check_encoding($shuffled, 'UTF-8'));
+    }
 }

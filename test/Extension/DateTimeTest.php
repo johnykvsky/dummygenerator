@@ -257,4 +257,32 @@ class DateTimeTest extends TestCase
     {
         self::assertNotEmpty($this->generator->timezone());
     }
+
+    public function testDateTimePast(): void
+    {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $past = $this->generator->dateTimePast('-10 days', 'UTC');
+
+        self::assertLessThanOrEqual($now, $past);
+        self::assertGreaterThanOrEqual($now->modify('-11 days'), $past);
+    }
+
+    public function testDateTimeFuture(): void
+    {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $future = $this->generator->dateTimeFuture('+10 days', 'UTC');
+
+        self::assertGreaterThanOrEqual($now->modify('-1 second'), $future);
+        self::assertLessThanOrEqual($now->modify('+11 days'), $future);
+    }
+
+    public function testCronExpression(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $cron = $this->generator->cronExpression();
+            $parts = explode(' ', $cron);
+            self::assertCount(5, $parts, "Cron expression '{$cron}' should have exactly 5 parts");
+        }
+    }
 }
+

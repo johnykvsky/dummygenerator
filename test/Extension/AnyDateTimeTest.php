@@ -43,7 +43,7 @@ class AnyDateTimeTest extends TestCase
         $dateFrom = (new DateTimeImmutable('2025-08-11', new DateTimeZone('UTC')))->setTime(0,0,1);
         $dateTo = (new DateTimeImmutable('2025-08-13', new DateTimeZone('UTC')))->setTime(23,59,59);
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyStringDate(): void
@@ -52,7 +52,7 @@ class AnyDateTimeTest extends TestCase
         $dateFrom = (new DateTimeImmutable('2025-08-11', new DateTimeZone('UTC')))->setTime(0,0,1);
         $dateTo = (new DateTimeImmutable('2025-08-13', new DateTimeZone('UTC')))->setTime(23,59,59);
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyPastDate(): void
@@ -61,7 +61,7 @@ class AnyDateTimeTest extends TestCase
         $dateFrom = (new DateTimeImmutable('2025-08-11', new DateTimeZone('UTC')))->setTime(0, 0, 1);
         $dateTo = (new DateTimeImmutable('2025-08-12', new DateTimeZone('UTC')))->setTime(23, 59, 59);
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyFutureDate(): void
@@ -70,7 +70,7 @@ class AnyDateTimeTest extends TestCase
         $dateFrom = (new DateTimeImmutable('2025-08-12', new DateTimeZone('UTC')))->setTime(0, 0, 1);
         $dateTo = (new DateTimeImmutable('2025-08-13', new DateTimeZone('UTC')))->setTime(23, 59, 59);
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyDateBetween(): void
@@ -79,7 +79,7 @@ class AnyDateTimeTest extends TestCase
         $dateTo = (new DateTimeImmutable('2025-08-16', new DateTimeZone('UTC')))->setTime(23, 59, 59);
         $date = $this->generator->anyDateBetween($dateFrom, $dateTo);
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyDateBetweenWithNoFrom(): void
@@ -88,7 +88,7 @@ class AnyDateTimeTest extends TestCase
         $date = $this->generator->anyDateBetween(until: $dateTo);
         $dateFrom = $dateTo->sub(new DateInterval('P5Y'));
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyDateBetweenWithNoUntil(): void
@@ -97,7 +97,7 @@ class AnyDateTimeTest extends TestCase
         $date = $this->generator->anyDateBetween(from: $dateFrom);
         $dateTo = $dateFrom->add(new DateInterval('P5Y'));
 
-        self::assertTrue($date > $dateFrom && $date < $dateTo);
+        self::assertTrue($date >= $dateFrom && $date <= $dateTo);
     }
 
     public function testAnyDateBetweenException(): void

@@ -127,7 +127,7 @@ class InternetTest extends TestCase
 
     public function testDomainWordThrowsExtensionRuntimeExceptionWhenTransliterationRemovesAllCharacters(): void
     {
-        $randomizer = $this->createMock(RandomizerInterface::class);
+        $randomizer = $this->createStub(RandomizerInterface::class);
         $replacer = $this->createMock(ReplacerInterface::class);
         $replacer->expects(self::once())
             ->method('transliterate')
@@ -276,6 +276,12 @@ class InternetTest extends TestCase
         $password = $this->generator->password(minLength: 10, maxLength: 15);
         $length = strlen($password);
         self::assertTrue($length >= 10 && $length <= 15);
+    }
+
+    public function testPasswordWithMinLengthGreaterThanMaxLengthThrowsException(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->generator->password(minLength: 20, maxLength: 5);
     }
 
     public function testPasswordContainsAsciiCharacters(): void
@@ -460,4 +466,96 @@ class InternetTest extends TestCase
         self::assertTrue(strlen($tld) >= 2 && strlen($tld) <= 4);
     }
 
+    public function testPort(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $port = $this->generator->port(3000, 4000);
+            self::assertGreaterThanOrEqual(3000, $port);
+            self::assertLessThanOrEqual(4000, $port);
+        }
+    }
+
+    public function testPortInvalidThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->port(5000, 4000);
+    }
+
+    public function testHttpMethod(): void
+    {
+        $method = $this->generator->httpMethod();
+        self::assertContains($method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']);
+    }
+
+    public function testHttpStatusCode(): void
+    {
+        $code = $this->generator->httpStatusCode();
+        self::assertIsInt($code);
+        self::assertGreaterThanOrEqual(100, $code);
+        self::assertLessThan(600, $code);
+
+        $clientError = $this->generator->httpStatusCode('clientError');
+        self::assertGreaterThanOrEqual(400, $clientError);
+        self::assertLessThan(500, $clientError);
+    }
+
+    public function testHttpStatusCodeInvalidCategoryThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->httpStatusCode('invalid_category');
+    }
+
+    public function testPublicIpv4(): void
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $ip = $this->generator->publicIpv4();
+            self::assertNotFalse(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE));
+        }
+    }
+
+    public function testIpv4Cidr(): void
+    {
+        $cidr = $this->generator->ipv4Cidr();
+        self::assertMatchesRegularExpression('/^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/', $cidr);
+        [$ip, $mask] = explode('/', $cidr);
+        self::assertNotFalse(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
+        self::assertGreaterThanOrEqual(0, (int) $mask);
+        self::assertLessThanOrEqual(32, (int) $mask);
+    }
+
+    public function testUrlPath(): void
+    {
+        $path = $this->generator->urlPath(3);
+        self::assertStringStartsWith('/', $path);
+        $parts = explode('/', ltrim($path, '/'));
+        self::assertCount(3, $parts);
+    }
+
+    public function testUrlPathInvalidSegmentsThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->urlPath(0);
+    }
+
+    public function testJwt(): void
+    {
+        $jwt = $this->generator->jwt();
+        $parts = explode('.', $jwt);
+        self::assertCount(3, $parts);
+
+        $headerJson = base64_decode(strtr($parts[0], '-_', '+/'), true);
+        self::assertNotFalse($headerJson);
+        $header = json_decode($headerJson, true);
+        self::assertSame('JWT', $header['typ']);
+        self::assertSame('HS256', $header['alg']);
+
+        $payloadJson = base64_decode(strtr($parts[1], '-_', '+/'), true);
+        self::assertNotFalse($payloadJson);
+        $payload = json_decode($payloadJson, true);
+        self::assertArrayHasKey('sub', $payload);
+        self::assertArrayHasKey('name', $payload);
+        self::assertArrayHasKey('iat', $payload);
+        self::assertArrayHasKey('exp', $payload);
+    }
 }
+

@@ -6,6 +6,7 @@ namespace DummyGenerator\Core;
 
 use DummyGenerator\Definitions\Calculator\IbanCalculatorInterface;
 use DummyGenerator\Definitions\Calculator\LuhnCalculatorInterface;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\PaymentExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
@@ -238,8 +239,19 @@ class Payment implements PaymentExtensionInterface
             // @phpstan-ignore-next-line
             'name' => $this->generator->name(),
             'expirationDate' => $this->creditCardExpirationDate($valid),
+            'cvv' => $this->creditCardCvv($type),
         ];
     }
+
+    public function creditCardCvv(?string $cardType = null): string
+    {
+        if ($cardType === 'American Express') {
+            return $this->replacer->numerify('####');
+        }
+
+        return $this->replacer->numerify('###');
+    }
+
 
     public function iban(?string $alpha2 = null, string $prefix = ''): string
     {
@@ -305,4 +317,43 @@ class Payment implements PaymentExtensionInterface
 
         return $this->replacer->toUpper($bankCode . $countryCode . $locationCode) . $branchCode;
     }
+
+    /** @var string[] */
+    protected array $currencySymbols = ['$', '€', '£', '¥', '₹', '₽', '₩', '₺', 'zł', 'CHF', 'kr', 'R$'];
+
+    /** @var string[] */
+    protected array $currencyNames = [
+        'US Dollar', 'Euro', 'Pound Sterling', 'Japanese Yen', 'Swiss Franc',
+        'Australian Dollar', 'Canadian Dollar', 'Chinese Yuan', 'Indian Rupee',
+        'Brazilian Real', 'Polish Zloty', 'Swedish Krona', 'Mexican Peso',
+        'South Korean Won', 'Singapore Dollar', 'Norwegian Krone', 'New Zealand Dollar',
+    ];
+
+    public function currencySymbol(): string
+    {
+        return $this->randomizer->randomElement($this->currencySymbols);
+    }
+
+    public function currencyName(): string
+    {
+        return $this->randomizer->randomElement($this->currencyNames);
+    }
+
+    public function price(float $min = 0.0, float $max = 1000.0, int $decimals = 2): float
+    {
+        if ($min < 0.0) {
+            throw new ExtensionArgumentException('price() $min cannot be negative');
+        }
+
+        if ($max < $min) {
+            throw new ExtensionArgumentException('price() $max cannot be less than $min');
+        }
+
+        if ($decimals < 0) {
+            throw new ExtensionArgumentException('price() $decimals cannot be negative');
+        }
+
+        return round($this->randomizer->getFloat($min, $max), $decimals);
+    }
 }
+

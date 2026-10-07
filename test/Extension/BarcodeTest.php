@@ -1,10 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DummyGenerator\Test\Extension;
 
-use DummyGenerator\Test\Fixtures\TestContainerFactory;
+use DummyGenerator\Core\Barcode;
+use DummyGenerator\Core\Calculator\EanCalculator;
+use DummyGenerator\Core\Calculator\IsbnCalculator;
+use DummyGenerator\Core\Randomizer\Randomizer;
+use DummyGenerator\Core\Replacer\Replacer;
+use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Definitions\Calculator\EanCalculatorInterface;
 use DummyGenerator\Definitions\Calculator\IsbnCalculatorInterface;
 use DummyGenerator\Definitions\Extension\BarcodeExtensionInterface;
@@ -12,12 +17,7 @@ use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\Definitions\Replacer\ReplacerInterface;
 use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 use DummyGenerator\DummyGenerator;
-use DummyGenerator\Core\Barcode;
-use DummyGenerator\Core\Calculator\EanCalculator;
-use DummyGenerator\Core\Calculator\IsbnCalculator;
-use DummyGenerator\Core\Randomizer\Randomizer;
-use DummyGenerator\Core\Replacer\Replacer;
-use DummyGenerator\Core\Transliterator\Transliterator;
+use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use PHPUnit\Framework\TestCase;
 
 class BarcodeTest extends TestCase
@@ -138,11 +138,12 @@ class BarcodeTest extends TestCase
         $sum = 0;
         for ($i = 0; $i < 7; $i++) {
             $weight = ($i % 2 === 0) ? 3 : 1;
-            $sum += (int)$ean8[$i] * $weight;
+            $sum += (int) $ean8[$i] * $weight;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
 
-        self::assertEquals($checksum, (int)$ean8[7], 'EAN-8 should have valid checksum');
+        self::assertEquals($checksum, (int) $ean8[7], 'EAN-8 should have valid checksum');
     }
 
     public function testEan13HasValidChecksum(): void
@@ -153,20 +154,30 @@ class BarcodeTest extends TestCase
         $sum = 0;
         for ($i = 0; $i < 12; $i++) {
             $weight = ($i % 2 === 0) ? 1 : 3;
-            $sum += (int)$ean13[$i] * $weight;
+            $sum += (int) $ean13[$i] * $weight;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
 
-        self::assertEquals($checksum, (int)$ean13[12], 'EAN-13 should have valid checksum');
+        self::assertEquals($checksum, (int) $ean13[12], 'EAN-13 should have valid checksum');
     }
 
     public function testIsbn13StartsWithCorrectPrefix(): void
     {
-        $isbn13 = $this->generator->isbn13();
+        for ($i = 0; $i < 50; $i++) {
+            $isbn13 = $this->generator->isbn13();
 
-        // ISBN-13 should start with 978 or 979
-        $prefix = substr($isbn13, 0, 3);
-        self::assertContains($prefix, ['978', '979'], 'ISBN-13 should start with 978 or 979');
+            // ISBN-13 should start with 978 or 979 (where 979 is followed by 1-9, not 0)
+            self::assertMatchesRegularExpression('/^97(8\d{9}|9[1-9]\d{8})\d$/', $isbn13);
+        }
+    }
+
+    public function testIsmn(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $ismn = $this->generator->ismn();
+            self::assertMatchesRegularExpression('/^9790\d{9}$/', $ismn);
+        }
     }
 
     public function testBarcodeConsistency(): void
@@ -177,6 +188,7 @@ class BarcodeTest extends TestCase
             self::assertEquals(13, strlen($this->generator->ean13()));
             self::assertEquals(10, strlen($this->generator->isbn10()));
             self::assertEquals(13, strlen($this->generator->isbn13()));
+            self::assertEquals(13, strlen($this->generator->ismn()));
         }
     }
 }

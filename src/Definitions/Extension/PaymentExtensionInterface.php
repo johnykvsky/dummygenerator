@@ -25,11 +25,20 @@ interface PaymentExtensionInterface extends ExtensionInterface
 
     /**
      * @param bool $valid True (by default) to get a valid expiration date, false to get a maybe valid date
-     * @return array<string, mixed>
+     * @return array{type: string, number: string, name: string, expirationDate: string, cvv: string}
      *
-     * @example ['type' => 'Visa', 'number' => '4539353086362790', 'name' => 'John Smith', 'expirationDate' => '04/29']
+     * @example ['type' => 'Visa', 'number' => '4539353086362790', 'name' => 'John Smith', 'expirationDate' => '04/29', 'cvv' => '352']
      */
     public function creditCardDetails(bool $valid = true): array;
+
+    /**
+     * Get credit card CVV/CVC code (3 digits, or 4 digits for American Express)
+     *
+     * @param string|null $cardType Optional card vendor name
+     *
+     * @example '352'
+     */
+    public function creditCardCvv(?string $cardType = null): string;
 
     /**
      * International Bank Account Number (IBAN)
@@ -60,4 +69,30 @@ interface PaymentExtensionInterface extends ExtensionInterface
      * @see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
     public function currencyCode(): string;
+
+    /**
+     * Return a random currency symbol
+     *
+     * @example '$'
+     */
+    public function currencySymbol(): string;
+
+    /**
+     * Return a random currency name
+     *
+     * @example 'US Dollar'
+     */
+    public function currencyName(): string;
+
+    /**
+     * Return a random monetary price
+     *
+     * @param float $min Minimum price
+     * @param float $max Maximum price
+     * @param int $decimals Decimal places
+     *
+     * @example 49.99
+     */
+    public function price(float $min = 0.0, float $max = 1000.0, int $decimals = 2): float;
 }
+

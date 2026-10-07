@@ -26,4 +26,14 @@ interface CoordinatesExtensionInterface extends ExtensionInterface
      * @example array(77.147489, 86.211205)
      */
     public function coordinates(): array;
+
+    /**
+     * Return RFC 7946 compliant GeoJSON Point array [longitude, latitude]
+     *
+     * @return array{type: 'Point', coordinates: array{0: float, 1: float}}
+     *
+     * @example ['type' => 'Point', 'coordinates' => [-73.985135, 40.748817]]
+     */
+    public function geoJsonPoint(): array;
 }
+

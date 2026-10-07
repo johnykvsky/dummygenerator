@@ -36,9 +36,7 @@ class ValidStrategyTest extends TestCase
 
         $strategy = new ValidStrategy(fn($x) => $x <= 50, 3);
 
-        for ($i = 0; $i < 10; $i++) {
-            $strategy->generate('some_name', fn() => random_int(1, 1000));
-        }
+        $strategy->generate('some_name', fn() => 100);
     }
 
     public function testValidStrategyShortCircuits(): void

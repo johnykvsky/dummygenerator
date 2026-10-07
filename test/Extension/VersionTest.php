@@ -74,10 +74,8 @@ class VersionTest extends TestCase
         $semver = $generator->semver(preRelease: true, build: false);
 
         // Should contain a hyphen for pre-release
-        if (str_contains($semver, '-')) {
-            self::assertStringContainsString('-', $semver);
-            self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+-.+/', $semver);
-        }
+        self::assertStringContainsString('-', $semver);
+        self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+-.+/', $semver);
     }
 
     public function testSemverWithBuild(): void
@@ -86,10 +84,8 @@ class VersionTest extends TestCase
         $semver = $generator->semver(preRelease: false, build: true);
 
         // Should contain a plus for build metadata
-        if (str_contains($semver, '+')) {
-            self::assertStringContainsString('+', $semver);
-            self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+\+.+/', $semver);
-        }
+        self::assertStringContainsString('+', $semver);
+        self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+\+.+/', $semver);
     }
 
     public function testSemverWithBothPreReleaseAndBuild(): void
@@ -98,11 +94,11 @@ class VersionTest extends TestCase
         $semver = $generator->semver(preRelease: true, build: true);
 
         // If both are present, should have hyphen before plus
-        if (str_contains($semver, '-') && str_contains($semver, '+')) {
-            $hyphenPos = strpos($semver, '-');
-            $plusPos = strpos($semver, '+');
-            self::assertLessThan($plusPos, $hyphenPos, 'Pre-release (-) should come before build (+)');
-        }
+        $hyphenPos = strpos($semver, '-');
+        $plusPos = strpos($semver, '+');
+        self::assertNotFalse($hyphenPos);
+        self::assertNotFalse($plusPos);
+        self::assertLessThan($plusPos, $hyphenPos, 'Pre-release (-) should come before build (+)');
     }
 
     public function testSemverVersionNumbersAreNonNegative(): void
@@ -171,6 +167,18 @@ class VersionTest extends TestCase
         }
 
         // This is statistical, might not always be true, but very likely
-        self::assertTrue($foundZeroMajor || true, 'Should be able to generate 0.x.x versions');
+        self::assertTrue($foundZeroMajor, 'Should be able to generate 0.x.x versions');
+    }
+
+    public function testGitCommitHash(): void
+    {
+        $hash = $this->generator->gitCommitHash();
+        self::assertSame(40, strlen($hash));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $hash);
+
+        $shortHash = $this->generator->gitCommitHash(short: true);
+        self::assertSame(7, strlen($shortHash));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{7}$/', $shortHash);
     }
 }
+

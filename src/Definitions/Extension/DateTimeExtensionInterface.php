@@ -240,4 +240,32 @@ interface DateTimeExtensionInterface extends ExtensionInterface
      * @example 'Europe/Rome'
      */
     public function timezone(): string;
+
+    /**
+     * Get a DateTimeInterface object for a random past date between `$from` and 'now'.
+     *
+     * @param \DateTimeInterface|string $from Defaults to '-30 days'
+     * @param string|null $timezone Fallback timezone
+     *
+     * @example DateTimeImmutable('2024-01-10 12:00:00')
+     */
+    public function dateTimePast(DateTimeInterface|string $from = '-30 days', ?string $timezone = null): \DateTimeInterface;
+
+    /**
+     * Get a DateTimeInterface object for a random future date between 'now' and `$until`.
+     *
+     * @param \DateTimeInterface|string $until Defaults to '+30 days'
+     * @param string|null $timezone Fallback timezone
+     *
+     * @example DateTimeImmutable('2024-02-15 15:30:00')
+     */
+    public function dateTimeFuture(DateTimeInterface|string $until = '+30 days', ?string $timezone = null): \DateTimeInterface;
+
+    /**
+     * Get a random standard 5-part cron expression
+     *
+     * @example '0 0 * * *'
+     */
+    public function cronExpression(): string;
 }
+

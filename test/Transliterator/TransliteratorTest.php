@@ -7,10 +7,25 @@ namespace DummyGenerator\Test\Transliterator;
 use DummyGenerator\Core\Transliterator\SimpleTransliterator;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 
 class TransliteratorTest extends TestCase
 {
+    public function testTransliteratorThrowsExtensionRuntimeExceptionWhenIntlMissing(): void
+    {
+        if (extension_loaded('intl')) {
+            self::markTestSkipped('The intl extension is loaded.');
+        }
+
+        $transliterator = new Transliterator();
+        self::expectException(ExtensionRuntimeException::class);
+        self::expectExceptionMessage('The "intl" PHP extension is required to use Transliterator.');
+        $transliterator->transliterate('pącz`bęcń/inio');
+    }
+
+    #[RequiresPhpExtension('intl')]
     public function testTransliterator(): void
     {
         $transliterator = new Transliterator();
@@ -29,6 +44,7 @@ class TransliteratorTest extends TestCase
         self::assertEquals('johny', $transliterator->transliterate('johny'));
     }
 
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithInvalidPattern(): void
     {
         $transliterator = new Transliterator();
@@ -40,6 +56,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test empty string handling
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithEmptyString(): void
     {
         $transliterator = new Transliterator();
@@ -53,6 +70,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test already ASCII strings (passthrough)
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithAsciiString(): void
     {
         $transliterator = new Transliterator();
@@ -119,6 +137,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test mixed characters
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithMixedCharacters(): void
     {
         $transliterator = new Transliterator();
@@ -136,6 +155,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test special characters are removed
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorRemovesSpecialCharacters(): void
     {
         $transliterator = new Transliterator();
@@ -151,6 +171,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test dots and underscores are preserved
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorPreservesDotsAndUnderscores(): void
     {
         $transliterator = new Transliterator();
@@ -182,6 +203,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test numbers are preserved
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorPreservesNumbers(): void
     {
         $transliterator = new Transliterator();
@@ -197,6 +219,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test whitespace is removed
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorRemovesWhitespace(): void
     {
         $transliterator = new Transliterator();
@@ -212,6 +235,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test string with only special characters
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithOnlySpecialCharacters(): void
     {
         $transliterator = new Transliterator();
@@ -257,6 +281,7 @@ class TransliteratorTest extends TestCase
     }
 
     // Test long string with mixed content
+    #[RequiresPhpExtension('intl')]
     public function testTransliteratorWithLongMixedString(): void
     {
         $transliterator = new Transliterator();

@@ -48,4 +48,16 @@ class Coordinates implements CoordinatesExtensionInterface
             'longitude' => $this->longitude(),
         ];
     }
+
+    public function geoJsonPoint(): array
+    {
+        return [
+            'type' => 'Point',
+            'coordinates' => [
+                $this->longitude(),
+                $this->latitude(),
+            ],
+        ];
+    }
 }
+

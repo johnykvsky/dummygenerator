@@ -240,4 +240,35 @@ class PersonTest extends TestCase
         self::assertGreaterThan(10, $maleCount, 'Should have some male names');
         self::assertGreaterThan(10, $femaleCount, 'Should have some female names');
     }
+
+    public function testGender(): void
+    {
+        $genders = [];
+        for ($i = 0; $i < 30; $i++) {
+            $gender = $this->generator->gender();
+            self::assertContains($gender, [PersonExtensionInterface::GENDER_MALE, PersonExtensionInterface::GENDER_FEMALE]);
+            $genders[$gender] = true;
+        }
+
+        self::assertCount(2, $genders);
+    }
+
+    public function testInitialsDefault(): void
+    {
+        $initials = $this->generator->initials();
+        self::assertMatchesRegularExpression('/^[A-Z]\. [A-Z]\.$/', $initials);
+    }
+
+    public function testInitialsCustomLength(): void
+    {
+        $initials = $this->generator->initials(3);
+        self::assertMatchesRegularExpression('/^[A-Z]\. [A-Z]\. [A-Z]\.$/', $initials);
+    }
+
+    public function testInitialsInvalidLengthThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->initials(0);
+    }
 }
+

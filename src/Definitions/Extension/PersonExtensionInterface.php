@@ -44,4 +44,21 @@ interface PersonExtensionInterface extends ExtensionInterface
 
     /** @example 'Mrs.' */
     public function titleFemale(): string;
+
+    /**
+     * Return a random gender ('male' or 'female')
+     *
+     * @example 'male'
+     */
+    public function gender(): string;
+
+    /**
+     * Return random initials
+     *
+     * @param int $length Number of initial letters
+     *
+     * @example 'J. D.'
+     */
+    public function initials(int $length = 2): string;
 }
+

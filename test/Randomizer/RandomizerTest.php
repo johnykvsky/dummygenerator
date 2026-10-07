@@ -24,6 +24,12 @@ class RandomizerTest extends TestCase
         self::assertContains($randomizer->randomKey($elements), array_keys($elements));
     }
 
+    public function testRandomKeyWithEmptyArrayReturnsNull(): void
+    {
+        $randomizer = new Randomizer();
+        self::assertNull($randomizer->randomKey([]));
+    }
+
     public function testRandomLetter(): void
     {
         $randomizer = new Randomizer();

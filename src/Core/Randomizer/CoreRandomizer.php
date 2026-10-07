@@ -56,6 +56,10 @@ abstract class CoreRandomizer implements RandomizerInterface
 
     public function randomKey(array $array = []): int|string|null
     {
+        if (empty($array)) {
+            return null;
+        }
+
         return $this->randomElement(array_keys($array));
     }
 

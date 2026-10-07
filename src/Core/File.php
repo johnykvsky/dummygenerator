@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\FileExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 
@@ -559,4 +560,69 @@ class File implements FileExtensionInterface
 
         return is_array($extension) ? $this->randomizer->randomElement($extension) : $extension;
     }
+
+    /** @var string[] */
+    protected array $commonFileBaseNames = [
+        'document', 'report', 'summary', 'presentation', 'spreadsheet', 'invoice',
+        'receipt', 'contract', 'statement', 'proposal', 'analysis', 'data',
+        'backup', 'export', 'archive', 'avatar', 'photo', 'image', 'banner',
+        'recording', 'notes', 'readme', 'changelog', 'config', 'setup',
+    ];
+
+    public function fileName(?string $extension = null): string
+    {
+        $base = $this->randomizer->randomElement($this->commonFileBaseNames);
+        $ext = $extension !== null ? ltrim($extension, '.') : $this->extension();
+
+        return sprintf('%s.%s', $base, $ext);
+    }
+
+    public function fileSize(int $minBytes = 1024, int $maxBytes = 10485760, bool $formatted = false): int|string
+    {
+        if ($minBytes < 0) {
+            throw new ExtensionArgumentException('fileSize() $minBytes cannot be negative');
+        }
+
+        if ($maxBytes < $minBytes) {
+            throw new ExtensionArgumentException('fileSize() $maxBytes cannot be less than $minBytes');
+        }
+
+        $bytes = $this->randomizer->getInt($minBytes, $maxBytes);
+
+        if (!$formatted) {
+            return $bytes;
+        }
+
+        if ($bytes >= 1073741824) {
+            return round($bytes / 1073741824, 2) . ' GB';
+        }
+
+        if ($bytes >= 1048576) {
+            return round($bytes / 1048576, 2) . ' MB';
+        }
+
+        if ($bytes >= 1024) {
+            return round($bytes / 1024, 2) . ' KB';
+        }
+
+        return $bytes . ' B';
+    }
+
+    public function mimeTypeForExtension(string $extension = 'pdf'): string
+    {
+        $ext = strtolower(ltrim($extension, '.'));
+
+        foreach ($this->mimeTypes as $mime => $extensions) {
+            if (is_array($extensions) && in_array($ext, $extensions, true)) {
+                return $mime;
+            }
+
+            if (is_string($extensions) && $extensions === $ext) {
+                return $mime;
+            }
+        }
+
+        throw new ExtensionArgumentException(sprintf('Unknown extension "%s"', $extension));
+    }
 }
+

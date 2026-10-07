@@ -203,6 +203,12 @@ class XoshiroRandomizerTest extends TestCase
         }
     }
 
+    public function testRandomKeyWithEmptyArrayReturnsNull(): void
+    {
+        $randomizer = new XoshiroRandomizer(seed: 1);
+        self::assertNull($randomizer->randomKey([]));
+    }
+
     public function testShuffleElements(): void
     {
         $randomizer = new XoshiroRandomizer(seed: 1);

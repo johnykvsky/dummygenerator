@@ -153,4 +153,67 @@ class FileTest extends TestCase
         self::assertMatchesRegularExpression('/^[a-z]+$/', $mainType);
     }
 
+    public function testFileNameDefault(): void
+    {
+        $fileName = $this->generator->fileName();
+        self::assertStringContainsString('.', $fileName);
+        [$base, $ext] = explode('.', $fileName, 2);
+        self::assertNotEmpty($base);
+        self::assertNotEmpty($ext);
+    }
+
+    public function testFileNameWithCustomExtension(): void
+    {
+        $fileName = $this->generator->fileName('pdf');
+        self::assertStringEndsWith('.pdf', $fileName);
+
+        $fileNameWithDot = $this->generator->fileName('.png');
+        self::assertStringEndsWith('.png', $fileNameWithDot);
+        self::assertSame(1, substr_count($fileNameWithDot, '.'));
+    }
+
+    public function testFileSizeRawBytes(): void
+    {
+        $size = $this->generator->fileSize(100, 500);
+        self::assertIsInt($size);
+        self::assertGreaterThanOrEqual(100, $size);
+        self::assertLessThanOrEqual(500, $size);
+    }
+
+    public function testFileSizeFormatted(): void
+    {
+        $sizeKb = $this->generator->fileSize(1024, 2048, formatted: true);
+        self::assertIsString($sizeKb);
+        self::assertMatchesRegularExpression('/^[0-9.]+\s*KB$/', $sizeKb);
+
+        $sizeMb = $this->generator->fileSize(2 * 1048576, 5 * 1048576, formatted: true);
+        self::assertIsString($sizeMb);
+        self::assertMatchesRegularExpression('/^[0-9.]+\s*MB$/', $sizeMb);
+    }
+
+    public function testFileSizeInvalidArgumentsThrow(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->fileSize(minBytes: 500, maxBytes: 100);
+    }
+
+    public function testFileSizeNegativeMinThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->fileSize(minBytes: -1, maxBytes: 100);
+    }
+
+    public function testMimeTypeForExtension(): void
+    {
+        self::assertSame('application/pdf', $this->generator->mimeTypeForExtension('pdf'));
+        self::assertSame('application/pdf', $this->generator->mimeTypeForExtension('.pdf'));
+        self::assertSame('application/json', $this->generator->mimeTypeForExtension('json'));
+    }
+
+    public function testMimeTypeForExtensionUnknownThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->mimeTypeForExtension('nonexistent_ext_xyz123');
+    }
 }
+

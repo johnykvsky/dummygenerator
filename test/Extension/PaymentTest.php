@@ -68,8 +68,59 @@ class PaymentTest extends TestCase
 
     public function testCreditCardDetails(): void
     {
-        self::assertCount(4, $this->generator->creditCardDetails(valid: false));
+        $details = $this->generator->creditCardDetails(valid: false);
+        self::assertCount(5, $details);
+        self::assertArrayHasKey('type', $details);
+        self::assertArrayHasKey('number', $details);
+        self::assertArrayHasKey('name', $details);
+        self::assertArrayHasKey('expirationDate', $details);
+        self::assertArrayHasKey('cvv', $details);
+        self::assertMatchesRegularExpression('/^[0-9]{3,4}$/', $details['cvv']);
     }
+
+    public function testCreditCardCvvDefault(): void
+    {
+        $cvv = $this->generator->creditCardCvv();
+        self::assertSame(3, strlen($cvv));
+        self::assertMatchesRegularExpression('/^[0-9]{3}$/', $cvv);
+    }
+
+    public function testCreditCardCvvAmericanExpress(): void
+    {
+        $cvv = $this->generator->creditCardCvv('American Express');
+        self::assertSame(4, strlen($cvv));
+        self::assertMatchesRegularExpression('/^[0-9]{4}$/', $cvv);
+    }
+
+    public function testCurrencySymbol(): void
+    {
+        $symbol = $this->generator->currencySymbol();
+        self::assertNotEmpty($symbol);
+        self::assertIsString($symbol);
+    }
+
+    public function testCurrencyName(): void
+    {
+        $name = $this->generator->currencyName();
+        self::assertNotEmpty($name);
+        self::assertIsString($name);
+    }
+
+    public function testPrice(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $p = $this->generator->price(10.0, 50.0, 2);
+            self::assertGreaterThanOrEqual(10.0, $p);
+            self::assertLessThanOrEqual(50.0, $p);
+        }
+    }
+
+    public function testPriceInvalidArgumentsThrow(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->price(100.0, 50.0);
+    }
+
 
     public function testIbanN(): void
     {

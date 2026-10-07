@@ -4,96 +4,103 @@ This is the list of all available items to generate, grouped by extension interf
 
 # Address
 
-- `address()`: (string) '1625 Robinson Lane 64675 Billshire'
-- `buildingNumber()`: (string) '59'
-- `city()`: (string) 'Lake Hannahton'
-- `cityPrefix()`: (string) 'New'
-- `citySuffix()`: (string) 'fort'
+- `address()`: (string) '68 Robinson Lane 93472 Robinsonside'
+- `buildingNumber()`: (string) '41570'
+- `city()`: (string) 'East James'
+- `cityPrefix()`: (string) 'Lake'
+- `citySuffix()`: (string) 'port'
 - `country()`: (string) 'England'
-- `postcode()`: (string) '56-097'
-- `streetAddress()`: (string) '63828 Ian Street'
+- `postcode()`: (string) '63422'
+- `streetAddress()`: (string) '230 Paul Street'
 - `streetName()`: (string) 'Green Lane'
-- `streetSuffix()`: (string) 'Drive'
+- `streetSuffix()`: (string) 'Square'
 
 # AnyDateTime
 
-- `anyDate($date = null, $interval = "P10Y", $period = DatePeriodEnum)`: (\DateTimeInterface) \DateTimeImmutable('2032-10-18 12:24:16')
-- `anyDateBetween($from = null, $until = null)`: (\DateTimeInterface) \DateTimeImmutable('2024-09-01 19:37:39')
-- `anyTimezone($country = null)`: (string) 'Asia/Ashgabat'
+- `anyDate($date = null, $interval = "P10Y", $period = DatePeriodEnum)`: (\DateTimeInterface) \DateTimeImmutable('2034-08-10 18:46:28')
+- `anyDateBetween($from = null, $until = null)`: (\DateTimeInterface) \DateTimeImmutable('2021-10-09 02:25:31')
+- `anyTimezone($country = null)`: (string) 'Asia/Jayapura'
 
 # Barcode
 
-- `ean8()`: (string) '51162092'
-- `ean13()`: (string) '3324351074181'
-- `isbn10()`: (string) '0278067476'
-- `isbn13()`: (string) '9788741527901'
+- `ean8()`: (string) '48455541'
+- `ean13()`: (string) '7051542409694'
+- `isbn10()`: (string) '2283083656'
+- `isbn13()`: (string) '9792368326403'
+- `ismn()`: (string) '9790197164913'
 
 # Biased
 
-- `biasedNumberBetween($min = 0, $max = 100, $function = "sqrt")`: (int) 68
+- `biasedNumberBetween($min = 0, $max = 100, $function = "sqrt")`: (int) 59
 - `linearHigh($number)`: (float) ''
 - `linearLow($number)`: (float) ''
 - `unbiased()`: (int) 1
 
 # Blood
 
-- `bloodGroup()`: (string) 'AB+'
+- `bloodGroup()`: (string) 'B+'
 - `bloodRh()`: (string) '-'
 - `bloodType()`: (string) 'O'
 
 # Color
 
-- `colorName()`: (string) 'Peru'
-- `hexColor()`: (string) '#e40d51'
-- `hslColor()`: (string) '137,9,33'
-- `hslColorAsArray()`: (array) ['116', '85', '74']
-- `rgbaCssColor()`: (string) 'rgba(110,196,22,0.6)'
-- `rgbColor()`: (string) '164,129,131'
-- `rgbColorAsArray()`: (array) ['104', '92', '134']
-- `rgbCssColor()`: (string) 'rgb(126,13,39)'
-- `safeColorName()`: (string) 'aqua'
-- `safeHexColor()`: (string) '#00eeaa'
+- `colorName()`: (string) 'LightBlue'
+- `hexColor()`: (string) '#3a8435'
+- `hslColor()`: (string) '103,79,98'
+- `hslColorAsArray()`: (array) [77, 95, 69]
+- `rgbaCssColor()`: (string) 'rgba(44,78,39,0.1)'
+- `rgbColor()`: (string) '56,210,166'
+- `rgbColorAsArray()`: (array) [69, 125, 59]
+- `rgbCssColor()`: (string) 'rgb(180,236,108)'
+- `safeColorName()`: (string) 'gray'
+- `safeHexColor()`: (string) '#000022'
 
 # Company
 
-- `company()`: (string) 'Carter Ltd'
+- `catchPhrase()`: (string) 'Networked explicit leverage'
+- `company()`: (string) 'Smith Ltd'
 - `companySuffix()`: (string) 'Ltd'
-- `jobTitle()`: (string) 'molestiae'
+- `industry()`: (string) 'Technology'
+- `jobTitle()`: (string) 'voluptatem'
 
 # Coordinates
 
-- `coordinates()`: (array) ['87.926923', '14.136779']
-- `latitude($min = -90, $max = 90)`: (float) 41.721595
-- `longitude($min = -180, $max = 180)`: (float) 93.788142
+- `coordinates()`: (array) ['latitude' => -67.837682, 'longitude' => 143.98432]
+- `geoJsonPoint()`: (array) ['type' => 'Point', 'coordinates' => [37.456016, -62.635876]]
+- `latitude($min = -90, $max = 90)`: (float) 50.606067
+- `longitude($min = -180, $max = 180)`: (float) 12.099141
 
 # Country
 
-- `countryISOAlpha2()`: (string) 'NG'
-- `countryISOAlpha3()`: (string) 'KAZ'
+- `countryISOAlpha2()`: (string) 'CN'
+- `countryISOAlpha3()`: (string) 'CHL'
 
 # DateTime
 
 - `amPm($until = "now")`: (string) 'pm'
-- `century()`: (string) 'III'
-- `date($format = "Y-m-d", $until = "now")`: (string) '2019-06-15'
-- `dateTime($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1986-11-18 02:57:33')
-- `dateTimeAD($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1972-01-12 17:39:05')
-- `dateTimeBetween($from = "-30 years", $until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2025-12-27 03:47:02')
-- `dateTimeInInterval($from = "-30 years", $interval = "+5 days", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1996-02-23 11:04:24')
-- `dateTimeThisCentury($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2005-03-26 12:26:11')
-- `dateTimeThisDecade($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2023-05-25 03:07:22')
-- `dateTimeThisMonth($until = "last day of this month", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-02-15 14:20:42')
-- `dateTimeThisWeek($until = "sunday this week", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-02-21 06:36:02')
-- `dateTimeThisYear($until = "last day of december", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-09-11 10:33:25')
-- `dayOfMonth($until = "now")`: (string) '27'
+- `century()`: (string) 'XXI'
+- `cronExpression()`: (string) '0 0 * * *'
+- `date($format = "Y-m-d", $until = "now")`: (string) '1997-01-16'
+- `dateTime($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1976-08-13 15:47:50')
+- `dateTimeAD($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1618-01-15 11:06:52')
+- `dateTimeBetween($from = "-30 years", $until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1997-08-14 19:50:10')
+- `dateTimeFuture($until = "+30 days", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-10-16 16:48:46')
+- `dateTimeInInterval($from = "-30 years", $interval = "+5 days", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('1996-10-05 20:11:37')
+- `dateTimePast($from = "-30 days", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-09-19 06:49:25')
+- `dateTimeThisCentury($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2012-11-19 02:37:26')
+- `dateTimeThisDecade($until = "now", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2024-09-05 19:22:05')
+- `dateTimeThisMonth($until = "last day of this month", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-10-06 18:28:37')
+- `dateTimeThisWeek($until = "sunday this week", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-10-09 16:37:15')
+- `dateTimeThisYear($until = "last day of december", $timezone = null)`: (\DateTimeInterface) \DateTimeImmutable('2026-11-12 20:24:48')
+- `dayOfMonth($until = "now")`: (string) '17'
 - `dayOfWeek($until = "now")`: (string) 'Thursday'
-- `iso8601($until = "now")`: (string) '2015-06-27T22:23:58+02:00'
-- `month($until = "now")`: (string) '06'
+- `iso8601($until = "now")`: (string) '2024-05-02T14:33:04+00:00'
+- `month($until = "now")`: (string) '05'
 - `monthName($until = "now")`: (string) 'September'
-- `time($format = "H:i:s", $until = "now")`: (string) '14:07:15'
-- `timezone()`: (string) 'Europe/Gibraltar'
-- `unixTime($until = "now")`: (int) 275131021
-- `year($until = "now")`: (string) '1994'
+- `time($format = "H:i:s", $until = "now")`: (string) '17:23:16'
+- `timezone()`: (string) 'Pacific/Majuro'
+- `unixTime($until = "now")`: (int) 1609784474
+- `year($until = "now")`: (string) '1993'
 
 # Enum
 
@@ -102,111 +109,138 @@ This is the list of all available items to generate, grouped by extension interf
 
 # File
 
-- `extension()`: (string) 'xml'
-- `mimeType()`: (string) 'image/x-pict'
+- `extension()`: (string) 'tra'
+- `fileName($extension = null)`: (string) 'config.uvs'
+- `fileSize($minBytes = 1024, $maxBytes = 10485760, $formatted = false)`: (string|int) 8819064
+- `mimeType()`: (string) 'application/x-dgc-compressed'
+- `mimeTypeForExtension($extension = "pdf")`: (string) 'application/pdf'
 
 # Hash
 
-- `md5()`: (string) 'cc717fc1790470aa247971bb1cd33fa4'
-- `sha1()`: (string) '23280a1dc78d7841bbb2c30df85bc460daf0d145'
-- `sha256()`: (string) 'ed2f0b596712ad0d7c0b800cbf58d433264b329ce24c6c655f16b07457205e7c'
+- `base64($byteLength = 32)`: (string) '9ye9+rf5TxF0qJymQhQFSOUKUAwpunp6L7FHxOkkQuY='
+- `base64Url($byteLength = 32)`: (string) 'DxLMIeYkMComdNkr86DG3M-ayC6NcOXRjB565Ny0Vfg'
+- `md5()`: (string) '0a5cbb84558284f965b3e260500861d8'
+- `sha1()`: (string) '3caa54eace103a6f1c60b3e784ead99d676f76e8'
+- `sha256()`: (string) '551c5d44e340c4ed6e9ec8b84428aa6e2bbe5ce897be7c1b9600c749d940e0d9'
+- `sha512()`: (string) '8184552095d02ef3cc3629961f71681152f9381d5b93437d84faf30975d3366bc9486f20599490521d621b4d0cb747426a29c263c8696b51a75ffaf3585f1b42'
 
 # Internet
 
-- `companyEmail()`: (string) 'michael.carter@mckenzie.biz'
-- `domainName()`: (string) 'carter.org'
-- `domainWord()`: (string) 'fisher'
-- `email()`: (string) 'anna40@hotmail.com'
-- `freeEmail()`: (string) 'mcarter@yahoo.com'
-- `freeEmailDomain()`: (string) 'yahoo.com'
-- `ipv4()`: (string) '172.186.181.231'
-- `ipv6()`: (string) '66a8:16ad:bc38:7a59:9fa0:3a5c:5aa6:153f'
-- `localIpv4()`: (string) '10.137.36.139'
-- `macAddress()`: (string) 'F1:A9:23:DE:01:90'
-- `password($minLength = 6, $maxLength = 20)`: (string) '.E>[4qD\\mpl9W'
-- `safeEmail()`: (string) 'ksmith@example.com'
-- `safeEmailDomain()`: (string) 'example.org'
-- `slug($nbWords = 6, $variableNbWords = true)`: (string) 'saepe-non-eos-quis-quidem-corporis-accusantium-quia'
-- `tld()`: (string) 'org'
-- `url()`: (string) 'http://www.smith.org/rem-dolores-voluptas-perspiciatis-iusto'
-- `userName()`: (string) 'vernon34'
+- `companyEmail()`: (string) 'mckenzie.james@mckenzie.com'
+- `domainName()`: (string) 'morgan.org'
+- `domainWord()`: (string) 'harris'
+- `email()`: (string) 'doe.katy@gmail.com'
+- `freeEmail()`: (string) 'paul56@yahoo.com'
+- `freeEmailDomain()`: (string) 'gmail.com'
+- `httpMethod()`: (string) 'POST'
+- `httpStatusCode($category = null)`: (int) 501
+- `ipv4()`: (string) '89.205.60.19'
+- `ipv4Cidr()`: (string) '65.177.9.232/25'
+- `ipv6()`: (string) 'f7eb:e93f:b67d:416e:ae7:4799:398c:78d2'
+- `jwt()`: (string) 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDMzOSIsIm5hbWUiOiJqYW1lczI2IiwiaWF0IjoxNzkxMjE5Nzk2LCJleHAiOjE3OTEyMjMzOTZ9.Ja8DD2TVKcWmNpmdRISy-wu39B8nULN663wChPnsSSk'
+- `localIpv4()`: (string) '172.25.231.194'
+- `macAddress()`: (string) '55:0B:FD:22:12:4B'
+- `password($minLength = 6, $maxLength = 20)`: (string) '18t9Ed'
+- `port($min = 1024, $max = 65535)`: (int) 17926
+- `publicIpv4()`: (string) '29.62.181.172'
+- `safeEmail()`: (string) 'vernon47@example.com'
+- `safeEmailDomain()`: (string) 'example.net'
+- `slug($nbWords = 6, $variableNbWords = true)`: (string) 'officia-enim-quas-id-aut-quia-accusamus'
+- `tld()`: (string) 'info'
+- `url()`: (string) 'http://walker.com/'
+- `urlPath($segments = 2)`: (string) '/morgan/adams'
+- `userName()`: (string) 'garett81'
 
 # Language
 
-- `languageCode()`: (string) 'pl'
-- `locale()`: (string) 'nn_NO'
+- `languageCode()`: (string) 'ru'
+- `locale()`: (string) 'da_DK'
 
 # Lorem
 
-- `paragraph($sentenceCount = 3, $variableSentenceCount = true)`: (string) 'Iusto rerum cupiditate non. Sapiente quos nulla atque autem eos. Sit labore tenetur aut numquam in explicabo.'
-- `paragraphs($paragraphCount = 3)`: (array) ['Quaerat dolorum qui blanditiis facere ad eum est. Occaecati autem quas qui non qui. Corporis perferendis eius minus amet non id.', 'Recusandae quia animi adipisci aspernatur aspernatur. Quo repellat at architecto qui est velit. Consectetur consequatur laborum eum voluptatem. Quia nihil natus necessitatibus.', 'Sit magnam eius ratione voluptatibus. Sed ab sequi sit aperiam. Libero debitis eum delectus. Earum accusamus laudantium adipisci rem voluptatem culpa hic. Culpa quo est distinctio rerum sit alias et.']
-- `sentence($wordCount = 6, $variableWordCount = true)`: (string) 'Voluptas eius nostrum rerum voluptate quo.'
-- `sentences($sentenceCount = 3)`: (array) ['Quas est corrupti incidunt nemo ut et hic.', 'Nihil consequatur est qui molestias.', 'Ut necessitatibus sit incidunt enim in quos voluptates.']
-- `text($maxCharacters = 200)`: (string) 'Eaque debitis quisquam quisquam ut non rem est. Ipsum in est atque illo. Pariatur voluptatum architecto iste cumque iure et.'
-- `word()`: (string) 'iure'
-- `words($wordCount = 3)`: (array) ['consequatur', 'sapiente', 'rerum']
+- `paragraph($sentenceCount = 3, $variableSentenceCount = true)`: (string) 'Accusantium reiciendis debitis qui modi nesciunt est. Nemo minima aperiam esse fuga. Provident deserunt eveniet labore a illum suscipit tenetur. Vel voluptatem eveniet vel et est.'
+- `paragraphs($paragraphCount = 3)`: (array) ['Aut vel officiis molestias. Voluptates qui vero explicabo et tempore ut. Quo et mollitia cum at doloremque provident. Est distinctio sint omnis aut.', 'Occaecati necessitatibus dolores qui voluptatem eos est. Non dolore id consectetur consequatur facilis sed. Facere magnam harum id tempora quia illum.', 'Ex sit assumenda sapiente iusto. Maiores rerum officia sapiente ut. Atque id et iure ut et. Eveniet qui reprehenderit exercitationem ducimus. Qui sit atque neque commodi impedit.']
+- `sentence($wordCount = 6, $variableWordCount = true)`: (string) 'Minus fuga qui et et.'
+- `sentences($sentenceCount = 3)`: (array) ['Explicabo voluptatem natus eius doloremque nihil fugiat possimus.', 'Aut ullam fuga est dicta ducimus.', 'Accusamus inventore est aut quia natus voluptatem est.']
+- `text($maxCharacters = 200)`: (string) 'Ullam ut impedit magnam sunt rerum dicta sint. Voluptatem a maiores minus fugit. Non delectus accusamus et et.'
+- `word()`: (string) 'fugit'
+- `words($wordCount = 3)`: (array) ['repellendus', 'molestias', 'itaque']
 
 # Number
 
-- `boolean($chanceOfGettingTrue = 50)`: (bool) true
-- `numberBetween($min = 0, $max = 2147483647)`: (int) 790500338
-- `randomDigit()`: (int) 6
+- `binary($length = 8)`: (string) '00010110'
+- `boolean($chanceOfGettingTrue = 50)`: (bool) false
+- `hexadecimal($nbDigits = 6)`: (string) '289c2b'
+- `numberBetween($min = 0, $max = 2147483647)`: (int) 2048449156
+- `percentage($decimals = 0, $min = 0, $max = 100)`: (int|float) 8
+- `randomDigit()`: (int) 9
 - `randomDigitNot($except = 0, $retries = 1000)`: (int) 7
 - `randomDigitNotZero()`: (int) 3
-- `randomFloat($nbMaxDecimals = null, $min = 0, $max = null)`: (float) 1.5273736367583861E+308
-- `randomNumber($nbDigits = null, $strict = false)`: (int) 26188417
+- `randomFloat($nbMaxDecimals = null, $min = 0, $max = null)`: (float) 1.309722507840581E+308
+- `randomNumber($nbDigits = null, $strict = false)`: (int) 60
 
 # Payment
 
-- `creditCardDetails($valid = true)`: (array) ['Visa', '4539317281203729', 'Michael Spencer', '05/26']
-- `creditCardExpirationDate($inFuture = true)`: (string) '04/27'
-- `creditCardNumber($type = null, $formatted = false, $separator = "-")`: (string) '2454045815509593'
-- `creditCardType()`: (string) 'American Express'
-- `currencyCode()`: (string) 'FJD'
-- `iban($alpha2 = null, $prefix = "")`: (string) 'MD05WI4PRP696115E89VE7D5'
-- `swiftBicNumber()`: (string) 'QEJFFIBV746'
+- `creditCardCvv($cardType = null)`: (string) '666'
+- `creditCardDetails($valid = true)`: (array) ['type' => 'Visa', 'number' => '4556342849751215', 'name' => 'Kevin White', 'expirationDate' => '04/28', 'cvv' => '955']
+- `creditCardExpirationDate($inFuture = true)`: (string) '11/26'
+- `creditCardNumber($type = null, $formatted = false, $separator = "-")`: (string) '3528234709430468'
+- `creditCardType()`: (string) 'MasterCard'
+- `currencyCode()`: (string) 'CNY'
+- `currencyName()`: (string) 'Euro'
+- `currencySymbol()`: (string) '₺'
+- `iban($alpha2 = null, $prefix = "")`: (string) 'GE06MJ8231375090309716'
+- `price($min = 0, $max = 1000, $decimals = 2)`: (float) 92.23
+- `swiftBicNumber()`: (string) 'KYBUPKRP672'
 
 # Person
 
-- `firstName($gender = null)`: (string) 'Patricia'
-- `firstNameFemale()`: (string) 'Jane'
-- `firstNameMale()`: (string) 'Ian'
-- `lastName()`: (string) 'Harris'
-- `name($gender = null)`: (string) 'Vincent Robinson'
-- `title($gender = null)`: (string) 'Mr.'
-- `titleFemale()`: (string) 'Ms.'
-- `titleMale()`: (string) 'Mr.'
+- `firstName($gender = null)`: (string) 'Mary'
+- `firstNameFemale()`: (string) 'Daisy'
+- `firstNameMale()`: (string) 'Bill'
+- `gender()`: (string) 'male'
+- `initials($length = 2)`: (string) 'U. I.'
+- `lastName()`: (string) 'Fisher'
+- `name($gender = null)`: (string) 'Vernon Adams'
+- `title($gender = null)`: (string) 'Dr.'
+- `titleFemale()`: (string) 'Miss'
+- `titleMale()`: (string) 'Prof.'
 
 # PhoneNumber
 
-- `e164PhoneNumber()`: (string) '+237227781855'
-- `imei()`: (string) '920621449963560'
-- `phoneNumber()`: (string) '826-433-639'
+- `e164PhoneNumber()`: (string) '+34422795073'
+- `imei()`: (string) '412380351741440'
+- `phoneNumber()`: (string) '781-343-153'
 
 # Strings
 
-- `string($min = 3, $max = 8, $pool = null)`: (string) 'ztnsmniy'
+- `string($min = 3, $max = 8, $pool = null)`: (string) 'eth'
 
 # UserAgent
 
-- `androidMobileToken()`: (string) 'Linux; Android 12'
-- `chrome()`: (string) 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_8) AppleWebKit/5362 (KHTML, like Gecko) Chrome/38.0.888.0 Mobile Safari/5362'
-- `edge()`: (string) 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_7) AppleWebKit/532.2 (KHTML, like Gecko) Chrome/95.0.4653.28 Safari/532.2 Edg/95.01145.98'
-- `firefox()`: (string) 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0) Gecko/20200604 Firefox/37.0'
-- `internetExplorer()`: (string) 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.01; Trident/4.1)'
+- `androidMobileToken()`: (string) 'Linux; Android 15'
+- `botUserAgent()`: (string) 'Twitterbot/1.0'
+- `chrome()`: (string) 'Mozilla/5.0 (Macintosh; Intel; Mac OS X 14_4_1 Mac OS X 10_8_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.6402.16 Safari/537.36'
+- `edge()`: (string) 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.6021.86 Safari/537.36 Edg/128.02216.68'
+- `firefox()`: (string) 'Mozilla/5.0 (X11; Linux i686; rv:120.0) Gecko/20100101 Firefox/120.0'
+- `internetExplorer()`: (string) 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 10.0; Win64; x64; Trident/5.1)'
 - `iosMobileToken()`: (string) 'iPhone; CPU iPhone OS 14_1 like Mac OS X'
 - `linuxPlatformToken()`: (string) 'X11; Linux i686'
-- `macPlatformToken()`: (string) 'Macintosh; PPC Mac OS X 10_6_7'
-- `opera()`: (string) 'Opera/9.33 (X11; Linux x86_64; en-US) Presto/2.11.257 Version/11.00'
-- `safari()`: (string) 'Mozilla/5.0 (iPad; CPU OS 7_2_1 like Mac OS X; sl-SI) AppleWebKit/532.26.3 (KHTML, like Gecko) Version/4.0.5 Mobile/8B119 Safari/6532.26.3'
-- `userAgent()`: (string) 'Mozilla/5.0 (Windows NT 5.0) AppleWebKit/5332 (KHTML, like Gecko) Chrome/37.0.863.0 Mobile Safari/5332'
-- `windowsPlatformToken()`: (string) 'Windows CE'
+- `macPlatformToken()`: (string) 'Macintosh; Intel Mac OS X 10_5_1'
+- `opera()`: (string) 'Opera/8.66 (X11; Linux i686; sl-SI) Presto/2.10.231 Version/10.00'
+- `safari()`: (string) 'Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Mobile/15E148 Safari/604.1'
+- `userAgent()`: (string) 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/17.0 EdgiOS/135.02588.57 Mobile/15E148 Safari/537.36'
+- `windowsPlatformToken()`: (string) 'Windows NT 10.0; Win64; x64'
 
 # Uuid
 
-- `uuid4()`: (string) '09a3cc17-03f7-402b-ae3d-99e144cc3e0b'
+- `nilUuid()`: (string) '00000000-0000-0000-0000-000000000000'
+- `ulid($dateTime = null)`: (string) '01M46GA297K1YDHR39S1YNTS6V'
+- `uuid4()`: (string) '98075de4-0171-4efe-82d3-6615da53421f'
+- `uuid7($dateTime = null)`: (string) '01a10d05-0927-70d5-9060-f01b95a40a79'
 
 # Version
 
-- `semver($preRelease = false, $build = false)`: (string) '0.81.1'
+- `gitCommitHash($short = false)`: (string) '265693a38870506ad5526179ecc54fc9128163ea'
+- `semver($preRelease = false, $build = false)`: (string) '1.96.52'
 

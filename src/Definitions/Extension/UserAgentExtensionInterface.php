@@ -41,4 +41,12 @@ interface UserAgentExtensionInterface extends ExtensionInterface
 
     /** @example 'X11; Linux i686' */
     public function linuxPlatformToken(): string;
+
+    /**
+     * Return a search engine or crawler bot User-Agent
+     *
+     * @example 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+     */
+    public function botUserAgent(): string;
 }
+

@@ -176,4 +176,50 @@ class UuidTest extends TestCase
 
         self::assertCount(5, $segments, 'UUID should have exactly 5 segments');
     }
+
+    public function testUuid7FormatAndVersion(): void
+    {
+        $uuid = $this->generator->uuid7();
+        self::assertSame(36, strlen($uuid));
+        self::assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+            $uuid,
+        );
+    }
+
+    public function testUuid7WithCustomDateTime(): void
+    {
+        $dt = new \DateTimeImmutable('2024-01-15 12:00:00.500 UTC');
+        $uuid = $this->generator->uuid7($dt);
+
+        $expectedMsec = (int) ($dt->format('U') . $dt->format('v'));
+        $expectedHex = sprintf('%012x', $expectedMsec);
+
+        $timePart = substr(str_replace('-', '', $uuid), 0, 12);
+        self::assertSame($expectedHex, $timePart);
+    }
+
+    public function testUlidFormat(): void
+    {
+        $ulid = $this->generator->ulid();
+        self::assertSame(26, strlen($ulid));
+        // Crockford Base32 alphabet: 0123456789ABCDEFGHJKMNPQRSTVWXYZ
+        self::assertMatchesRegularExpression('/^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/', $ulid);
+    }
+
+    public function testUlidWithCustomDateTime(): void
+    {
+        $dt = new \DateTimeImmutable('2024-01-15 12:00:00.000 UTC');
+        $ulid1 = $this->generator->ulid($dt);
+        $ulid2 = $this->generator->ulid($dt);
+
+        // First 10 chars encode timestamp, so they must match for the same datetime
+        self::assertSame(substr($ulid1, 0, 10), substr($ulid2, 0, 10));
+    }
+
+    public function testNilUuid(): void
+    {
+        self::assertSame('00000000-0000-0000-0000-000000000000', $this->generator->nilUuid());
+    }
 }
+

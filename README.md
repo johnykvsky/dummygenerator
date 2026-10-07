@@ -44,7 +44,7 @@ I needed simple dummy data generator for PHP 8.3, with modern architecture in mi
 * interfaces and dependency injection for everything (all core implementations can be replaced with different ones)
 * implementations can be changed on the fly with `withDefinition()`
 * language providers removed from core, that makes generator ~9.5Mb smaller
-* changed `Uuid`, it supports `v4` only, use `uuid4()`
+* modernized `Uuid`, supports `uuid4()`, `uuid7()`, `ulid()`, and `nilUuid()`
 * removed database providers (core is only for dummy data generation)
 * removed `HmlLorem`
 * removed `File::filePath()` since it was interacting with system, not only generating dummy data
@@ -78,19 +78,15 @@ And all that can be replaced with your own implementation. Check [overview](docs
 
 # Languages
 
-One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages has been removed from core.
+One of main points of **DummyGenerator** is to keep core language agnostic. This is why **all** languages have been moved to dedicated provider packages.
 
-However, core use general English language for generating data.
+However, core uses general English language for generating fallback data.
 
-`Person` extension provides only ~15 names than can be used as first name, last name, part of email etc. If you want more, check [dummyproviders](https://github.com/johnykvsky/dummyproviders) to get full providers for `en_US`,`en_GB` and `pl_PL`.
-I have created them to show how to make them / convert from old Faker, to allow anyone to work on other languages.
+The core `Person` extension provides basic names that can be used as first name, last name, part of email etc. If you want full localized data (names, addresses, phone numbers, localized identifiers like `pesel`, `ssn`, `nip`, `ein`, etc.), check [dummyproviders](https://github.com/johnykvsky/dummyproviders) for 75 standalone language packs.
 
 Keep in mind:
-* **core will stay language agnostic** with some small samples (i.e. mentioned names) in English 
-* I have **no** current plans to support any language
-* I have **no** current plans to work on extending/improving existing language providers.
-* if someone like to make a PR to improve/extend one of mentioned languages - I will gladly look at it.
-* I will not accept PRs with other languages - but I will gladly link in this readme to repositories with them.
+* **core will stay language agnostic** with some small samples in English 
+* all language-specific data and localized providers are maintained in [dummyproviders](https://github.com/johnykvsky/dummyproviders)
 
 # Why PHP >= 8.3
 
@@ -126,10 +122,6 @@ There is `script\ExtensionsDocs.php` that can be used to generate list of availa
 
 Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https://github.com/johnykvsky/phpunit-repeat) you can find Linux shell script for running tests multiple times.
 
-## TODO
-
-* cleanup tests
-
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml/badge.svg
 [ico-coveralls]: https://coveralls.io/repos/github/johnykvsky/dummygenerator/badge.svg
@@ -138,3 +130,4 @@ Since PHPUnit is still missing `--repeat`, in repository [phpunit-repeat](https:
 [link-build]: https://github.com/johnykvsky/dummygenerator/actions/workflows/php.yml
 [link-coveralls]: https://coveralls.io/github/johnykvsky/dummygenerator
 [link-docs]: https://johnykvsky.github.io/dummydocs/
+

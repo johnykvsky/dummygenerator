@@ -100,15 +100,11 @@ class ParseTest extends TestCase
     }
 
     /**
-     * Test that parse() does not support tokens with method arguments.
-     *
-     * The parse() method only supports simple property-like tokens,
-     * not method calls with arguments.
+     * Test that parse() supports tokens with method arguments.
      *
      * @group parse
-     * @group limitation
      */
-    public function testParseDoesNotSupportTokenArguments(): void
+    public function testParseSupportsTokenArguments(): void
     {
         $template = '{{ numberBetween(1, 100) }}';
         $result = $this->generator->parse($template);
@@ -198,14 +194,11 @@ class ParseTest extends TestCase
     }
 
     /**
-     * Test that parse() requires single space or no space around tokens.
-     *
-     * The regex pattern allows `{{ token }}` or `{{token}}` but not `{{  token  }}`.
+     * Test that parse() handles single space, no space, or extra whitespace around tokens.
      *
      * @group parse
-     * @group limitation
      */
-    public function testParseRequiresCorrectWhitespace(): void
+    public function testParseHandlesWhitespaceAroundTokens(): void
     {
         // This works - single space is allowed
         $template1 = '{{ firstName }}';

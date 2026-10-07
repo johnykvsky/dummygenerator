@@ -28,8 +28,8 @@ class UniqueStrategyTest extends TestCase
         $this->expectException(\OverflowException::class);
         $strategy = new UniqueStrategy(3);
 
-        for ($i = 0; $i < 100; $i++) {
-            $strategy->generate('some_name', fn() => random_int(1, 10));
+        for ($i = 0; $i < 10; $i++) {
+            $strategy->generate('some_name', fn() => 'constant');
         }
     }
 
@@ -110,5 +110,13 @@ class UniqueStrategyTest extends TestCase
 
         self::assertSame('same', $first);
         self::assertSame('same', $second);
+    }
+
+    public function testUniqueStrategyWithNonSerializableThrowsException(): void
+    {
+        $strategy = new UniqueStrategy(5);
+
+        $this->expectException(\Exception::class);
+        $strategy->generate('closure_test', fn() => fn() => 'unserializable');
     }
 }

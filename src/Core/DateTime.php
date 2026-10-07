@@ -236,4 +236,47 @@ class DateTime implements DateTimeExtensionInterface
             throw new ExtensionArgumentException('Invalid datetime string given.', $e->getCode(), $e);
         }
     }
+
+    public function dateTimePast(DateTimeInterface|string $from = '-30 days', ?string $timezone = null): DateTimeInterface
+    {
+        return $this->dateTimeBetween($from, 'now', $timezone);
+    }
+
+    public function dateTimeFuture(DateTimeInterface|string $until = '+30 days', ?string $timezone = null): DateTimeInterface
+    {
+        return $this->dateTimeBetween('now', $until, $timezone);
+    }
+
+    /** @var string[] */
+    protected array $cronPatterns = [
+        '* * * * *',
+        '*/5 * * * *',
+        '*/15 * * * *',
+        '*/30 * * * *',
+        '0 * * * *',
+        '0 */2 * * *',
+        '0 */6 * * *',
+        '0 0 * * *',
+        '0 2 * * *',
+        '0 0 * * 0',
+        '0 0 * * 1-5',
+        '0 0 1 * *',
+        '0 0 1 1 *',
+    ];
+
+    public function cronExpression(): string
+    {
+        if ($this->randomizer->getBool(70)) {
+            return $this->randomizer->randomElement($this->cronPatterns);
+        }
+
+        $minute = $this->randomizer->randomElement(['*', '0', '15', '30', '45', '*/5', '*/10', '*/15', (string) $this->randomizer->getInt(0, 59)]);
+        $hour = $this->randomizer->randomElement(['*', '0', '12', '*/2', '*/4', '*/6', (string) $this->randomizer->getInt(0, 23)]);
+        $day = $this->randomizer->randomElement(['*', '1', '15', (string) $this->randomizer->getInt(1, 28)]);
+        $month = $this->randomizer->randomElement(['*', '1', '*/3', '*/6', (string) $this->randomizer->getInt(1, 12)]);
+        $dayOfWeek = $this->randomizer->randomElement(['*', '0', '1-5', '0,6', (string) $this->randomizer->getInt(0, 6)]);
+
+        return sprintf('%s %s %s %s %s', $minute, $hour, $day, $month, $dayOfWeek);
+    }
 }
+

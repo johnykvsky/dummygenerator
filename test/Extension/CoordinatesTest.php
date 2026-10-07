@@ -249,4 +249,19 @@ class CoordinatesTest extends TestCase
         $uniqueLocations = array_unique($locations);
         self::assertGreaterThan(1, count($uniqueLocations), 'Should generate different coordinate pairs');
     }
+
+    public function testGeoJsonPoint(): void
+    {
+        $point = $this->generator->geoJsonPoint();
+        self::assertSame('Point', $point['type']);
+        self::assertCount(2, $point['coordinates']);
+        // RFC 7946: [longitude, latitude]
+        [$longitude, $latitude] = $point['coordinates'];
+        self::assertIsFloat($longitude);
+        self::assertIsFloat($latitude);
+        self::assertGreaterThanOrEqual(-180.0, $longitude);
+        self::assertLessThanOrEqual(180.0, $longitude);
+        self::assertGreaterThanOrEqual(-90.0, $latitude);
+        self::assertLessThanOrEqual(90.0, $latitude);
+    }
 }

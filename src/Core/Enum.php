@@ -34,7 +34,12 @@ class Enum implements EnumExtensionInterface
             throw new ExtensionArgumentException('Argument should be backed PHP Enum');
         }
 
-        return $this->randomizer->randomElement($enum::cases())->value;
+        $cases = $enum::cases();
+        if (empty($cases)) {
+            throw new ExtensionArgumentException('Enum has no cases');
+        }
+
+        return $this->randomizer->randomElement($cases)->value;
     }
 
     /**
@@ -49,6 +54,11 @@ class Enum implements EnumExtensionInterface
             throw new ExtensionArgumentException('Invalid PHP Enum', $e->getCode(), $e);
         }
 
-        return $this->randomizer->randomElement($enum::cases());
+        $cases = $enum::cases();
+        if (empty($cases)) {
+            throw new ExtensionArgumentException('Enum has no cases');
+        }
+
+        return $this->randomizer->randomElement($cases);
     }
 }

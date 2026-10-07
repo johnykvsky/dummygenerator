@@ -85,4 +85,14 @@ class UserAgentTest extends TestCase
     {
         self::assertStringContainsString('Linux', $this->generator->linuxPlatformToken());
     }
+
+    public function testBotUserAgent(): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $bot = $this->generator->botUserAgent();
+            self::assertNotEmpty($bot);
+            self::assertMatchesRegularExpression('/(bot|spider|crawl|slurp|facebook)/i', $bot);
+        }
+    }
 }
+

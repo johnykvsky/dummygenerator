@@ -92,12 +92,11 @@ class BiasedTest extends TestCase
         }
     }
 
-    public function testBiasedForNonCallalbe()
+    public function testBiasedForNonCallable(): void
     {
         self::expectException(ExtensionArgumentException::class);
         self::expectExceptionMessage('Given $function must be a callable');
         $this->generator->biasedNumberBetween(1, self::MAX, 'something_not_callable');
-
     }
 
     private function perform(callable|string $function): void
