@@ -34,11 +34,23 @@ abstract class CoreRandomizer implements RandomizerInterface
 
     public function getBytes(int $length = 16): string
     {
+        if ($length < 1) {
+            throw new ExtensionArgumentException('Length must be 1 or higher', $length);
+        }
+
         return $this->randomizer->getBytes($length);
     }
 
     public function getBytesFromString(string $string, int $length = 8): string
     {
+        if (empty($string)) {
+            throw new ExtensionArgumentException('Empty string given', $length);
+        }
+
+        if ($length < 1) {
+            throw new ExtensionArgumentException('Length must be 1 or higher', $length);
+        }
+
         return $this->randomizer->getBytesFromString($string, $length);
     }
 
