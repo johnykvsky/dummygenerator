@@ -2,7 +2,7 @@
 
 ---
 
-## v0.2.2
+## v0.3.0
 
 ### Added
 * **Modern Identifiers (`UuidExtensionInterface` / `Uuid`)**:
