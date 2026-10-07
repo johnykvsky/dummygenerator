@@ -49,5 +49,3 @@ interface FileExtensionInterface extends ExtensionInterface
      */
     public function mimeTypeForExtension(string $extension = 'pdf'): string;
 }
-
-

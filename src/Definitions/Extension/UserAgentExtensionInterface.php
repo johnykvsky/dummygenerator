@@ -49,4 +49,3 @@ interface UserAgentExtensionInterface extends ExtensionInterface
      */
     public function botUserAgent(): string;
 }
-

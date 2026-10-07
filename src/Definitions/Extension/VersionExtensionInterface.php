@@ -28,4 +28,3 @@ interface VersionExtensionInterface extends ExtensionInterface
      */
     public function gitCommitHash(bool $short = false): string;
 }
-

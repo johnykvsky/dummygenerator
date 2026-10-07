@@ -146,4 +146,3 @@ class Person implements PersonExtensionInterface
         return implode(' ', $letters);
     }
 }
-

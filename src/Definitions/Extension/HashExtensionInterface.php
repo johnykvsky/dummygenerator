@@ -24,4 +24,3 @@ interface HashExtensionInterface extends ExtensionInterface
     /** @example 'q3M-7dFN5A2Xo1p...' */
     public function base64Url(int $byteLength = 32): string;
 }
-

@@ -60,4 +60,3 @@ class Coordinates implements CoordinatesExtensionInterface
         ];
     }
 }
-

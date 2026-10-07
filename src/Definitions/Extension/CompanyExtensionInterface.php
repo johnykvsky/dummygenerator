@@ -29,4 +29,3 @@ interface CompanyExtensionInterface extends ExtensionInterface
      */
     public function industry(): string;
 }
-

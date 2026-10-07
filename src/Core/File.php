@@ -625,4 +625,3 @@ class File implements FileExtensionInterface
         throw new ExtensionArgumentException(sprintf('Unknown extension "%s"', $extension));
     }
 }
-

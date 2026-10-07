@@ -113,4 +113,3 @@ interface InternetExtensionInterface extends ExtensionInterface
      */
     public function jwt(): string;
 }
-

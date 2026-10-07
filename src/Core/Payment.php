@@ -252,7 +252,6 @@ class Payment implements PaymentExtensionInterface
         return $this->replacer->numerify('###');
     }
 
-
     public function iban(?string $alpha2 = null, string $prefix = ''): string
     {
         $countryCode = $alpha2 === null
@@ -356,4 +355,3 @@ class Payment implements PaymentExtensionInterface
         return round($this->randomizer->getFloat($min, $max), $decimals);
     }
 }
-

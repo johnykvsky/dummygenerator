@@ -61,4 +61,3 @@ interface PersonExtensionInterface extends ExtensionInterface
      */
     public function initials(int $length = 2): string;
 }
-

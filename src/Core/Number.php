@@ -136,4 +136,3 @@ class Number implements NumberExtensionInterface
         return $result;
     }
 }
-

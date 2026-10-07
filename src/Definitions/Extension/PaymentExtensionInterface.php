@@ -95,4 +95,3 @@ interface PaymentExtensionInterface extends ExtensionInterface
      */
     public function price(float $min = 0.0, float $max = 1000.0, int $decimals = 2): float;
 }
-

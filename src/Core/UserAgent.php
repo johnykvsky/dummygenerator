@@ -124,7 +124,6 @@ class UserAgent implements UserAgentExtensionInterface
         return 'Mozilla/5.0 ' . $this->randomizer->randomElement($platforms);
     }
 
-
     public function opera(): string
     {
         $platforms = [
@@ -189,4 +188,3 @@ class UserAgent implements UserAgentExtensionInterface
         return $this->randomizer->randomElement($this->botUserAgents);
     }
 }
-

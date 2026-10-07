@@ -53,4 +53,3 @@ class Hash implements HashExtensionInterface
         return rtrim(strtr(base64_encode($this->randomizer->getBytes($byteLength)), '+/', '-_'), '=');
     }
 }
-

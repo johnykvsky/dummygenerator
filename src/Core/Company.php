@@ -78,4 +78,3 @@ class Company implements CompanyExtensionInterface
         return implode(' ', $words);
     }
 }
-

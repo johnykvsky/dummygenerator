@@ -268,4 +268,3 @@ interface DateTimeExtensionInterface extends ExtensionInterface
      */
     public function cronExpression(): string;
 }
-

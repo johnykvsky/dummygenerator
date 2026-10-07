@@ -64,4 +64,3 @@ class Version implements VersionExtensionInterface
         return $short ? substr($hash, 0, 7) : $hash;
     }
 }
-

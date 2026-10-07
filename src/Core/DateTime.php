@@ -279,4 +279,3 @@ class DateTime implements DateTimeExtensionInterface
         return sprintf('%s %s %s %s %s', $minute, $hour, $day, $month, $dayOfWeek);
     }
 }
-

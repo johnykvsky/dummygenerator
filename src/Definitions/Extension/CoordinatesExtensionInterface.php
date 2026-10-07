@@ -36,4 +36,3 @@ interface CoordinatesExtensionInterface extends ExtensionInterface
      */
     public function geoJsonPoint(): array;
 }
-

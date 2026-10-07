@@ -95,4 +95,3 @@ interface NumberExtensionInterface extends ExtensionInterface
      */
     public function binary(int $length = 8): string;
 }
-

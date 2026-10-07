@@ -34,4 +34,3 @@ interface UuidExtensionInterface extends ExtensionInterface
      */
     public function nilUuid(): string;
 }
-
