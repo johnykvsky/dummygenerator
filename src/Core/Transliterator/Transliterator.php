@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace DummyGenerator\Core\Transliterator;
 
 use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
 use DummyGenerator\Definitions\Transliterator\TransliteratorInterface;
 
 class Transliterator implements TransliteratorInterface
@@ -15,6 +16,10 @@ class Transliterator implements TransliteratorInterface
     {
         if (0 === preg_match('/[^A-Za-z0-9_.]/', $string)) {
             return $string;
+        }
+
+        if (!class_exists(\Transliterator::class)) {
+            throw new ExtensionRuntimeException('The "intl" PHP extension is required to use Transliterator.');
         }
 
         if ($pattern === null) {

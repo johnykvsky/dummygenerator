@@ -46,7 +46,16 @@ class Barcode implements BarcodeExtensionInterface
 
     public function isbn13(): string
     {
-        $code = '97' . $this->randomizer->getInt(8, 9) . $this->replacer->numerify(str_repeat('#', 9));
+        $prefix = '97' . $this->randomizer->getInt(8, 9);
+        $group = (string) $this->randomizer->getInt($prefix === '978' ? 0 : 1, 9);
+        $code = $prefix . $group . $this->replacer->numerify(str_repeat('#', 8));
+
+        return sprintf('%s%s', $code, $this->eanCalculator->checksum($code));
+    }
+
+    public function ismn(): string
+    {
+        $code = '9790' . $this->replacer->numerify(str_repeat('#', 8));
 
         return sprintf('%s%s', $code, $this->eanCalculator->checksum($code));
     }

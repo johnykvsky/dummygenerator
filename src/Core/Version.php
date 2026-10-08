@@ -56,4 +56,11 @@ class Version implements VersionExtensionInterface
         // date syntax
         return (new \DateTimeImmutable())->format('YmdHis');
     }
+
+    public function gitCommitHash(bool $short = false): string
+    {
+        $hash = bin2hex($this->randomizer->getBytes(20));
+
+        return $short ? substr($hash, 0, 7) : $hash;
+    }
 }

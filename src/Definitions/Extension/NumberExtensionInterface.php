@@ -65,4 +65,33 @@ interface NumberExtensionInterface extends ExtensionInterface
      * @example true
      */
     public function boolean(int|float $chanceOfGettingTrue = 50): bool;
+
+    /**
+     * Return a random percentage between $min and $max.
+     *
+     * @param int $decimals Number of decimal places (0 for integer percentage)
+     * @param float $min Minimum percentage (0 to 100)
+     * @param float $max Maximum percentage (0 to 100)
+     *
+     * @example 85
+     */
+    public function percentage(int $decimals = 0, float $min = 0.0, float $max = 100.0): float|int;
+
+    /**
+     * Return a random hexadecimal string of given length.
+     *
+     * @param int $nbDigits Number of hexadecimal characters
+     *
+     * @example '3f8a0c'
+     */
+    public function hexadecimal(int $nbDigits = 6): string;
+
+    /**
+     * Return a random binary string of given length.
+     *
+     * @param int $length Number of bits ('0' or '1')
+     *
+     * @example '10110010'
+     */
+    public function binary(int $length = 8): string;
 }

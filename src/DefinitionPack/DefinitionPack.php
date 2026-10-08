@@ -31,6 +31,7 @@ use DummyGenerator\Core\PhoneNumber;
 use DummyGenerator\Core\Randomizer\Randomizer;
 use DummyGenerator\Core\Replacer\Replacer;
 use DummyGenerator\Core\Strings;
+use DummyGenerator\Core\Transliterator\SimpleTransliterator;
 use DummyGenerator\Core\Transliterator\Transliterator;
 use DummyGenerator\Core\UserAgent;
 use DummyGenerator\Core\Uuid;
@@ -95,7 +96,7 @@ readonly class DefinitionPack implements DefinitionPackInterface
         $this->coreDefinitions = [
             RandomizerInterface::class => Randomizer::class,
             ReplacerInterface::class => Replacer::class,
-            TransliteratorInterface::class => Transliterator::class,
+            TransliteratorInterface::class => class_exists(\Transliterator::class) ? Transliterator::class : SimpleTransliterator::class,
         ];
 
         $this->baseExtensions = [

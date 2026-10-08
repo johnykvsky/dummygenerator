@@ -32,7 +32,15 @@ interface BarcodeExtensionInterface extends ExtensionInterface
      * Get a random ISBN-13 code
      *
      * @see http://en.wikipedia.org/wiki/International_Standard_Book_Number
-     * @example '9790404436093'
+     * @example '9791404436090'
      */
     public function isbn13(): string;
+
+    /**
+     * Get a random ISMN code
+     *
+     * @see https://en.wikipedia.org/wiki/International_Standard_Music_Number
+     * @example '9790404436093'
+     */
+    public function ismn(): string;
 }

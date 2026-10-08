@@ -153,14 +153,23 @@ class ExtensionsDocs
     private function formatExample(mixed $example): string
     {
         if (is_array($example)) {
-            $result = "['" . implode("', '", $example) . "']";
-        } elseif ($example instanceof \DateTimeInterface) {
-            $result = "\DateTimeImmutable('" . $example->format('Y-m-d H:i:s') . "')";
-        } else {
-            $result = var_export($example, true);
-        }
+            $isList = array_is_list($example);
+            $items = [];
+            foreach ($example as $key => $val) {
+                $formattedVal = is_array($val) ? $this->formatExample($val) : (is_string($val) ? "'" . addcslashes($val, "'\\") . "'" : var_export($val, true));
+                if ($isList) {
+                    $items[] = $formattedVal;
+                } else {
+                    $items[] = (is_string($key) ? "'$key'" : $key) . ' => ' . $formattedVal;
+                }
+            }
 
-        return $result;
+            return '[' . implode(', ', $items) . ']';
+        } elseif ($example instanceof \DateTimeInterface) {
+            return "\DateTimeImmutable('" . $example->format('Y-m-d H:i:s') . "')";
+        } else {
+            return var_export($example, true);
+        }
     }
 
     private function toMarkdown(array $data): string

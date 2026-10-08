@@ -7,7 +7,7 @@ Enum extension allows you to get random element or value from selected Enum obje
 * enumValue(), that will get value from backed enums (which has to be string or int)
 * enumCase(), that will get one of `cases()` element from enum (it will be `UnitEnum` object) 
 
-`enumValue()` has to be used on backed enums, but `enumCase()` works for backed and non-backed enums.
+`enumValue()` has to be used on backed enums, but `enumCase()` works for backed and non-backed enums. If passed an enum with no cases, both methods throw an `ExtensionArgumentException`.
 
 For following enum:
 
@@ -59,25 +59,28 @@ At core, it uses `\Random\Randomizer::getBytesFromString()` to generate random s
 
 `DummyGenerator` comes with two extensions for date-time related data generation:
 
-* `DateTime`, which is port of Faker DateTime extension, with same methods
-* `AnyDateTime`, which is build with a bit of different approach
+* `DateTime`, which provides comprehensive date/time generation methods (supporting both `DateTimeInterface` and date strings for parameters)
+* `AnyDateTime`, which is built with a different interval-based approach
 
-While in `DateTime` you have various:
+In `DateTime` you have various helpers returning `\DateTimeInterface` objects:
 
 ```php
 $generator->dateTimeThisMonth();
 $generator->dateTimeThisYear();
+$generator->dateTimePast('-60 days');   // strictly past date
+$generator->dateTimeFuture('+90 days'); // strictly future date
+$generator->cronExpression();          // cron schedule string like '*/15 * * * *'
 $generator->amPm();
 // and so on
 ```
 
-All of them accepting strings and returning strings. In `AnyDateTime` you have two methods:
+In `AnyDateTime` you have methods centered around date intervals:
 
 * `anyDate($date, $interval, $period)` used to get date "around" passed date
 * `anyDateBetween($from, $to)` used to generate date between passed dates
+* `anyTimezone($country)` used to get timezone for a country or random timezone
 
-
-`AnyDateTime` we operate on `DateTimeInterface` objects (or strings). For `anyDate` you can pass:
+In `AnyDateTime` we operate on `DateTimeInterface` objects (or strings). For `anyDate` you can pass:
 
 * date, which is "starting point" (by default it's "now"), you can pass DateTimeInterface object or just string recognized by it, like '2025-08-30'
 * interval, as PHP \DateInterval() or string recognized by it (like 'P5D'), so it can be year, month, 3 days, 5 hours... (by default it's 10 years)
@@ -96,3 +99,25 @@ So, in example, for passed date 2025-08-01 and interval 30 days it will:
 * ANY_DATE, date from is 2025-08-01 minus 30 days, date to is 2025-08-01 plus 30 days
 
 Generated date will be within this date ranges. Since it's returning `DateTimeInterface` object, you can use format() to get desired string value.
+
+### Using Uuid and Modern Identifiers
+
+`DummyGenerator` provides modern, standards-compliant unique identifier generators:
+
+```php
+$generator = DummyGenerator::create();
+
+// Standard random UUIDv4:
+$uuid4 = $generator->uuid4(); // '09a3cc17-03f7-402b-ae3d-99e144cc3e0b'
+
+// RFC 9562 time-ordered UUIDv7 (ideal for database primary keys):
+$uuid7 = $generator->uuid7(); // '018ec25e-7a1b-7888-825b-2d7c5885e7a9'
+// Or generated from a specific timestamp:
+$uuid7FromDate = $generator->uuid7(new \DateTimeImmutable('2024-01-01 00:00:00'));
+
+// 26-character sortable ULID (Universally Unique Lexicographically Sortable Identifier):
+$ulid = $generator->ulid(); // '01ARZ3NDEKTSV4RRFFQ69G5FAV'
+
+// RFC 4122 / RFC 9562 Nil UUID:
+$nil = $generator->nilUuid(); // '00000000-0000-0000-0000-000000000000'
+```

@@ -165,4 +165,18 @@ class EnumTest extends TestCase
         $unique = array_unique($cases);
         self::assertGreaterThan(1, count($unique), 'Should generate different enum cases');
     }
+
+    public function testEnumValueWithEmptyEnumThrowsException(): void
+    {
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Enum has no cases');
+        $this->generator->enumValue(\DummyGenerator\Test\Fixtures\EmptyBackedStringEnum::class);
+    }
+
+    public function testEnumCaseWithEmptyEnumThrowsException(): void
+    {
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Enum has no cases');
+        $this->generator->enumCase(\DummyGenerator\Test\Fixtures\EmptyEnum::class);
+    }
 }

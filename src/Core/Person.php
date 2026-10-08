@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace DummyGenerator\Core;
 
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\PersonExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
 use DummyGenerator\GeneratorInterface;
@@ -124,5 +125,24 @@ class Person implements PersonExtensionInterface
     public function titleFemale(): string
     {
         return $this->randomizer->randomElement($this->titleFemale);
+    }
+
+    public function gender(): string
+    {
+        return $this->randomizer->getBool() ? static::GENDER_MALE : static::GENDER_FEMALE;
+    }
+
+    public function initials(int $length = 2): string
+    {
+        if ($length < 1) {
+            throw new ExtensionArgumentException('initials() $length must be at least 1');
+        }
+
+        $letters = [];
+        for ($i = 0; $i < $length; ++$i) {
+            $letters[] = strtoupper($this->randomizer->randomLetter()) . '.';
+        }
+
+        return implode(' ', $letters);
     }
 }

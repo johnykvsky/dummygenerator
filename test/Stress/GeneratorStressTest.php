@@ -108,20 +108,12 @@ class GeneratorStressTest extends TestCase
     {
         $generator = new DummyGenerator($this->buildContainer(new UniqueStrategy(retries: 100)));
 
-        // Small range: only 5 possible values
-        $values = [];
+        $this->expectException(\OverflowException::class);
+        $this->expectExceptionMessageMatches('/retries/i');
 
-        try {
-            for ($i = 0; $i < 10; $i++) {
-                $values[] = $generator->numberBetween(1, 5);
-            }
-
-            // If we get here, it means we didn't exhaust (some duplicates allowed initially)
-            // But we should have at least generated some values
-            self::assertGreaterThan(0, count($values));
-        } catch (\OverflowException $e) {
-            // Expected: unique strategy exhausted the small range
-            self::assertStringContainsString('retries', strtolower($e->getMessage()));
+        // Small range: only 5 possible values, 6th attempt must exhaust and throw
+        for ($i = 0; $i < 10; $i++) {
+            $generator->numberBetween(1, 5);
         }
     }
 

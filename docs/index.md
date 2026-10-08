@@ -16,7 +16,7 @@ DummyGenerator is a powerful, modern PHP library for generating realistic fake d
 - ✅ **Reproducibility**: Seeded randomizer for deterministic output
 
 DummyGenerator supports language packs - to get more info about that please go to [DummyProviders](https://github.com/johnykvsky/dummyproviders)
-By default DummyGenerator contains only general English language data. DummyProviders add proper `en_GB`, `en_US` and `pl_PL`.
+By default DummyGenerator contains general English language data. DummyProviders adds support for 75 localized languages and regions (including `en_US`, `en_GB`, `pl_PL`, `de_DE`, `fr_FR`, `es_ES`, `ja_JP`, and many more).
 
 ---
 
@@ -26,5 +26,5 @@ By default DummyGenerator contains only general English language data. DummyProv
 2. [overview.md](overview.md) - General overview of application architecture
 3. [strategies.md](strategies.md) - Unique/valid/chance strategies, chaining rules, and short-circuit behavior.
 4. [customization.md](customization.md) - Swap randomizers, replace extensions, add custom extensions
-5. [extensions-howto.md](extensions-howto.md) - More info about extensions `Enum`, `String` and `AnyDateTime`
+5. [extensions-howto.md](extensions-howto.md) - More info about extensions `Enum`, `String`, `AnyDateTime` and `Uuid`
 6. [generators.md](generators.md) - The list of generator methods grouped by extension.

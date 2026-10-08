@@ -47,4 +47,29 @@ class ContainerBuilderTest extends TestCase
         self::assertTrue($container->has(BloodExtensionInterface::class));
         self::assertTrue($container->has(DateTimeExtensionInterface::class));
     }
+
+    public function testDefinitionsReturnsUnderlyingDefinitionsArray(): void
+    {
+        $container = DiContainerFactory::base();
+
+        $definitions = $container->definitions();
+        self::assertIsArray($definitions);
+        self::assertNotEmpty($definitions);
+        self::assertArrayHasKey(AnyDateTimeExtensionInterface::class, $definitions);
+    }
+
+    public function testExtensionCacheMethods(): void
+    {
+        $container = DiContainerFactory::base();
+
+        self::assertNull($container->getExtension('testMethod'));
+
+        $extension = new class implements \DummyGenerator\Definitions\DefinitionInterface {};
+
+        $container->setExtension('testMethod', $extension);
+        self::assertSame($extension, $container->getExtension('testMethod'));
+
+        $container->resetExtensions();
+        self::assertNull($container->getExtension('testMethod'));
+    }
 }

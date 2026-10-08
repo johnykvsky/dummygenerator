@@ -22,10 +22,10 @@
   },
   "require-dev": {
     "phpstan/extension-installer": "^1.4.3",
-    "phpstan/phpstan": "^2.1.39",
+    "phpstan/phpstan": "^2.3.0",
     "phpunit/phpunit": "^12.5.14",
-    "slevomat/coding-standard": "^8.27.1",
-    "squizlabs/php_codesniffer": "^4.0"
+    "slevomat/coding-standard": "^8.31.1",
+    "squizlabs/php_codesniffer": "^4.0.4"
   },
   "autoload": {
     "psr-4": {

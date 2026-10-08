@@ -146,4 +146,24 @@ class CompanyTest extends TestCase
             self::assertNotEmpty($company);
         }
     }
+
+    public function testCatchPhrase(): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $phrase = $this->generator->catchPhrase();
+            self::assertIsString($phrase);
+            self::assertNotEmpty($phrase);
+            self::assertGreaterThanOrEqual(2, count(explode(' ', $phrase)));
+        }
+    }
+
+    public function testIndustry(): void
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $industry = $this->generator->industry();
+            self::assertIsString($industry);
+            self::assertNotEmpty($industry);
+        }
+    }
 }
+

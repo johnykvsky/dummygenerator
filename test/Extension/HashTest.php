@@ -134,4 +134,42 @@ class HashTest extends TestCase
         self::assertIsNumeric(hexdec(substr($sha1, 0, 8)));
         self::assertIsNumeric(hexdec(substr($sha256, 0, 8)));
     }
+
+    public function testSha512(): void
+    {
+        $sha512 = $this->generator->sha512();
+        self::assertSame(128, strlen($sha512));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{128}$/', $sha512);
+        self::assertSame(strtolower($sha512), $sha512);
+    }
+
+    public function testBase64(): void
+    {
+        $b64 = $this->generator->base64(32);
+        self::assertMatchesRegularExpression('/^[A-Za-z0-9+\/]+=*$/', $b64);
+        $decoded = base64_decode($b64, true);
+        self::assertNotFalse($decoded);
+        self::assertSame(32, strlen($decoded));
+    }
+
+    public function testBase64Url(): void
+    {
+        $b64Url = $this->generator->base64Url(32);
+        self::assertMatchesRegularExpression('/^[A-Za-z0-9_-]+$/', $b64Url);
+        self::assertStringNotContainsString('+', $b64Url);
+        self::assertStringNotContainsString('/', $b64Url);
+        self::assertStringNotContainsString('=', $b64Url);
+    }
+
+    public function testBase64InvalidLengthThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->base64(0);
+    }
+
+    public function testBase64UrlInvalidLengthThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->base64Url(-1);
+    }
 }

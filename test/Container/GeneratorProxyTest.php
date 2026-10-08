@@ -90,4 +90,20 @@ class GeneratorProxyTest extends TestCase
         // @phpstan-ignore-next-line
         $proxy->parse('{{ foo }}');
     }
+
+    public function testGeneratorProxyWithDefinitionDelegatesToGenerator(): void
+    {
+        $container = DiContainerFactory::default();
+        /** @var \DummyGenerator\GeneratorProxy $proxy */
+        $proxy = $container->get(\DummyGenerator\GeneratorInterface::class);
+        self::assertInstanceOf(\DummyGenerator\GeneratorProxy::class, $proxy);
+
+        $generator = new DummyGenerator($container);
+
+        $newGenerator = $proxy->withDefinition(FooProvider::class, FooProvider::class);
+
+        self::assertInstanceOf(\DummyGenerator\GeneratorInterface::class, $newGenerator);
+        self::assertNotSame($generator, $newGenerator);
+        self::assertSame('foobar', $newGenerator->foo());
+    }
 }

@@ -56,4 +56,60 @@ interface InternetExtensionInterface extends ExtensionInterface
 
     /** @example '32:F1:39:2F:D6:18' */
     public function macAddress(): string;
+
+    /**
+     * Return a random network port
+     *
+     * @param int $min Minimum port
+     * @param int $max Maximum port
+     *
+     * @example 8080
+     */
+    public function port(int $min = 1024, int $max = 65535): int;
+
+    /**
+     * Return a random HTTP method
+     *
+     * @example 'POST'
+     */
+    public function httpMethod(): string;
+
+    /**
+     * Return a random HTTP status code
+     *
+     * @param string|null $category Optional category: 'informational', 'success', 'redirection', 'clientError', 'serverError'
+     *
+     * @example 200
+     */
+    public function httpStatusCode(?string $category = null): int;
+
+    /**
+     * Return a public-routable IPv4 address
+     *
+     * @example '198.51.100.42'
+     */
+    public function publicIpv4(): string;
+
+    /**
+     * Return an IPv4 address with CIDR subnet mask
+     *
+     * @example '192.168.1.0/24'
+     */
+    public function ipv4Cidr(): string;
+
+    /**
+     * Return a URL path
+     *
+     * @param int $segments Number of path segments
+     *
+     * @example '/api/users'
+     */
+    public function urlPath(int $segments = 2): string;
+
+    /**
+     * Return a dummy JWT (JSON Web Token)
+     *
+     * @example 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+     */
+    public function jwt(): string;
 }

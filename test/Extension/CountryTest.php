@@ -31,7 +31,7 @@ class CountryTest extends TestCase
         self::assertEquals(2, strlen($this->generator->countryISOAlpha2()));
     }
 
-    public function testBloodRh(): void
+    public function testCountryISOAlpha3(): void
     {
         self::assertEquals(3, strlen($this->generator->countryISOAlpha3()));
     }

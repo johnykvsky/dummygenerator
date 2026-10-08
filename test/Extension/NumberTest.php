@@ -6,6 +6,7 @@ namespace DummyGenerator\Test\Extension;
 
 use DummyGenerator\Test\Fixtures\TestContainerFactory;
 use DummyGenerator\Core\Number;
+use DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException;
 use DummyGenerator\Definitions\Extension\Exception\ExtensionRuntimeException;
 use DummyGenerator\Definitions\Extension\NumberExtensionInterface;
 use DummyGenerator\Definitions\Randomizer\RandomizerInterface;
@@ -75,7 +76,8 @@ class NumberTest extends TestCase
 
         self::assertTrue($number >= 12.83 && $number <= 26.45);
         $parts = explode('.', (string) $number);
-        self::assertTrue(strlen($parts[1]) <= 3);
+        $decimals = isset($parts[1]) ? strlen($parts[1]) : 0;
+        self::assertLessThanOrEqual(3, $decimals);
     }
 
     public function testRandomFloatRandomDecimals(): void
@@ -104,6 +106,20 @@ class NumberTest extends TestCase
         $number = $this->generator->randomNumber(nbDigits: null, strict: false);
 
         self::assertTrue($number >= 0);
+    }
+
+    public function testRandomNumberWithZeroDigitsThrowsException(): void
+    {
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('randomNumber() $nbDigits must be greater than 0');
+        $this->generator->randomNumber(nbDigits: 0);
+    }
+
+    public function testRandomNumberWithNegativeDigitsThrowsException(): void
+    {
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('randomNumber() $nbDigits must be greater than 0');
+        $this->generator->randomNumber(nbDigits: -2);
     }
 
     public function testBoolean(): void
@@ -325,4 +341,74 @@ class NumberTest extends TestCase
         $result = $this->generator->numberBetween(min: 1000000, max: 2000000);
         self::assertTrue($result >= 1000000 && $result <= 2000000);
     }
+
+    public function testPercentageDefault(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $val = $this->generator->percentage();
+            self::assertIsInt($val);
+            self::assertGreaterThanOrEqual(0, $val);
+            self::assertLessThanOrEqual(100, $val);
+        }
+    }
+
+    public function testPercentageWithDecimals(): void
+    {
+        $val = $this->generator->percentage(decimals: 2, min: 10.5, max: 50.5);
+        self::assertIsFloat($val);
+        self::assertGreaterThanOrEqual(10.5, $val);
+        self::assertLessThanOrEqual(50.5, $val);
+    }
+
+    public function testPercentageInvalidRangeThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->percentage(min: -5.0);
+    }
+
+    public function testPercentageMinGreaterThanMaxThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->percentage(min: 80.0, max: 20.0);
+    }
+
+    public function testPercentageNegativeDecimalsThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->percentage(decimals: -1);
+    }
+
+    public function testHexadecimal(): void
+    {
+        $hex = $this->generator->hexadecimal(8);
+        self::assertSame(8, strlen($hex));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{8}$/', $hex);
+    }
+
+    public function testHexadecimalOddLength(): void
+    {
+        $hex = $this->generator->hexadecimal(7);
+        self::assertSame(7, strlen($hex));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{7}$/', $hex);
+    }
+
+    public function testHexadecimalInvalidDigitsThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->hexadecimal(0);
+    }
+
+    public function testBinary(): void
+    {
+        $bin = $this->generator->binary(16);
+        self::assertSame(16, strlen($bin));
+        self::assertMatchesRegularExpression('/^[01]{16}$/', $bin);
+    }
+
+    public function testBinaryInvalidLengthThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->generator->binary(-1);
+    }
 }
+

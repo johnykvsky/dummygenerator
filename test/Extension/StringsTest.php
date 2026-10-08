@@ -176,7 +176,7 @@ class StringsTest extends TestCase
     public function testStringEmptyPoolThrowsException(): void
     {
         // Empty pool should throw an exception
-        $this->expectException(\ValueError::class);
+        $this->expectException(ExtensionArgumentException::class);
         $this->generator->string(min: 10, max: 10, pool: '');
     }
 }
