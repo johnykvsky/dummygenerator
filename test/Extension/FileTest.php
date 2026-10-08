@@ -182,6 +182,10 @@ class FileTest extends TestCase
 
     public function testFileSizeFormatted(): void
     {
+        $sizeB = $this->generator->fileSize(100, 500, formatted: true);
+        self::assertIsString($sizeB);
+        self::assertMatchesRegularExpression('/^[0-9.]+\s*B$/', $sizeB);
+
         $sizeKb = $this->generator->fileSize(1024, 2048, formatted: true);
         self::assertIsString($sizeKb);
         self::assertMatchesRegularExpression('/^[0-9.]+\s*KB$/', $sizeKb);
@@ -189,6 +193,10 @@ class FileTest extends TestCase
         $sizeMb = $this->generator->fileSize(2 * 1048576, 5 * 1048576, formatted: true);
         self::assertIsString($sizeMb);
         self::assertMatchesRegularExpression('/^[0-9.]+\s*MB$/', $sizeMb);
+
+        $sizeGb = $this->generator->fileSize(1073741824, 2147483648, formatted: true);
+        self::assertIsString($sizeGb);
+        self::assertMatchesRegularExpression('/^[0-9.]+\s*GB$/', $sizeGb);
     }
 
     public function testFileSizeInvalidArgumentsThrow(): void
@@ -208,6 +216,10 @@ class FileTest extends TestCase
         self::assertSame('application/pdf', $this->generator->mimeTypeForExtension('pdf'));
         self::assertSame('application/pdf', $this->generator->mimeTypeForExtension('.pdf'));
         self::assertSame('application/json', $this->generator->mimeTypeForExtension('json'));
+        self::assertSame('application/msword', $this->generator->mimeTypeForExtension('doc'));
+        self::assertSame('application/msword', $this->generator->mimeTypeForExtension('.dot'));
+        self::assertSame('application/octet-stream', $this->generator->mimeTypeForExtension('bin'));
+        self::assertSame('application/pgp-signature', $this->generator->mimeTypeForExtension('sig'));
     }
 
     public function testMimeTypeForExtensionUnknownThrows(): void

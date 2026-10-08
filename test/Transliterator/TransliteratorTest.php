@@ -305,4 +305,11 @@ class TransliteratorTest extends TestCase
         // Should not be empty
         self::assertNotEmpty($result);
     }
+
+    #[RequiresPhpExtension('intl')]
+    public function testTransliteratorReturnsEmptyStringOnInvalidUtf8(): void
+    {
+        $transliterator = new Transliterator();
+        self::assertSame('', $transliterator->transliterate("\x80\xFF"));
+    }
 }

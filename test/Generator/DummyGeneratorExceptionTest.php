@@ -15,6 +15,7 @@ use DummyGenerator\Strategy\StrategyInterface;
 use DummyGenerator\Template\TemplateParser;
 use DummyGenerator\Template\TemplateParserInterface;
 use DummyGenerator\Test\Fixtures\FakeContainer;
+use DummyGenerator\Test\Fixtures\FooProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DummyGeneratorExceptionTest extends TestCase
@@ -134,6 +135,40 @@ final class DummyGeneratorExceptionTest extends TestCase
     public function testUnknownMethodThrowsInvalidArgument(): void
     {
         $container = new FakeContainer($this->baseServices());
+        $generator = new DummyGenerator($container);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown method "noSuchMethod"');
+
+        // @phpstan-ignore-next-line
+        $generator->noSuchMethod();
+    }
+
+    public function testFindProcessorSkipsUnregisteredRegistryIdAndResolvesProcessor(): void
+    {
+        $services = $this->baseServices();
+        $services[FooProvider::class] = new FooProvider();
+
+        $registry = [
+            'unregistered_id',
+            FooProvider::class,
+        ];
+
+        $container = new FakeContainer($services, [], $registry);
+        $generator = new DummyGenerator($container);
+
+        self::assertSame('foobar', $generator->foo());
+    }
+
+    public function testFindProcessorSkipsUnregisteredRegistryIdAndThrowsWhenNoProcessorFound(): void
+    {
+        $services = $this->baseServices();
+
+        $registry = [
+            'unregistered_id',
+        ];
+
+        $container = new FakeContainer($services, [], $registry);
         $generator = new DummyGenerator($container);
 
         $this->expectException(\InvalidArgumentException::class);

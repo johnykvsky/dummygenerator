@@ -56,6 +56,20 @@ class PaymentTest extends TestCase
         self::assertCount(4, explode('.', $ccNumber));
     }
 
+    public function testCreditCardType(): void
+    {
+        $type = $this->generator->creditCardType();
+        self::assertNotEmpty($type);
+        self::assertContains($type, [
+            'Visa',
+            'MasterCard',
+            'American Express',
+            'Discover Card',
+            'Visa Retired',
+            'JCB',
+        ]);
+    }
+
     public function testCurrencyCode(): void
     {
         self::assertNotEmpty($this->generator->currencyCode());
@@ -121,6 +135,28 @@ class PaymentTest extends TestCase
         $this->generator->price(100.0, 50.0);
     }
 
+    public function testPriceMinNegativeThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->expectExceptionMessage('price() $min cannot be negative');
+        $this->generator->price(min: -1.0);
+    }
+
+    public function testPriceDecimalsNegativeThrows(): void
+    {
+        $this->expectException(\DummyGenerator\Definitions\Extension\Exception\ExtensionArgumentException::class);
+        $this->expectExceptionMessage('price() $decimals cannot be negative');
+        $this->generator->price(decimals: -1);
+    }
+
+    public function testIbanDefault(): void
+    {
+        $iban = $this->generator->iban();
+
+        self::assertNotEmpty($iban);
+        self::assertIsString($iban);
+        self::assertGreaterThanOrEqual(15, strlen($iban));
+    }
 
     public function testIbanN(): void
     {

@@ -452,4 +452,49 @@ class RandomizerTest extends TestCase
         // Should be unlikely to generate same sequence
         self::assertNotEquals($bytes1, $bytes2);
     }
+
+    public function testGetBytesWithNonPositiveLengthThrows(): void
+    {
+        $randomizer = new Randomizer();
+
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Length must be 1 or higher');
+        $randomizer->getBytes(0);
+    }
+
+    public function testGetBytesWithNegativeLengthThrows(): void
+    {
+        $randomizer = new Randomizer();
+
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Length must be 1 or higher');
+        $randomizer->getBytes(-1);
+    }
+
+    public function testGetBytesFromStringWithNonPositiveLengthThrows(): void
+    {
+        $randomizer = new Randomizer();
+
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Length must be 1 or higher');
+        $randomizer->getBytesFromString('abc', 0);
+    }
+
+    public function testGetBytesFromStringWithNegativeLengthThrows(): void
+    {
+        $randomizer = new Randomizer();
+
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Length must be 1 or higher');
+        $randomizer->getBytesFromString('abc', -1);
+    }
+
+    public function testGetBytesFromStringWithEmptyStringThrows(): void
+    {
+        $randomizer = new Randomizer();
+
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Empty string given');
+        $randomizer->getBytesFromString('', 8);
+    }
 }

@@ -284,5 +284,12 @@ class DateTimeTest extends TestCase
             self::assertCount(5, $parts, "Cron expression '{$cron}' should have exactly 5 parts");
         }
     }
+
+    public function testGetDateTimeFromStringInvalidThrows(): void
+    {
+        $this->expectException(ExtensionArgumentException::class);
+        $this->expectExceptionMessage('Invalid datetime string given.');
+        $this->generator->dateTimeBetween('invalid-date-string', 'now');
+    }
 }
 
