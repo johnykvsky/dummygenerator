@@ -14,6 +14,10 @@
 composer require johnykvsky/dummygenerator --dev
 ```
 
+# Notice
+
+DummyGenerator has evolved into [Quidam](https://github.com/johnykvsky/quidam). It's not abandoned - just at point where being more or less aligned with old Faker reached it's limits. This is why Quidame came to life, to do it in similar, but different way. Without looking back, without any magic - clean and simple.
+
 # About
 
 **DummyGenerator** is dummy/fake data generator for PHP. It's a fork of Faker, heavily rewritten at core, but overall is same easy to use. In example:
